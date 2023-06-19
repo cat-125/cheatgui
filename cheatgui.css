@@ -2,6 +2,15 @@ body {
 	-webkit-tap-highlight-color: transparent;
 }
 
+/* Widgets */
+
+.cgui-widget {
+	margin-bottom: 8px;
+	box-sizing: border-box;
+}
+
+/* Window */
+
 .cgui-window {
 	color-scheme: dark;
 	position: absolute;
@@ -13,7 +22,6 @@ body {
 	min-width: 200px;
 	max-width: 80vw;
 	max-height: 80vh;
-	/* Blur looks good here */
 	backdrop-filter: blur(6px);
 }
 
@@ -66,6 +74,8 @@ body {
 	background: #000c;
 }
 
+/* Button */
+
 .cgui-btn {
 	background: #555c;
 	border: none;
@@ -90,6 +100,30 @@ body {
 	color: #000;
 	transition: .15s;
 }
+
+/* Input */
+
+.cgui-input {
+	background: #555c;
+	outline: none;
+	color: #fff;
+	padding: 10px;
+	width: 100%;
+	border-radius: 8px;
+	margin: 5px 0 5px 0;
+	display: block;
+	transition: .1s;
+	user-select: none;
+	cursor: text;
+	border: 1px solid #777c;
+	max-width: 100%;
+}
+
+.cgui-input:focus {
+	border-color: #fffc;
+}
+
+/* Switch */
 
 .cgui-switch {
 	position: relative;

@@ -1,4 +1,10 @@
-const cheatgui = (function () {
+const cheatgui = (function() {
+	function $(selector, parent = document) {
+		if (typeof selector !== 'string') return selector;
+		return $(parent).querySelector(selector);
+	}
+
+	const createElem = document.createElement.bind(document);
 
 	/**
 	 * Calculate the distance between two points (x1, y1) and (x2, y2).
@@ -47,18 +53,18 @@ const cheatgui = (function () {
 		 */
 		constructor(x, y, name = '', collapsed = false) {
 			// Create window element and set its properties
-			this.windowRef = document.createElement('div');
+			this.windowRef = createElem('div');
 			this.windowRef.classList.add('cgui-window');
 			this.windowRef.style.position = 'absolute';
 			this.windowRef.role = 'dialog';
 
 			// Create header element and set its properties
-			this.headerRef = document.createElement('div');
+			this.headerRef = createElem('div');
 			this.headerRef.classList.add('header');
 
 			// Create title element and set its properties
 			const titleId = generateId(16);
-			this.titleRef = document.createElement('span');
+			this.titleRef = createElem('span');
 			this.titleRef.innerHTML = name;
 			this.titleRef.id = titleId;
 			this.headerRef.appendChild(this.titleRef);
@@ -69,13 +75,13 @@ const cheatgui = (function () {
 			this.headerRef.innerHTML += '&nbsp;';
 
 			// Create arrow element and set its properties
-			this.arrowRef = document.createElement('span');
+			this.arrowRef = createElem('span');
 			this.arrowRef.innerHTML = '▼';
 			this.headerRef.appendChild(this.arrowRef);
 
 			// Create content element and set its properties
 			const contentId = generateId(16);
-			this.contentRef = document.createElement('div');
+			this.contentRef = createElem('div');
 			this.contentRef.id = contentId;
 			this.contentRef.classList.add('content');
 			this.windowRef.setAttribute('aria-describedby', contentId);
@@ -261,12 +267,13 @@ const cheatgui = (function () {
 		 * This is a constructor function that creates a new HTML element with a specified tag name or
 		 * defaults to a div element.
 		 * @param [elementName=div] - The parameter `elementName` is a string that represents the name of the
-		 * HTML element that will be created using the `document.createElement()` method. By default, if no
+		 * HTML element that will be created using the `createElem()` method. By default, if no
 		 * value is provided for `elementName`, it will create a `div` element. However, you can pass any
 		 * valid HTML element
 		 */
 		constructor(elementName = 'div') {
-			this.ref = document.createElement(elementName);
+			this.ref = createElem(elementName);
+			this.addClass('cgui-widget');
 		}
 
 		/**
@@ -286,6 +293,14 @@ const cheatgui = (function () {
 		onClick(f) {
 			this.ref.addEventListener('click', f);
 		}
+		
+		addClass(className) {
+			this.ref.classList.add(className);
+		}
+		
+		setClass(className) {
+			this.ref.className = 'cgui-widget ' + className.trim();
+		}
 
 		/**
 		 * The function returns the value of the "ref" property.
@@ -304,7 +319,7 @@ const cheatgui = (function () {
 	class Text extends Element {
 		constructor(text = '') {
 			super('div');
-			this.ref.style.margin = '8px 0 8px 0';
+			this.addClass('cgui-text');
 			this.setText(text);
 		}
 	}
@@ -316,8 +331,32 @@ const cheatgui = (function () {
 	class Button extends Element {
 		constructor(text = '') {
 			super('button');
-			this.ref.className = 'cgui-btn';
+			this.addClass('cgui-btn');
 			this.setText(text);
+		}
+	}
+
+	/**
+	 * The Input class is a subclass of the Element class that creates a input element
+	 * with a specified text and CSS class.
+	 */
+	class Input extends Element {
+		constructor(text = '') {
+			super('input');
+			this.addClass('cgui-input');
+			this.setText(text);
+		}
+		
+		onInput(f) {
+			this.ref.addEventListener('input', e => f(e, this.getText()));
+		}
+		
+		setText(text) {
+			this.ref.value = text;
+		}
+		
+		getText() {
+			return this.ref.value;
 		}
 	}
 
@@ -335,15 +374,15 @@ const cheatgui = (function () {
 			super('label');
 			const id = this.id = generateId(16);
 			this.ref.for = id;
-			this.ref.className = 'cgui-switch';
-			this.inputRef = document.createElement('input');
+			this.addClass('cgui-switch');
+			this.inputRef = createElem('input');
 			this.inputRef.type = 'checkbox';
 			this.inputRef.id = id;
 			this.ref.appendChild(this.inputRef);
-			this.sliderRef = document.createElement('span');
+			this.sliderRef = createElem('span');
 			this.sliderRef.className = 'cgui-switch-slider';
 			this.ref.appendChild(this.sliderRef);
-			this.textRef = document.createElement('span');
+			this.textRef = createElem('span');
 			this.textRef.className = 'cgui-switch-text';
 			this.textRef.for = id;
 			this.ref.appendChild(this.textRef);
@@ -370,14 +409,41 @@ const cheatgui = (function () {
 			this.textRef.innerHTML = text;
 		}
 	}
-	
+
 	const utils = {
+		$,
+		createElem,
+		generateId,
+		distance,
+
 		appendToBody(widget) {
 			document.body.appendChild(widget.getRef());
+		},
+
+		includeCSS(css) {
+			const head = document.head;
+			if ($(`style{${css}}`, head)) return;
+			const style = createElem('style');
+			style.setAttribute('type', 'text/css');
+			style.innerHTML = css;
+			head.appendChild(style);
+		},
+
+		includeCSSLink(url) {
+			const link = createElem('link');
+			link.rel = 'stylesheet';
+			link.href = url;
+			document.head.appendChild(link);
+		},
+
+		includeJS(url) {
+			const script = createElem('script');
+			script.src = url;
+			document.body.appendChild(script);
 		}
 	};
 
-	return { Window, Text, Button, Switch, utils };
+	return { Window, Text, Button, Input, Switch, utils };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;

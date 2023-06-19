@@ -54,13 +54,16 @@
 
 		const w4 = new cheatgui.Window(50, 650, "Widgets", true);
 		const b = new cheatgui.Button('Button');
+		const i = new cheatgui.Input('Input');
 		const s = new cheatgui.Switch('Switch');
 		const t = new cheatgui.Text('Text');
 		w4.append(b);
+		w4.append(i);
 		w4.append(s);
 		w4.append(t);
 		b.onClick(() => t.setText('Clicked'));
-		s.onChange((e, val) => t.setText(val));
+		i.onInput((e, val) => t.setText(val));
+		s.onChange((e, isChecked) => t.setText(isChecked));
 	</script>
 </body>
 
