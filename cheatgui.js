@@ -370,11 +370,14 @@ const cheatgui = (function () {
 			this.textRef.innerHTML = text;
 		}
 	}
+	
+	const utils = {
+		appendToBody(widget) {
+			document.body.appendChild(widget.getRef());
+		}
+	};
 
-	return { Window, Text, Button, Switch };
+	return { Window, Text, Button, Switch, utils };
 })();
 
-/* The above code is checking if the module object is defined and if the module.exports property is an
-object. If both conditions are true, it exports the cheatgui object. This code is typically used in
-Node.js modules to export functions or objects for use in other modules. */
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;
