@@ -1,4 +1,4 @@
-const cheatgui = (function() {
+const cheatgui = (function () {
 
 	/**
 	 * Calculate the distance between two points (x1, y1) and (x2, y2).
@@ -14,6 +14,17 @@ const cheatgui = (function() {
 		return Math.sqrt(a * a + b * b);
 	}
 
+	/**
+	 * The function generates a random string of specified length using a given set of characters or a
+	 * default set of alphanumeric characters.
+	 * @param length - The length parameter is the desired length of the generated ID.
+	 * @param [_chars] - The optional parameter `_chars` is a string of characters that can be used to
+	 * generate the random ID. If no value is provided for `_chars`, the function will use a default set
+	 * of characters that includes lowercase and uppercase letters and numbers.
+	 * @returns The function `generateId` returns a string of random characters with the specified length.
+	 * The characters used for the string can be either the default set of lowercase and uppercase letters
+	 * and digits, or a custom set of characters passed as the second argument `_chars`.
+	 */
 	function generateId(length, _chars = '') {
 		const chars = _chars || 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 		let result = '';
@@ -157,6 +168,12 @@ const cheatgui = (function() {
 			this.windowRef.style.display = 'block';
 		}
 
+		/**
+		 * The "append" function adds a widget to the content reference.
+		 * @param widget - The widget parameter is an object that has a method called getRef() which returns
+		 * a reference to the DOM element of the widget. This method is used to retrieve the DOM element of
+		 * the widget and append it to the contentRef element.
+		 */
 		append(widget) {
 			this.contentRef.appendChild(widget.getRef());
 		}
@@ -221,34 +238,69 @@ const cheatgui = (function() {
 		 */
 		initActivationOnClick() {
 			this.windowRef.addEventListener('pointerdown', () => {
-			[...document.getElementsByClassName('cgui-window')].forEach(win => win.classList.remove('active'));
+				[...document.getElementsByClassName('cgui-window')].forEach(win => win.classList.remove('active'));
 				this.windowRef.classList.add('active');
 			});
 		}
-		
+
+		/**
+		 * The function returns the window reference.
+		 * @returns The function `getRef()` is returning the value of `this.windowRef`.
+		 */
 		getRef() {
 			return this.windowRef;
 		}
 	}
-	
+
+	/**
+	 * The Element class creates a new HTML element, sets its text content, adds
+	 * an onClick event listener, and returns a reference to the element. 
+	 */
 	class Element {
+		/**
+		 * This is a constructor function that creates a new HTML element with a specified tag name or
+		 * defaults to a div element.
+		 * @param [elementName=div] - The parameter `elementName` is a string that represents the name of the
+		 * HTML element that will be created using the `document.createElement()` method. By default, if no
+		 * value is provided for `elementName`, it will create a `div` element. However, you can pass any
+		 * valid HTML element
+		 */
 		constructor(elementName = 'div') {
 			this.ref = document.createElement(elementName);
 		}
-		
+
+		/**
+		 * The function sets the innerHTML of a given element to a specified text.
+		 * @param text - The text that will be set as the innerHTML of the element referenced by "this.ref".
+		 */
 		setText(text) {
 			this.ref.innerHTML = text;
 		}
 
+		/**
+		 * The function adds a click event listener to a specified element.
+		 * @param f - "f" is a function that will be executed when the element that this code is attached to
+		 * is clicked. It is a callback function that will be passed as an argument to the `addEventListener`
+		 * method.
+		 */
 		onClick(f) {
 			this.ref.addEventListener('click', f);
 		}
-		
+
+		/**
+		 * The function returns the value of the "ref" property.
+		 * @returns The function `getRef()` is returning the value of `this.ref`. It is not clear what
+		 * `this.ref` refers to without more context.
+		 */
 		getRef() {
 			return this.ref;
 		}
 	}
-	
+
+	/**
+	 * The Text class extends the Element class and creates a div element with a margin and
+	 * sets its text content.
+	 */
 	class Text extends Element {
 		constructor(text = '') {
 			super('div');
@@ -257,6 +309,10 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * The Button class is a subclass of the Element class that creates a button element
+	 * with a specified text and CSS class. 
+	 */
 	class Button extends Element {
 		constructor(text = '') {
 			super('button');
@@ -265,6 +321,10 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * The Switch class creates a toggle switch element with customizable text
+	 * and an onChange event listener.
+	 */
 	class Switch extends Element {
 		constructor(text = '') {
 			// <label for="switch" class="cgui-switch">
@@ -290,10 +350,22 @@ const cheatgui = (function() {
 			this.setText(text);
 		}
 
+		/**
+		 * This function adds an event listener to an input element that triggers a callback function when
+		 * the input's value changes.
+		 * @param func - func is a function that will be called when the 'change' event is triggered on the
+		 * input element. The function takes two parameters: the event object and a boolean value indicating
+		 * whether the input element is checked or not.
+		 */
 		onChange(func) {
 			this.inputRef.addEventListener('change', e => func(e, this.inputRef.checked));
 		}
 
+		/**
+		 * The function sets the innerHTML of a text reference element to a given text.
+		 * @param text - The text parameter is a string that represents the new text content that will be set
+		 * to the HTML element referenced by the textRef property.
+		 */
 		setText(text) {
 			this.textRef.innerHTML = text;
 		}
@@ -302,4 +374,7 @@ const cheatgui = (function() {
 	return { Window, Text, Button, Switch };
 })();
 
+/* The above code is checking if the module object is defined and if the module.exports property is an
+object. If both conditions are true, it exports the cheatgui object. This code is typically used in
+Node.js modules to export functions or objects for use in other modules. */
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;
