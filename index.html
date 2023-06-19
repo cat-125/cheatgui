@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script src="cheatgui.js"></script>
+	<link rel="stylesheet" href="cheatgui.css">
+	<style>
+		body {
+			font-family: Arial, Helvetica, sans-serif
+		}
+
+		ul {
+			margin: 0;
+			padding: 0;
+			padding-left: 16px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Advantages of the CheatGUI</h1>
+	<ul>
+		<li><strong>Easy to use:</strong> The Window class provides a simple and intuitive API for creating draggable, collapsible windows with custom content.</li>
+		<li><strong>Lightweight:</strong> The library is small in size, making it a great choice for projects where performance is a priority.</li>
+		<li><strong>Customizable:</strong> The Window class allows you to set custom titles and content, making it suitable for a wide range of applications.</li>
+		<li><strong>Responsive:</strong> The library supports both mouse and touch events, making it compatible with desktop and mobile devices.</li>
+		<li><strong>Styling flexibility:</strong> The Window class uses CSS classes for styling, allowing you to easily customize the appearance of the windows to match your project's design.</li>
+		<li><strong>Activation management:</strong> The library automatically manages window activation, ensuring that the active window is always brought to the front.</li>
+	</ul>
+	<script>
+		const w = new cheatgui.Window(50, 500, "Window", true);
+		w.setContent("This is an example of window content.");
+
+		const w2 = new cheatgui.Window(50, 550, "Long text", true);
+		w2.setContent('');
+
+		const w3 = new cheatgui.Window(50, 600, "Advantages", true);
+		w3.setContent(
+			`<ul>
+				<li>Draggable</li>
+				<li>Collapsible</li>
+				<li>Supports mobile devices</li>
+				<li>Customizable</li>
+				<li>Lightweight</li>
+			</ul>`
+		);
+
+		const w4 = new cheatgui.Window(50, 650, "Widgets", true);
+		const b = new cheatgui.Button('Button');
+		const s = new cheatgui.Switch('Switch');
+		const t = new cheatgui.Text('Text');
+		w4.append(b);
+		w4.append(s);
+		w4.append(t);
+		b.onClick(() => t.setText('Clicked'));
+		s.onChange((e, val) => t.setText(val));
+	</script>
+</body>
+
+</html>

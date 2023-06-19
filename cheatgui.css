@@ -1,0 +1,143 @@
+body {
+	-webkit-tap-highlight-color: transparent;
+}
+
+.cgui-window {
+	color-scheme: dark;
+	position: absolute;
+	color: #fff;
+	padding: 0;
+	margin: 0;
+	border-radius: 8px;
+	overflow: hidden;
+	min-width: 200px;
+	max-width: 80vw;
+	max-height: 80vh;
+	/* Blur looks good here */
+	backdrop-filter: blur(6px);
+}
+
+.cgui-window>.header {
+	background: #000b;
+	padding: 10px;
+	margin: 0;
+	appearance: button;
+	-ms-appearance: button;
+	-moz-appearance: button;
+	-webkit-appearance: button;
+	user-select: none;
+	display: flex;
+	outline: none;
+	border: none;
+	box-shadow: none;
+}
+
+.cgui-window>.header>span {
+	padding: 0;
+	margin: 0;
+}
+
+.cgui-window>.header>span:last-child {
+	margin-left: auto;
+}
+
+.cgui-window>.content {
+	margin: 0;
+	background: #0009;
+	padding: 10px;
+	min-height: 100px;
+}
+
+.cgui-window.collapsed>.content {
+	display: none;
+	opacity: 0;
+}
+
+.cgui-window.active {
+	z-index: 99999999;
+}
+
+.cgui-window.active>.header {
+	background: #000e;
+	font-weight: bold;
+}
+
+.cgui-window.active>.content {
+	background: #000c;
+}
+
+.cgui-btn {
+	background: #555c;
+	border: none;
+	outline: none;
+	color: #fff;
+	padding: 10px;
+	width: 100%;
+	border-radius: 8px;
+	margin: 5px 0 5px 0;
+	display: block;
+	transition: .1s;
+	user-select: none;
+	cursor: pointer;
+}
+
+.cgui-btn:hover {
+	background: #777c;
+}
+
+.cgui-btn:active {
+	background: #fffc;
+	color: #000;
+	transition: .15s;
+}
+
+.cgui-switch {
+	position: relative;
+	display: inline-flex;
+	width: 34px;
+	height: 24px;
+	vertical-align: middle;
+	margin-right: 8px;
+	cursor: pointer
+}
+
+.cgui-switch input {
+	display: none;
+}
+
+.cgui-switch-slider {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #555c;
+	border-radius: 16px;
+	transition: background-color 0.2s;
+}
+
+.cgui-switch-slider:before {
+	position: absolute;
+	content: "";
+	height: 20px;
+	width: 20px;
+	left: 2px;
+	top: 2px;
+	background-color: #fffc;
+	border-radius: 50%;
+	transition: transform 0.2s;
+}
+
+input:checked+.cgui-switch-slider {
+	background-color: #fffc;
+}
+
+input:checked+.cgui-switch-slider:before {
+	background-color: #555e;
+	transform: translateX(10px);
+}
+
+.cgui-switch-text {
+	margin-left: 40px;
+	margin-top: 2px;
+}
