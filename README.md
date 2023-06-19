@@ -1,2 +1,2 @@
-# cheatgui
+# CheatGUI
 Effortless library for building window-based interfaces.
