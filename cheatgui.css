@@ -75,7 +75,7 @@ body {
 	background: #000c;
 }
 
-.cgui-window.cgui-dragging {
+.cgui-window.cgui-draggable {
 	box-shadow: 0 0 24px 0 #0005;
 }
 
