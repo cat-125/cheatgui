@@ -40,6 +40,32 @@ const cheatgui = (function() {
 		return result;
 	}
 
+	class View {
+		constructor() {
+			this.ref = null;
+		}
+		
+		init() {
+			this.ref = createElem('div');
+			return this;
+		}
+		
+		mount(target) {
+			this.ref = $(target);
+			return this;
+		}
+		
+		setContent(html) {
+			this.ref.innerHTML = html;
+			return this;
+		}
+		
+		append(widget) {
+			this.ref.appendChild(widget.getRef());
+			return this;
+		}
+	}
+
 	/**
 	 * Window class for creating draggable, collapsible windows with custom content.
 	 */
@@ -85,6 +111,9 @@ const cheatgui = (function() {
 			this.contentRef.id = contentId;
 			this.contentRef.classList.add('content');
 			this.windowRef.setAttribute('aria-describedby', contentId);
+			
+			// Create new View and mount it
+			this.view = new View().mount(this.contentRef);
 
 			// Append header and content to the window element
 			this.windowRef.appendChild(this.headerRef);
@@ -112,6 +141,7 @@ const cheatgui = (function() {
 		 */
 		setTitle(html) {
 			this.titleRef.innerHTML = html;
+			return this;
 		}
 
 		/**
@@ -119,7 +149,8 @@ const cheatgui = (function() {
 		 * @param {string} html - The content to be set.
 		 */
 		setContent(html) {
-			this.contentRef.innerHTML = html;
+			this.view.setContent(html);
+			return this;
 		}
 
 		/**
@@ -130,6 +161,7 @@ const cheatgui = (function() {
 		move(x, y) {
 			this.windowRef.style.left = `${x}px`;
 			this.windowRef.style.top = `${y}px`;
+			return this;
 		}
 
 		/**
@@ -138,6 +170,7 @@ const cheatgui = (function() {
 		close() {
 			this.windowRef.classList.add('collapsed');
 			this.arrowRef.innerHTML = '◀';
+			return this;
 		}
 
 		/**
@@ -146,6 +179,7 @@ const cheatgui = (function() {
 		open() {
 			this.windowRef.classList.remove('collapsed');
 			this.arrowRef.innerHTML = '▼';
+			return this;
 		}
 
 		/**
@@ -158,6 +192,7 @@ const cheatgui = (function() {
 			} else {
 				this.arrowRef.innerHTML = '▼';
 			}
+			return this;
 		}
 
 		/**
@@ -165,6 +200,7 @@ const cheatgui = (function() {
 		 */
 		hide() {
 			this.windowRef.style.display = 'none';
+			return this;
 		}
 
 		/**
@@ -172,6 +208,7 @@ const cheatgui = (function() {
 		 */
 		show() {
 			this.windowRef.style.display = 'block';
+			return this;
 		}
 
 		/**
@@ -181,7 +218,8 @@ const cheatgui = (function() {
 		 * the widget and append it to the contentRef element.
 		 */
 		append(widget) {
-			this.contentRef.appendChild(widget.getRef());
+			this.view.append(widget);
+			return this;
 		}
 
 		/**
@@ -282,6 +320,7 @@ const cheatgui = (function() {
 		 */
 		setText(text) {
 			this.ref.innerHTML = text;
+			return this;
 		}
 
 		/**
@@ -292,14 +331,17 @@ const cheatgui = (function() {
 		 */
 		onClick(f) {
 			this.ref.addEventListener('click', f);
+			return this;
 		}
-		
+
 		addClass(className) {
 			this.ref.classList.add(className);
+			return this;
 		}
-		
+
 		setClass(className) {
 			this.ref.className = 'cgui-widget ' + className.trim();
+			return this;
 		}
 
 		/**
@@ -346,15 +388,17 @@ const cheatgui = (function() {
 			this.addClass('cgui-input');
 			this.setText(text);
 		}
-		
+
 		onInput(f) {
 			this.ref.addEventListener('input', e => f(e, this.getText()));
+			return this;
 		}
-		
+
 		setText(text) {
 			this.ref.value = text;
+			return this;
 		}
-		
+
 		getText() {
 			return this.ref.value;
 		}
@@ -398,6 +442,7 @@ const cheatgui = (function() {
 		 */
 		onChange(func) {
 			this.inputRef.addEventListener('change', e => func(e, this.inputRef.checked));
+			return this;
 		}
 
 		/**
@@ -407,6 +452,7 @@ const cheatgui = (function() {
 		 */
 		setText(text) {
 			this.textRef.innerHTML = text;
+			return this;
 		}
 	}
 
