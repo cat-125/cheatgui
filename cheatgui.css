@@ -23,6 +23,7 @@ body {
 	max-width: 80vw;
 	max-height: 80vh;
 	backdrop-filter: blur(6px);
+	transition: box-shadow .2s;
 }
 
 .cgui-window>.header {
@@ -72,6 +73,10 @@ body {
 
 .cgui-window.active>.content {
 	background: #000c;
+}
+
+.cgui-window.cgui-dragging {
+	box-shadow: 0 0 24px 0 #0005;
 }
 
 /* Button */

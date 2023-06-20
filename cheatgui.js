@@ -234,6 +234,7 @@ const cheatgui = (function() {
 				offsetX = e.clientX - this.windowRef.offsetLeft;
 				offsetY = e.clientY - this.windowRef.offsetTop;
 				isDragging = true;
+				this.windowRef.classList.add('cgui-dragging');
 			};
 
 			const onMouseMove = (e) => {
@@ -244,6 +245,8 @@ const cheatgui = (function() {
 
 			const onMouseUp = () => {
 				isDragging = false;
+				if (this.windowRef.classList.contains('cgui-dragging'))
+					this.windowRef.classList.remove('cgui-dragging');
 			};
 
 			this.headerRef.addEventListener('mousedown', onMouseDown);
