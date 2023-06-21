@@ -246,7 +246,7 @@ const cheatgui = (function() {
 			const onMouseUp = () => {
 				isDragging = false;
 				if (this.windowRef.classList.contains('cgui-draggable'))
-					this.windowRef.classList.remove('cgui-draggable');
+					this.windowRef.classList.remove('cgui-dragging');
 			};
 
 			this.headerRef.addEventListener('mousedown', onMouseDown);
