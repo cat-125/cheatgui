@@ -77,6 +77,7 @@ body {
 
 .cgui-window.cgui-dragging {
 	box-shadow: 0 0 24px 0 #0005;
+	opacity: 0.3;
 }
 
 /* Button */
