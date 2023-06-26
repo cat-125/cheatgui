@@ -8,6 +8,8 @@ CheatGUI is a lightweight JavaScript library that provides a simple way to creat
 4. Draggable and collapsible windows: The windows can be easily dragged around the screen and collapsed to save space.
 5. Supports various UI elements: The library includes support for text, buttons, and switches.
 
+# Guide
+
 Here's a brief guide on how to use CheatGUI:
 
 1. Include CheatGUI CSS and JS files:
@@ -44,3 +46,9 @@ button element, and a switch element to the
 window using the `append` method. Finally, we
 add event listeners to the button and switch
 elements to handle user interactions.
+
+# File differences
+CheatGUI has several files that can be imported. Here are the differences between them:
+- `cheatgui.js`, `cheatgui.css` - source files. They work slower and are not recommended.
+- `cheatgui.min.js`, `cheatgui.min.css` - compressed versions of the files. Most often they are needed.
+- `cheatgui.inj.js` - this file automatically embeds CSS code, and can be used for injection into third-party sites.
