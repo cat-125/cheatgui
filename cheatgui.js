@@ -466,6 +466,10 @@ const cheatgui = (function() {
 			this.inputRef.addEventListener('change', e => func(e, this.inputRef.checked));
 			return this;
 		}
+		
+		isChecked() {
+			return this.inputRef.checked;
+		}
 
 		/**
 		 * The function sets the innerHTML of a text reference element to a given text.
