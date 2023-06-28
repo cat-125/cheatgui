@@ -81,8 +81,9 @@
 /* Switch */
 
 .cgui-switch {
-	height: 25.5px;
-	width: 35.5px;
+	height: 25px;
+	width: 35px;
+	box-sizing: content-box;
 }
 
 .cgui-switch-slider {
