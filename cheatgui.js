@@ -40,26 +40,51 @@ const cheatgui = (function() {
 		return result;
 	}
 
+	class GUIElement {
+		constructor() {
+			this.ref = null;
+		}
+
+		_init() {
+			this.addClass('cgui');
+		}
+
+		addClass(className) {
+			this.ref.classList.add(className);
+			return this;
+		}
+
+		addClasses(className) {
+			this.ref.classList.add(className);
+			return this.addClasses;
+		}
+
+		setClass(className) {
+			this.ref.className = 'cgui-widget ' + className.trim();
+			return this;
+		}
+	}
+
 	class View {
 		constructor() {
 			this.ref = null;
 		}
-		
+
 		init() {
 			this.ref = createElem('div');
 			return this;
 		}
-		
+
 		mount(target) {
 			this.ref = $(target);
 			return this;
 		}
-		
+
 		setContent(html) {
 			this.ref.innerHTML = html;
 			return this;
 		}
-		
+
 		append(widget) {
 			this.ref.appendChild(widget.getRef());
 			return this;
@@ -69,7 +94,7 @@ const cheatgui = (function() {
 	/**
 	 * Window class for creating draggable, collapsible windows with custom content.
 	 */
-	class Window {
+	class Window extends GUIElement {
 		/**
 		 * Constructor takes x, y coordinates, optional name, and optional collapsed state.
 		 * @param {number} x - The x-coordinate of the window.
@@ -78,11 +103,13 @@ const cheatgui = (function() {
 		 * @param {boolean} [collapsed=false] - The optional initial collapsed state of the window.
 		 */
 		constructor(x, y, name = '', collapsed = false) {
+			super();
 			// Create window element and set its properties
-			this.windowRef = createElem('div');
-			this.windowRef.classList.add('cgui-window');
-			this.windowRef.style.position = 'absolute';
-			this.windowRef.role = 'dialog';
+			this.ref = createElem('div');
+			this._init();
+			this.addClass('cgui-window');
+			this.ref.style.position = 'absolute';
+			this.ref.role = 'dialog';
 
 			// Create header element and set its properties
 			this.headerRef = createElem('div');
@@ -95,7 +122,7 @@ const cheatgui = (function() {
 			this.titleRef.id = titleId;
 			this.headerRef.appendChild(this.titleRef);
 			this.setTitle(name);
-			this.windowRef.setAttribute('aria-labeledby', titleId);
+			this.ref.setAttribute('aria-labeledby', titleId);
 
 			// Add space after title
 			this.headerRef.innerHTML += '&nbsp;';
@@ -110,24 +137,24 @@ const cheatgui = (function() {
 			this.contentRef = createElem('div');
 			this.contentRef.id = contentId;
 			this.contentRef.classList.add('content');
-			this.windowRef.setAttribute('aria-describedby', contentId);
-			
+			this.ref.setAttribute('aria-describedby', contentId);
+
 			// Create new View and mount it
 			this.view = new View().mount(this.contentRef);
 
 			// Append header and content to the window element
-			this.windowRef.appendChild(this.headerRef);
-			this.windowRef.appendChild(this.contentRef);
+			this.ref.appendChild(this.headerRef);
+			this.ref.appendChild(this.contentRef);
 
 			// Set window position
-			this.windowRef.style.left = `${x}px`;
-			this.windowRef.style.top = `${y}px`;
+			this.ref.style.left = `${x}px`;
+			this.ref.style.top = `${y}px`;
 
 			// Set initial collapsed state
 			if (collapsed) this.close();
 
 			// Add window to the document body
-			document.body.appendChild(this.windowRef);
+			document.body.appendChild(this.ref);
 
 			// Initialize draggable, toggle, and activation functionality
 			this.initDraggable();
@@ -159,8 +186,8 @@ const cheatgui = (function() {
 		 * @param {number} y - The y-coordinate to move the window to.
 		 */
 		move(x, y) {
-			this.windowRef.style.left = `${x}px`;
-			this.windowRef.style.top = `${y}px`;
+			this.ref.style.left = `${x}px`;
+			this.ref.style.top = `${y}px`;
 			return this;
 		}
 
@@ -168,7 +195,7 @@ const cheatgui = (function() {
 		 * Close (collapse) the window.
 		 */
 		close() {
-			this.windowRef.classList.add('collapsed');
+			this.ref.classList.add('collapsed');
 			this.arrowRef.innerHTML = '◀';
 			return this;
 		}
@@ -177,7 +204,7 @@ const cheatgui = (function() {
 		 * Open (expand) the window.
 		 */
 		open() {
-			this.windowRef.classList.remove('collapsed');
+			this.ref.classList.remove('collapsed');
 			this.arrowRef.innerHTML = '▼';
 			return this;
 		}
@@ -186,8 +213,8 @@ const cheatgui = (function() {
 		 * Toggle the window's collapsed state.
 		 */
 		toggle() {
-			this.windowRef.classList.toggle('collapsed');
-			if (this.windowRef.classList.contains('collapsed')) {
+			this.ref.classList.toggle('collapsed');
+			if (this.ref.classList.contains('collapsed')) {
 				this.arrowRef.innerHTML = '◀';
 			} else {
 				this.arrowRef.innerHTML = '▼';
@@ -199,7 +226,7 @@ const cheatgui = (function() {
 		 * Hide the window
 		 */
 		hide() {
-			this.windowRef.style.display = 'none';
+			this.ref.style.display = 'none';
 			return this;
 		}
 
@@ -207,7 +234,7 @@ const cheatgui = (function() {
 		 * Show the window
 		 */
 		show() {
-			this.windowRef.style.display = 'block';
+			this.ref.style.display = 'block';
 			return this;
 		}
 
@@ -231,10 +258,10 @@ const cheatgui = (function() {
 			const onMouseDown = (e) => {
 				e.preventDefault();
 				e = e.touches ? e.touches[0] : e;
-				offsetX = e.clientX - this.windowRef.offsetLeft;
-				offsetY = e.clientY - this.windowRef.offsetTop;
+				offsetX = e.clientX - this.ref.offsetLeft;
+				offsetY = e.clientY - this.ref.offsetTop;
 				isDragging = true;
-				this.windowRef.classList.add('cgui-dragging');
+				this.ref.classList.add('cgui-dragging');
 			};
 
 			const onMouseMove = (e) => {
@@ -245,8 +272,8 @@ const cheatgui = (function() {
 
 			const onMouseUp = () => {
 				isDragging = false;
-				if (this.windowRef.classList.contains('cgui-dragging'))
-					this.windowRef.classList.remove('cgui-dragging');
+				if (this.ref.classList.contains('cgui-dragging'))
+					this.ref.classList.remove('cgui-dragging');
 			};
 
 			this.headerRef.addEventListener('mousedown', onMouseDown);
@@ -284,18 +311,18 @@ const cheatgui = (function() {
 		 * Initialize activation functionality on click for the window
 		 */
 		initActivationOnClick() {
-			this.windowRef.addEventListener('pointerdown', () => {
+			this.ref.addEventListener('pointerdown', () => {
 				[...document.getElementsByClassName('cgui-window')].forEach(win => win.classList.remove('active'));
-				this.windowRef.classList.add('active');
+				this.ref.classList.add('active');
 			});
 		}
 
 		/**
 		 * The function returns the window reference.
-		 * @returns The function `getRef()` is returning the value of `this.windowRef`.
+		 * @returns The function `getRef()` is returning the value of `this.ref`.
 		 */
 		getRef() {
-			return this.windowRef;
+			return this.ref;
 		}
 	}
 
@@ -303,7 +330,7 @@ const cheatgui = (function() {
 	 * The Element class creates a new HTML element, sets its text content, adds
 	 * an onClick event listener, and returns a reference to the element. 
 	 */
-	class Element {
+	class Element extends GUIElement {
 		/**
 		 * This is a constructor function that creates a new HTML element with a specified tag name or
 		 * defaults to a div element.
@@ -313,7 +340,9 @@ const cheatgui = (function() {
 		 * valid HTML element
 		 */
 		constructor(elementName = 'div') {
+			super();
 			this.ref = createElem(elementName);
+			this._init();
 			this.addClass('cgui-widget');
 		}
 
@@ -334,16 +363,6 @@ const cheatgui = (function() {
 		 */
 		onClick(f) {
 			this.ref.addEventListener('click', f);
-			return this;
-		}
-
-		addClass(className) {
-			this.ref.classList.add(className);
-			return this;
-		}
-
-		setClass(className) {
-			this.ref.className = 'cgui-widget ' + className.trim();
 			return this;
 		}
 
@@ -471,7 +490,6 @@ const cheatgui = (function() {
 
 		includeCSS(css) {
 			const head = document.head;
-			if ($(`style{${css}}`, head)) return;
 			const style = createElem('style');
 			style.setAttribute('type', 'text/css');
 			style.innerHTML = css;
@@ -489,6 +507,14 @@ const cheatgui = (function() {
 			const script = createElem('script');
 			script.src = url;
 			document.body.appendChild(script);
+		},
+
+		loadTheme(url) {
+			const link = $(`link#cgui-theme`, document.head) || createElem('link');
+			link.id = 'cgui-theme'
+			link.rel = 'stylesheet';
+			link.href = url;
+			document.head.appendChild(link);
 		}
 	};
 
