@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="cheatgui.css">
 	<style>
 		body {
-			font-family: Arial, Helvetica, sans-serif
+			font-family: Arial, Helvetica, sans-serif;
 		}
 
 		ul {
@@ -33,6 +33,13 @@
 		<li><strong>Supports various UI elements:</strong> The library includes support for text, buttons, and switches.</li>
 	</ol>
 
+
+	<script>
+		(function() {
+			/* Eruda updater for Spck Editor */
+			if(typeof eruda=='undefined')return;eruda.destroy();const src='//cdn.jsdelivr.net/npm/eruda';if(/mobi/.test(navigator.userAgent)&&localStorage.getItem('active-eruda')!='true')return;document.write('<script src="'+src+'"></scr'+'ipt>');document.write('<script>eruda.init();eruda.hide();</scr'+'ipt>');
+		})();
+	</script>
 
 	<script>
 		const w = new cheatgui.Window(50, 500, "Window", true);
@@ -64,18 +71,14 @@
 		b.onClick(() => t.setText('Clicked'));
 		i.onInput((e, val) => t.setText(val));
 		s.onChange((e, isChecked) => t.setText(isChecked));
-	</script>
-	
-	<script>
-		(function() {
-			/* Eruda updater for Spck Editor */
-			if (typeof eruda == 'undefined') return;
-			eruda.destroy();
-			const src = '//cdn.jsdelivr.net/npm/eruda';
-			if (/mobi/.test(navigator.userAgent) && localStorage.getItem('active-eruda') != 'true') return;
-			document.write('<script src="' + src + '"></scr' + 'ipt>');
-			document.write('<script>eruda.init();</scr' + 'ipt>');
-		})();
+
+		const w5 = new cheatgui.Window(50, 700, "Themes", false);
+		const themes = ['windows'];
+		themes.forEach(theme => {
+			const btn = new cheatgui.Button(theme);
+			btn.onClick(() => cheatgui.utils.loadTheme(`themes/${theme}.css`));
+			w5.append(btn);
+		})
 	</script>
 </body>
 
