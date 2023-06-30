@@ -78,7 +78,10 @@
 
 .cgui-window.cgui-dragging {
 	box-shadow: 0 0 24px 0 #0008;
-	cursor: grabbing !important;
+}
+
+.cgui-window.cgui-dragging>.header {
+	cursor: move !important;
 }
 
 /* Button */
@@ -157,7 +160,7 @@
 	transition: background-color 0.2s;
 }
 
-.cgui-switch-slider:before {
+.cgui-switch-slider::before {
 	position: absolute;
 	content: "";
 	height: 20px;
@@ -169,13 +172,21 @@
 	transition: transform 0.2s;
 }
 
-input:checked+.cgui-switch-slider {
+.cgui-switch:hover > .cgui-switch-slider::before {
+	background-color: #fff;
+}
+
+.cgui-switch>input:checked+.cgui-switch-slider {
 	background-color: #fffc;
 }
 
-input:checked+.cgui-switch-slider:before {
+.cgui-switch>input:checked+.cgui-switch-slider::before {
 	background-color: #555e;
 	transform: translateX(10px);
+}
+
+.cgui-switch:hover>input:checked+.cgui-switch-slider::before {
+	background-color: #777;
 }
 
 .cgui-switch-text {

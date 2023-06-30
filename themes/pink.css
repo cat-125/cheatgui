@@ -1,0 +1,95 @@
+/* Widgets */
+
+.cgui-widget {
+	color-scheme: dark;
+	margin-bottom: 8px;
+	box-sizing: border-box;
+}
+
+/* Window */
+
+.cgui-window {
+	color-scheme: dark;
+	color: #fff;
+	border-radius: 6px;
+	backdrop-filter: none;
+}
+
+.cgui-window>.header {
+	background: #000;
+	padding: 8px;
+	font-size: 12px;
+}
+
+.cgui-window>.header>span:first-child {
+	border-radius: 3px;
+	padding: 2px;
+}
+
+.cgui-window>.content {
+	background: #000;
+	padding: 8px;
+	font-size: 14px;
+}
+
+.cgui-window.active>.header {
+	background: #000;
+	color: #fff;
+}
+
+.cgui-window.active>.header>span:first-child {
+	background-color: #b900aa;
+}
+
+.cgui-window.active>.content {
+	background: #000;
+}
+
+.cgui-window.cgui-dragging {
+	box-shadow: none;
+}
+
+/* Button */
+
+.cgui-btn {
+	background: #b900aa;
+	padding: 6px;
+	border-radius: 6px;
+	transition: none;
+}
+
+.cgui-btn:hover {
+	background: #d600c4;
+}
+
+.cgui-btn:active {
+	background: #f700e2;
+	color: #fff;
+	transition: none;
+}
+
+/* Input */
+
+.cgui-input {
+	background: #555c;
+	padding: 6px;
+	border-radius: 6px;
+	transition: none;
+	border: none;
+}
+
+.cgui-input:focus, .cgui-input:hover {
+	border: none;
+	background-color: #777c;
+}
+
+/* Switch */
+
+input:checked+.cgui-switch-slider {
+	background-color: #b900aa;
+}
+
+input:checked+.cgui-switch-slider::before {
+	background-color: #fff;
+	transform: translateX(10px);
+}
