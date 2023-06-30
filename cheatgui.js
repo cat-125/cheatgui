@@ -471,7 +471,6 @@ const cheatgui = (function() {
 
 		includeCSS(css) {
 			const head = document.head;
-			if ($(`style{${css}}`, head)) return;
 			const style = createElem('style');
 			style.setAttribute('type', 'text/css');
 			style.innerHTML = css;
@@ -492,7 +491,8 @@ const cheatgui = (function() {
 		}
 	};
 
-	return { Window, Text, Button, Input, Switch, utils };
+	return { View, Window, Text, Button, Input, Switch, utils };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;
+globalThis.cheatgui = cheatgui;
