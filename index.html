@@ -46,83 +46,104 @@
 	</script>
 
 	<script>
-		(new cheatgui.Window(50, 500, "Window", true))
+		(new cheatgui.Window(50, 500, "Window"))
 			.setContent("This is an example of window content.");
 
+		/*
+		--------------------------------------
+		About           +
+		| Text
+		Widgets         +
+		| Text        +
+		| | Text
+		| Button      +
+		| | Text
+		| | Button
+		| Input       +
+		| | Text
+		| | Input
+		| Switch      +
+		| | Text
+		| | Switch
+		Themes          +
+		| Default
+		| Windows
+		| Pink
+		--------------------------------------
+		*/
+		const win = new cheatgui.Window(350, 500, "CheatGUI Demo");
+
+
 		{
-			const win = new cheatgui.Window(270, 500, "CheatGUI Demo");
+			const aboutTree = new cheatgui.Tree("About", false);
+			win.append(aboutTree);
+			aboutTree.setContent("This demo demonstrates many features of the CheatGUI library. You can interact with all widgets below.");
+		}
+
+		{
+			const widgetsTree = new cheatgui.Tree("Widgets");
+			win.append(widgetsTree);
 
 			{
-				const aboutTree = new cheatgui.Tree("About", false);
-				win.append(aboutTree);
-				aboutTree.setContent("This demo demonstrates many features of the CheatGUI library. You can interact with all widgets below.");
+
+				const textTree = new cheatgui.Tree("Text");
+				widgetsTree.append(textTree);
+
+				const text = new cheatgui.Text('Text element can be used to display information.');
+				textTree.append(text);
+			}
+			{
+				const buttonsTree = new cheatgui.Tree("Button");
+				widgetsTree.append(buttonsTree);
+
+				const text = new cheatgui.Text('Click button');
+				buttonsTree.append(text);
+
+				const btn = new cheatgui.Button('Button');
+				buttonsTree.append(btn);
+
+				btn.onClick(() => text.setText('Button clicked'));
 			}
 
 			{
-				const widgetsTree = new cheatgui.Tree("Widgets");
-				win.append(widgetsTree);
+				const inputTree = new cheatgui.Tree("Input");
+				widgetsTree.append(inputTree);
 
-				{
-					const textTree = new cheatgui.Tree("Text");
-					widgetsTree.append(textTree);
+				const text = new cheatgui.Text('Enter something');
+				inputTree.append(text);
 
-					const text = new cheatgui.Text('Text element can be used to display information.');
-					textTree.append(text);
-				}
+				const input = new cheatgui.Input('Input');
+				inputTree.append(input);
 
-				{
-					const buttonsTree = new cheatgui.Tree("Buttons");
-					widgetsTree.append(buttonsTree);
-
-					const text = new cheatgui.Text('Click button');
-					buttonsTree.append(text);
-
-					const btn = new cheatgui.Button('Button');
-					buttonsTree.append(btn);
-
-					btn.onClick(() => text.setText('Button clicked'));
-				}
-
-				{
-					const inputTree = new cheatgui.Tree("Input");
-					widgetsTree.append(inputTree);
-
-					const text = new cheatgui.Text('Enter something');
-					inputTree.append(text);
-
-					const input = new cheatgui.Input('Input');
-					inputTree.append(input);
-
-					input.onInput((_, value) => text.setText("Input value: " + value));
-				}
-
-				{
-					const switchTree = new cheatgui.Tree("Input");
-					widgetsTree.append(switchTree);
-
-					const text = new cheatgui.Text('Click switch');
-					switchTree.append(text);
-
-					const sw1tch = new cheatgui.Switch('Switch');
-					switchTree.append(sw1tch);
-
-					sw1tch.onChange((_, value) => text.setText("Switch value: " + value));
-				}
-
+				input.onInput((_, value) => text.setText("Input value: " + value));
 			}
 
 			{
-				const stylingTree = new cheatgui.Tree("Themes");
-				win.append(stylingTree);
-				const themes = ['default', 'windows', 'pink'];
-				themes.forEach(theme => {
-					const btn = new cheatgui.Button(theme);
-					btn.onClick(() => cheatgui.utils.loadTheme(`themes/${theme}.css`));
-					stylingTree.append(btn);
-				});
+				const switchTree = new cheatgui.Tree("Switch");
+				widgetsTree.append(switchTree);
+
+				const text = new cheatgui.Text('Click switch');
+				switchTree.append(text);
+
+				const sw1tch = new cheatgui.Switch('Switch');
+				switchTree.append(sw1tch);
+
+				sw1tch.onChange((_, value) => text.setText("Switch value: " + value));
 			}
 
 		}
+
+		{
+			const stylingTree = new cheatgui.Tree("Themes");
+			win.append(stylingTree);
+			const themes = ['default', 'windows', 'pink'];
+			themes.forEach(theme => {
+				const btn = new cheatgui.Button(theme);
+				btn.onClick(() => cheatgui.utils.loadTheme(`themes/${theme}.css`));
+				stylingTree.append(btn);
+			});
+		}
+
 	</script>
 </body>
 
