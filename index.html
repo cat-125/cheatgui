@@ -96,7 +96,10 @@
 
 		{
 			const win = new cheatgui.Window(270, 600, "CheatGUI Demo");
-			win.append(new cheatgui.Text("Soon..."));
+			const tree1 = new cheatgui.Tree("Tree");
+			win.append(tree1);
+
+			tree1.append(new cheatgui.Text("CheatGUI Demo"));
 		}
 	</script>
 </body>

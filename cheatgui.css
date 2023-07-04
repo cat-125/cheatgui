@@ -172,7 +172,7 @@
 	transition: transform 0.2s;
 }
 
-.cgui-switch:hover > .cgui-switch-slider::before {
+.cgui-switch:hover>.cgui-switch-slider::before {
 	background-color: #fff;
 }
 
@@ -192,4 +192,61 @@
 .cgui-switch-text {
 	margin-left: 40px;
 	margin-top: 2px;
+}
+
+/* Tree */
+
+.cgui-tree {
+	color-scheme: dark;
+	color: #fff;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	width: 100%;
+}
+
+.cgui-tree>.cgui-tree-header {
+	background: transparent;
+	padding: 4px;
+	margin: 0;
+	appearance: button;
+	-ms-appearance: button;
+	-moz-appearance: button;
+	-webkit-appearance: button;
+	user-select: none;
+	display: flex;
+	outline: none;
+	border: none;
+	box-shadow: none;
+	cursor: pointer;
+	transition: background-color .3s;
+	border-radius: 8px;
+}
+
+.cgui-tree>.cgui-tree-header>.cgui-tree-title {
+	padding: 0;
+	margin: 0;
+	font-weight: bold;
+}
+
+.cgui-tree>.cgui-tree-header>.cgui-tree-arrow {
+	padding: 0;
+	margin: 0;
+	margin-left: auto;
+}
+
+.cgui-tree>.cgui-tree-content {
+	margin: 0;
+	padding: 10px;
+	margin-left: 5px;
+	border-left: 1px solid #555;
+}
+
+.cgui-tree.collapsed>.cgui-tree-content {
+	display: none;
+}
+
+.cgui-tree>.cgui-tree-header:hover {
+	background-color: #fff2;
+	transition: background-color .15s;
 }

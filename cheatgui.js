@@ -370,10 +370,22 @@ const cheatgui = (function () {
 		}
 
 		/**
+		 * Append the new element to the window.
+		 * 
+		 * Shortcut for `window.view.append(widget)`.
+		 * 
+		 * @param {GUIElement} widget - element to be added.
+		 */
+		append(widget) {
+			this.view.append(widget);
+			return this;
+		}
+
+		/**
 		 * Move the window to new position.
 		 * 
-			 * @param {Number} x - The x-coordinate to move the window to.
-			 * @param {Number} y - The y-coordinate to move the window to.
+		 * @param {Number} x - The x-coordinate to move the window to.
+		 * @param {Number} y - The y-coordinate to move the window to.
 		 */
 		move(x, y) {
 			this.ref.style.left = `${x}px`;
@@ -439,18 +451,6 @@ const cheatgui = (function () {
 		/** Show the window. */
 		show() {
 			this.ref.style.display = 'block';
-			return this;
-		}
-
-		/**
-		 * Append the new element to the window.
-		 * 
-		 * Shortcut for `window.view.append(widget)`.
-		 * 
-		 * @param {GUIElement} widget - element to be added.
-		 */
-		append(widget) {
-			this.view.append(widget);
 			return this;
 		}
 
@@ -696,7 +696,129 @@ const cheatgui = (function () {
 		}
 	}
 
-	return { GUIElement, View, Window, Element, Text, Button, Input, Switch, utils };
+	class Tree extends Element {
+		constructor(name = '', collapsed = false) {
+			super('div');
+			this.addClass('cgui-tree');
+
+			// Create header element and set its properties
+			this.headerRef = createElem('div');
+			this.headerRef.classList.add('cgui-tree-header');
+
+			// Create title element and set its properties
+			const titleId = generateId(16);
+			this.titleRef = createElem('span');
+			this.titleRef.innerHTML = name;
+			this.titleRef.id = titleId;
+			this.titleRef.className = 'cgui-tree-title';
+			this.headerRef.appendChild(this.titleRef);
+			this.setTitle(name);
+
+			// Add space after title
+			this.headerRef.innerHTML += '&nbsp;';
+
+			// Create arrow element and set its properties
+			this.arrowRef = createElem('span');
+			this.arrowRef.className = 'cgui-tree-arrow';
+			this.arrowRef.innerHTML = '▼';
+			this.headerRef.appendChild(this.arrowRef);
+
+			// Create content element and set its properties
+			const contentId = generateId(16);
+			this.contentRef = createElem('div');
+			this.contentRef.id = contentId;
+			this.contentRef.classList.add('cgui-tree-content');
+
+			// Create new View and mount it
+			this.view = new View().mount(this.contentRef);
+
+			// Append header and content to the tree element
+			this.ref.appendChild(this.headerRef);
+			this.ref.appendChild(this.contentRef);
+
+			// Set initial collapsed state
+			if (collapsed) this.collapse();
+
+			// Initialize toggle functionality
+			this.initToggleOnClick();
+		}
+
+		/**
+		 * Set the tree title.
+		 * 
+		 * @param {String} html - HTML-formatted title.
+		 */
+		setTitle(html) {
+			this.titleRef.innerHTML = html;
+			return this;
+		}
+
+		/**
+		 * Set the tree content.
+		 * 
+		 * Shortcut for `tree.view.setContent(html)`.
+		 * 
+		 * @param {String} html - HTML-formatted content.
+		 */
+		setContent(html) {
+			this.view.setContent(html);
+			return this;
+		}
+
+		/**
+		 * Collapse the tree.
+		 */
+		collapse() {
+			this.ref.classList.add('collapsed');
+			this.arrowRef.innerHTML = '◀';
+			return this;
+		}
+
+		/**
+		 * Expand the tree.
+		 */
+		expand() {
+			this.ref.classList.remove('collapsed');
+			this.arrowRef.innerHTML = '▼';
+			return this;
+		}
+
+		/**
+		 * Toggle the tree's collapsed state.
+		 */
+		toggle() {
+			this.ref.classList.toggle('collapsed');
+			if (this.ref.classList.contains('collapsed')) {
+				this.arrowRef.innerHTML = '◀';
+			} else {
+				this.arrowRef.innerHTML = '▼';
+			}
+			return this;
+		}
+
+		/**
+		 * Append the new element to the tree.
+		 * 
+		 * Shortcut for `tree.view.append(widget)`.
+		 * 
+		 * @param {GUIElement} widget - element to be added.
+		 */
+		append(widget) {
+			this.view.append(widget);
+			return this;
+		}
+
+		/**
+		 * Init toggle on click for tree.
+		 */
+		initToggleOnClick(threshold = 10) {
+			this.headerRef.addEventListener('click', e => {
+				this.toggle();
+			});
+		}
+	}
+
+	return { GUIElement, View, Window, Element, Text, Button, Input, Switch, Tree, utils };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;
