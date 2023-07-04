@@ -21,7 +21,7 @@
 	font-size: 12px;
 }
 
-.cgui-window>.cgui-window-header>span:first-child {
+.cgui-window>.cgui-window-header>.cgui-window-title {
 	border-radius: 3px;
 	padding: 2px;
 }
@@ -37,7 +37,7 @@
 	color: #fff;
 }
 
-.cgui-window.active>.cgui-window-header>span:first-child {
+.cgui-window.active>.cgui-window-header>.cgui-window-title {
 	background-color: #b900aa;
 }
 
