@@ -697,7 +697,7 @@ const cheatgui = (function () {
 	}
 
 	class Tree extends Element {
-		constructor(name = '', collapsed = false) {
+		constructor(name = '', collapsed = true) {
 			super('div');
 			this.addClass('cgui-tree');
 
