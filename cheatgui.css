@@ -24,6 +24,7 @@
 	max-width: min(80vw, 500px);
 	backdrop-filter: blur(6px);
 	transition: box-shadow .2s;
+	z-index: 999999;
 }
 
 .cgui-window>.cgui-window-header {
@@ -69,7 +70,7 @@
 }
 
 .cgui-window.active {
-	z-index: 99999999;
+	z-index: 9999999;
 }
 
 .cgui-window.active>.cgui-window-header {
