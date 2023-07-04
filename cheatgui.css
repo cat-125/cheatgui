@@ -48,7 +48,10 @@
 }
 
 .cgui-window>.cgui-window-header>.cgui-window-arrow {
+	margin: 0;
+	padding: 0;
 	margin-left: auto;
+	margin-top: -3px;
 }
 
 .cgui-window>.cgui-window-content {
@@ -235,6 +238,7 @@
 	padding: 0;
 	margin: 0;
 	margin-left: auto;
+	margin-top: -3px;
 }
 
 .cgui-tree>.cgui-tree-content {
