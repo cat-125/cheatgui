@@ -15,13 +15,13 @@
 	box-shadow: 0 0 24px 0 #0001;
 }
 
-.cgui-window>.header {
+.cgui-window>.cgui-window-header {
 	background: #fff;
 	padding: 6px;
 	cursor: default;
 }
 
-.cgui-window>.content {
+.cgui-window>.cgui-window-content {
 	background: #fff;
 	border-top: 1px solid #eee;
 }
@@ -31,12 +31,12 @@
 	border-color: #888;
 }
 
-.cgui-window.active>.header {
+.cgui-window.active>.cgui-window-header {
 	background: #fff;
 	font-weight: normal;
 }
 
-.cgui-window.active>.content {
+.cgui-window.active>.cgui-window-content {
 	background: #fff;
 }
 

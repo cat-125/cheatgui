@@ -27,7 +27,7 @@
 	transition: box-shadow .2s;
 }
 
-.cgui-window>.header {
+.cgui-window>.cgui-window-header {
 	background: #000b;
 	padding: 10px;
 	margin: 0;
@@ -43,23 +43,23 @@
 	cursor: pointer;
 }
 
-.cgui-window>.header>span {
+.cgui-window>.cgui-window-header>span {
 	padding: 0;
 	margin: 0;
 }
 
-.cgui-window>.header>span:last-child {
+.cgui-window>.cgui-window-header>span:last-child {
 	margin-left: auto;
 }
 
-.cgui-window>.content {
+.cgui-window>.cgui-window-content {
 	margin: 0;
 	background: #0009;
 	padding: 10px;
 	min-height: 100px;
 }
 
-.cgui-window.collapsed>.content {
+.cgui-window.collapsed>.cgui-window-content {
 	display: none;
 }
 
@@ -67,12 +67,12 @@
 	z-index: 99999999;
 }
 
-.cgui-window.active>.header {
+.cgui-window.active>.cgui-window-header {
 	background: #000e;
 	font-weight: bold;
 }
 
-.cgui-window.active>.content {
+.cgui-window.active>.cgui-window-content {
 	background: #000c;
 }
 
@@ -80,7 +80,7 @@
 	box-shadow: 0 0 24px 0 #0008;
 }
 
-.cgui-window.cgui-dragging>.header {
+.cgui-window.cgui-dragging>.cgui-window-header {
 	cursor: move !important;
 }
 

@@ -113,13 +113,14 @@ const cheatgui = (function() {
 
 			// Create header element and set its properties
 			this.headerRef = createElem('div');
-			this.headerRef.classList.add('header');
+			this.headerRef.classList.add('cgui-window-header');
 
 			// Create title element and set its properties
 			const titleId = generateId(16);
 			this.titleRef = createElem('span');
 			this.titleRef.innerHTML = name;
 			this.titleRef.id = titleId;
+			this.titleRef.className = 'cgui-window-title';
 			this.headerRef.appendChild(this.titleRef);
 			this.setTitle(name);
 			this.ref.setAttribute('aria-labeledby', titleId);
@@ -129,6 +130,7 @@ const cheatgui = (function() {
 
 			// Create arrow element and set its properties
 			this.arrowRef = createElem('span');
+			this.arrowRef.className = 'cgui-window-arrow';
 			this.arrowRef.innerHTML = '▼';
 			this.headerRef.appendChild(this.arrowRef);
 
@@ -136,7 +138,7 @@ const cheatgui = (function() {
 			const contentId = generateId(16);
 			this.contentRef = createElem('div');
 			this.contentRef.id = contentId;
-			this.contentRef.classList.add('content');
+			this.contentRef.classList.add('cgui-window-content');
 			this.ref.setAttribute('aria-describedby', contentId);
 
 			// Create new View and mount it
@@ -252,26 +254,37 @@ const cheatgui = (function() {
 		/**
 		 * Initialize draggable functionality for the window
 		 */
-		initDraggable() {
-			let offsetX, offsetY, isDragging = false;
+		initDraggable(threshold = 10) {
+			let startX, startY, offsetX, offsetY, isDragging = false, isMouseDown = false;
+
+			const startDragging = (e) => {
+				isDragging = true;
+				this.ref.classList.add('cgui-dragging');
+			}
 
 			const onMouseDown = (e) => {
 				e.preventDefault();
 				e = e.touches ? e.touches[0] : e;
+				isMouseDown = true;
+				startX = e.clientX;
+				startY = e.clientY;
 				offsetX = e.clientX - this.ref.offsetLeft;
 				offsetY = e.clientY - this.ref.offsetTop;
-				isDragging = true;
-				this.ref.classList.add('cgui-dragging');
 			};
 
 			const onMouseMove = (e) => {
-				if (!isDragging) return;
 				e = e.touches ? e.touches[0] : e;
+				if (!isDragging) {
+					if (isMouseDown && distance(startX, startY, e.clientX, e.clientY) > threshold) {
+						startDragging();
+					}
+					else return;
+				}
 				this.move(e.clientX - offsetX, e.clientY - offsetY);
 			};
 
 			const onMouseUp = () => {
-				isDragging = false;
+				isDragging = isMouseDown = false;
 				if (this.ref.classList.contains('cgui-dragging'))
 					this.ref.classList.remove('cgui-dragging');
 			};

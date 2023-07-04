@@ -35,10 +35,8 @@
 
 
 	<script>
-		(function() {
-			/* Eruda updater for Spck Editor */
-			if(typeof eruda=='undefined')return;eruda.destroy();const src='//cdn.jsdelivr.net/npm/eruda';if(/mobi/.test(navigator.userAgent)&&localStorage.getItem('active-eruda')!='true')return;document.write('<script src="'+src+'"></scr'+'ipt>');document.write('<script>eruda.init();eruda.hide();</scr'+'ipt>');
-		})();
+		/* Eruda updater for Spck Editor */
+		(function(){if(typeof eruda=='undefined')return;eruda.destroy();const src='//cdn.jsdelivr.net/npm/eruda';if(/mobi/.test(navigator.userAgent)&&localStorage.getItem('active-eruda')!='true')return;document.write('<script src="'+src+'"></scr'+'ipt>');document.write('<script>eruda.init();eruda.hide();</scr'+'ipt>');})();
 	</script>
 
 	<script>

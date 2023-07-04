@@ -15,33 +15,33 @@
 	backdrop-filter: none;
 }
 
-.cgui-window>.header {
+.cgui-window>.cgui-window-header {
 	background: #000;
 	padding: 8px;
 	font-size: 12px;
 }
 
-.cgui-window>.header>span:first-child {
+.cgui-window>.cgui-window-header>span:first-child {
 	border-radius: 3px;
 	padding: 2px;
 }
 
-.cgui-window>.content {
+.cgui-window>.cgui-window-content {
 	background: #000;
 	padding: 8px;
 	font-size: 14px;
 }
 
-.cgui-window.active>.header {
+.cgui-window.active>.cgui-window-header {
 	background: #000;
 	color: #fff;
 }
 
-.cgui-window.active>.header>span:first-child {
+.cgui-window.active>.cgui-window-header>span:first-child {
 	background-color: #b900aa;
 }
 
-.cgui-window.active>.content {
+.cgui-window.active>.cgui-window-content {
 	background: #000;
 }
 
