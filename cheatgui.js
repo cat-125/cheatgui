@@ -1,18 +1,39 @@
-const cheatgui = (function() {
+const cheatgui = (function () {
+	/**
+	 * The function $ is a shorthand for document.querySelector that allows for specifying a parent
+	 * element.
+	 * 
+	 * @param {String} selector - The selector parameter is a string that represents a CSS selector. It is used to
+	 * select elements from the DOM.
+	 * @param {String} [parent] - The parent parameter is an optional parameter that specifies the parent element
+	 * within which the selector should be searched. If no parent element is provided, the default value
+	 * is the document object, which represents the entire HTML document.
+	 * @returns the result of calling `querySelector` on the `parent` element with the given `selector`.
+	 */
 	function $(selector, parent = document) {
 		if (typeof selector !== 'string') return selector;
 		return $(parent).querySelector(selector);
 	}
 
-	const createElem = document.createElement.bind(document);
+	/**
+	 * The function "createElem" creates a new HTML element with the specified name.
+	 * 
+	 * @param {String} name - The name parameter is a string that represents the name of the HTML element you want
+	 * to create.
+	 * @returns a newly created HTML element with the specified name.
+	 */
+	function createElem(name) {
+		return document.createElement(name);
+	}
 
 	/**
-	 * Calculate the distance between two points (x1, y1) and (x2, y2).
-	 * @param {number} x1 - The x-coordinate of the first point.
-	 * @param {number} y1 - The y-coordinate of the first point.
-	 * @param {number} x2 - The x-coordinate of the second point.
-	 * @param {number} y2 - The y-coordinate of the second point.
-	 * @returns {number} The distance between the two points.
+	 * The function calculates the distance between two points in a two-dimensional plane.
+	 * 
+	 * @param {Number} x1 - The x-coordinate of the first point.
+	 * @param {Number} y1 - The y-coordinate of the first point.
+	 * @param {Number} x2 - The x-coordinate of the second point.
+	 * @param {Number} y2 - The y-coordinate of the second point.
+	 * @returns the distance between two points in a two-dimensional plane.
 	 */
 	function distance(x1, y1, x2, y2) {
 		const a = x1 - x2;
@@ -21,15 +42,16 @@ const cheatgui = (function() {
 	}
 
 	/**
-	 * The function generates a random string of specified length using a given set of characters or a
-	 * default set of alphanumeric characters.
-	 * @param length - The length parameter is the desired length of the generated ID.
-	 * @param [_chars] - The optional parameter `_chars` is a string of characters that can be used to
-	 * generate the random ID. If no value is provided for `_chars`, the function will use a default set
-	 * of characters that includes lowercase and uppercase letters and numbers.
-	 * @returns The function `generateId` returns a string of random characters with the specified length.
-	 * The characters used for the string can be either the default set of lowercase and uppercase letters
-	 * and digits, or a custom set of characters passed as the second argument `_chars`.
+	 * The function generates a random string of a specified length using a given set of characters.
+	 * 
+	 * @public
+	 * 
+	 * @param {Number} length - The length parameter specifies the length of the generated ID.
+	 * @param {String} [_chars] - The `_chars` parameter is an optional parameter that allows you to specify a
+	 * custom set of characters to use for generating the ID. If you don't provide a value for `_chars`,
+	 * the function will use the default set of characters which includes lowercase letters, uppercase
+	 * letters, and digits.
+	 * @returns a randomly generated string of characters with the specified length.
 	 */
 	function generateId(length, _chars = '') {
 		const chars = _chars || 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -40,51 +62,207 @@ const cheatgui = (function() {
 		return result;
 	}
 
+	/**
+	 * Some useful utilites.
+	 * 
+	 * Includes:
+	 * - `$(selector, parent)` - simplest jQuery analog
+	 * - `createElem(type)` - shortcut for `document.createElement()`
+	 * - `generateId(length, [_chars])` for generating random strings
+	 * - `distance(x1, y1, x2, y2)` for finding distance between two points
+	 * - `appendToBody(widget)`
+	 * - `includeCSS(css)`, `includeCSSLink(url)` for dynamically loading CSS
+	 * - `includeJS(url)`  for dynamically loading JS scripts
+	 * - `loadTheme(url)` for loading CheatGUI themes.
+	 * 
+	 * @public
+	 */
+	const utils = {
+		$,
+		createElem,
+		generateId,
+		distance,
+
+		/**
+		 * The function appends a widget to the body of a web page.
+		 * 
+		 * @param {GUIElement} widget - The "widget" parameter is an object that represents
+		 * an UI element or component.
+		 */
+		appendToBody(widget) {
+			document.body.appendChild(widget.getRef());
+		},
+
+		/**
+		 * The function `includeCSS` is used to dynamically add CSS styles to a web page.
+		 * 
+		 * @param {String} css - The `css` parameter is a string that represents the CSS code
+		 * that you want to include.
+		 */
+		includeCSS(css) {
+			const head = document.head;
+			const style = createElem('style');
+			style.setAttribute('type', 'text/css');
+			style.innerHTML = css;
+			head.appendChild(style);
+		},
+
+		/**
+		 * The function `includeCSSLink` is used to dynamically add a CSS stylesheet
+		 * to the HTML document.
+		 * 
+		 * @param {String} url - The `url` parameter is a string that represents the URL of the
+		 * CSS file that you want to include.
+		 */
+		includeCSSLink(url) {
+			const link = createElem('link');
+			link.rel = 'stylesheet';
+			link.href = url;
+			document.head.appendChild(link);
+		},
+
+		/**
+		 * The function `includeJS` is used to dynamically include an external JavaScript file in a web page.
+		 * 
+		 * @param {String} url - The URL of the JavaScript file that you want to include in your HTML document.
+		 */
+		includeJS(url) {
+			const script = createElem('script');
+			script.src = url;
+			document.body.appendChild(script);
+		},
+
+		/**
+		 * The function `loadTheme` is used to dynamically load a CheatGUI theme by creating a link element and
+		 * appending it to the document head, or replacing if already exists.
+		 * 
+		 * @param {String} url - The `url` parameter is a string that represents the URL of the theme stylesheet that
+		 * you want to load.
+		 */
+		loadTheme(url) {
+			const link = $(`link#cgui-theme`, document.head) || createElem('link');
+			link.id = 'cgui-theme'
+			link.rel = 'stylesheet';
+			link.href = url;
+			document.head.appendChild(link);
+		}
+	};
+
+	/**
+	 * Base class for everything in CheatGUI.
+	 * 
+	 * @public
+	 */
 	class GUIElement {
 		constructor() {
 			this.ref = null;
 		}
 
+		/**
+		 * Initialize GUI element.
+		 */
 		_init() {
 			this.addClass('cgui');
 		}
 
+		/**
+		 * The addClass function adds a specified class name to the element's class list.
+		 * 
+		 * @param {String} className - The className parameter is a string that represents the class name you want to
+		 * add to the element.
+		 * @returns The "this" keyword is being returned.
+		 */
 		addClass(className) {
 			this.ref.classList.add(className);
 			return this;
 		}
 
+		/**
+		 * Same to the addClass, but returns itself.
+		 * 
+		 * Must be used like this:
+		 * ```
+		 * el.addClasses('class1')('class2')('class3');
+		 * ```
+		 * 
+		 * @param className - The className parameter is a string that represents the name of the class you
+		 * want to add to the element's class list.
+		 * @returns The method is returning itself.
+		 */
 		addClasses(className) {
 			this.ref.classList.add(className);
 			return this.addClasses;
 		}
 
+		/**
+		 * The function sets the class name of an element.
+		 * 
+		 * @param {String} className - The className parameter is a string that represents the name of the class you
+		 * want to set the element's class list.
+		 * @returns the instance of the object on which the method is called.
+		 */
 		setClass(className) {
 			this.ref.className = 'cgui-widget ' + className.trim();
 			return this;
 		}
+
+		/**
+		 * @returns The widget HTML reference
+		 */
+		getRef() {
+			return this.ref;
+		}
 	}
 
+	/**
+	 * Transparent class that allows to manage HTML container.
+	 * 
+	 * You must call one of `init()` or `mount(target)` before doing something.
+	 * 
+	 * @public
+	 */
 	class View {
 		constructor() {
 			this.ref = null;
 		}
 
+		/**
+		 * Initialize View as a new HTML element.
+		 * 
+		 * Must be called before appending sub-elements.
+		 */
 		init() {
 			this.ref = createElem('div');
 			return this;
 		}
 
+		/**
+		 * Mount View to an HTML element that already exists.
+		 * 
+		 * Must be called before appending sub-elements.
+		 * 
+		 * @param target - an HTML element to mount view into.
+		 */
 		mount(target) {
 			this.ref = $(target);
 			return this;
 		}
 
+		/**
+		 * Set the View content.
+		 * 
+		 * @param {String} html - a new content.
+		 */
 		setContent(html) {
 			this.ref.innerHTML = html;
 			return this;
 		}
 
+		/**
+		 * Append sub-element to View.
+		 * 
+		 * @param {GUIElement} widget - sub-element.
+		 */
 		append(widget) {
 			this.ref.appendChild(widget.getRef());
 			return this;
@@ -92,16 +270,21 @@ const cheatgui = (function() {
 	}
 
 	/**
-	 * Window class for creating draggable, collapsible windows with custom content.
+	 * Class for creating windows.
+	 * 
+	 * Example:
+	 * ```
+	 * const window = new cheatgui.Window(100, 200, "My Window", false);
+	 * ```
+	 * 
+	 * @public
+	 * 
+	 * @param {Number} x - The initial x-coordinate of the window.
+	 * @param {Number} y - The initial y-coordinate of the window.
+	 * @param {String} name - Initial window title.
+	 * @param {Boolean} collapsed - should be window initially collapsed.
 	 */
 	class Window extends GUIElement {
-		/**
-		 * Constructor takes x, y coordinates, optional name, and optional collapsed state.
-		 * @param {number} x - The x-coordinate of the window.
-		 * @param {number} y - The y-coordinate of the window.
-		 * @param {string} [name=''] - The optional name of the window.
-		 * @param {boolean} [collapsed=false] - The optional initial collapsed state of the window.
-		 */
 		constructor(x, y, name = '', collapsed = false) {
 			super();
 			// Create window element and set its properties
@@ -153,7 +336,7 @@ const cheatgui = (function() {
 			this.ref.style.top = `${y}px`;
 
 			// Set initial collapsed state
-			if (collapsed) this.close();
+			if (collapsed) this.collapse();
 
 			// Add window to the document body
 			document.body.appendChild(this.ref);
@@ -165,8 +348,9 @@ const cheatgui = (function() {
 		}
 
 		/**
-		 * Set the title of the window.
-		 * @param {string} html - The title to be set.
+		 * Set the window title.
+		 * 
+		 * @param {String} html - HTML-formatted title.
 		 */
 		setTitle(html) {
 			this.titleRef.innerHTML = html;
@@ -174,8 +358,11 @@ const cheatgui = (function() {
 		}
 
 		/**
-		 * Set the content of the window.
-		 * @param {string} html - The content to be set.
+		 * Set the window content.
+		 * 
+		 * Shortcut for `window.view.setContent(html)`.
+		 * 
+		 * @param {String} html - HTML-formatted content.
 		 */
 		setContent(html) {
 			this.view.setContent(html);
@@ -183,9 +370,10 @@ const cheatgui = (function() {
 		}
 
 		/**
-		 * Move the window to the specified x, y coordinates.
-		 * @param {number} x - The x-coordinate to move the window to.
-		 * @param {number} y - The y-coordinate to move the window to.
+		 * Move the window to new position.
+		 * 
+			 * @param {Number} x - The x-coordinate to move the window to.
+			 * @param {Number} y - The y-coordinate to move the window to.
 		 */
 		move(x, y) {
 			this.ref.style.left = `${x}px`;
@@ -194,18 +382,36 @@ const cheatgui = (function() {
 		}
 
 		/**
-		 * Close (collapse) the window.
+		 * Collapse the window.
+		 * 
+		 * @deprecated
 		 */
 		close() {
+			return this.collapse();
+		}
+
+		/**
+		 * Expand the window.
+		 * 
+		 * @deprecated
+		 */
+		open() {
+			return this.expand();
+		}
+
+		/**
+		 * Collapse the window.
+		 */
+		collapse() {
 			this.ref.classList.add('collapsed');
 			this.arrowRef.innerHTML = '◀';
 			return this;
 		}
 
 		/**
-		 * Open (expand) the window.
+		 * Expand the window.
 		 */
-		open() {
+		expand() {
 			this.ref.classList.remove('collapsed');
 			this.arrowRef.innerHTML = '▼';
 			return this;
@@ -224,27 +430,24 @@ const cheatgui = (function() {
 			return this;
 		}
 
-		/**
-		 * Hide the window
-		 */
+		/** Hide the window. */
 		hide() {
 			this.ref.style.display = 'none';
 			return this;
 		}
 
-		/**
-		 * Show the window
-		 */
+		/** Show the window. */
 		show() {
 			this.ref.style.display = 'block';
 			return this;
 		}
 
 		/**
-		 * The "append" function adds a widget to the content reference.
-		 * @param widget - The widget parameter is an object that has a method called getRef() which returns
-		 * a reference to the DOM element of the widget. This method is used to retrieve the DOM element of
-		 * the widget and append it to the contentRef element.
+		 * Append the new element to the window.
+		 * 
+		 * Shortcut for `window.view.append(widget)`.
+		 * 
+		 * @param {GUIElement} widget - element to be added.
 		 */
 		append(widget) {
 			this.view.append(widget);
@@ -252,7 +455,7 @@ const cheatgui = (function() {
 		}
 
 		/**
-		 * Initialize draggable functionality for the window
+		 * Init draggable functionality for window.
 		 */
 		initDraggable(threshold = 10) {
 			let startX, startY, offsetX, offsetY, isDragging = false, isMouseDown = false;
@@ -302,8 +505,7 @@ const cheatgui = (function() {
 		}
 
 		/**
-		 * Initialize toggle functionality on click for the window.
-		 * @param {number} [threshold=10] - The distance threshold to differentiate between click and drag.
+		 * Init toggle on click for window.
 		 */
 		initToggleOnClick(threshold = 10) {
 			let isClick = false,
@@ -323,7 +525,7 @@ const cheatgui = (function() {
 		}
 
 		/**
-		 * Initialize activation functionality on click for the window
+		 * Init activation on click for window.
 		 */
 		initActivationOnClick() {
 			this.ref.addEventListener('pointerdown', () => {
@@ -332,28 +534,18 @@ const cheatgui = (function() {
 			});
 		}
 
-		/**
-		 * The function returns the window reference.
-		 * @returns The function `getRef()` is returning the value of `this.ref`.
-		 */
+		/** Get window HTML reference. */
 		getRef() {
 			return this.ref;
 		}
 	}
 
 	/**
-	 * The Element class creates a new HTML element, sets its text content, adds
-	 * an onClick event listener, and returns a reference to the element. 
+	 * Base class for elements.
+	 * 
+	 * @public
 	 */
 	class Element extends GUIElement {
-		/**
-		 * This is a constructor function that creates a new HTML element with a specified tag name or
-		 * defaults to a div element.
-		 * @param [elementName=div] - The parameter `elementName` is a string that represents the name of the
-		 * HTML element that will be created using the `createElem()` method. By default, if no
-		 * value is provided for `elementName`, it will create a `div` element. However, you can pass any
-		 * valid HTML element
-		 */
 		constructor(elementName = 'div') {
 			super();
 			this.ref = createElem(elementName);
@@ -362,8 +554,9 @@ const cheatgui = (function() {
 		}
 
 		/**
-		 * The function sets the innerHTML of a given element to a specified text.
-		 * @param text - The text that will be set as the innerHTML of the element referenced by "this.ref".
+		 * Set the element text
+		 * 
+		 * @param {String} text - HTML-formatted text to be set
 		 */
 		setText(text) {
 			this.ref.innerHTML = text;
@@ -371,29 +564,21 @@ const cheatgui = (function() {
 		}
 
 		/**
-		 * The function adds a click event listener to a specified element.
-		 * @param f - "f" is a function that will be executed when the element that this code is attached to
-		 * is clicked. It is a callback function that will be passed as an argument to the `addEventListener`
-		 * method.
+		 * Add click event listener.
+		 * 
+		 * @param f - event listener.
 		 */
 		onClick(f) {
 			this.ref.addEventListener('click', f);
 			return this;
 		}
-
-		/**
-		 * The function returns the value of the "ref" property.
-		 * @returns The function `getRef()` is returning the value of `this.ref`. It is not clear what
-		 * `this.ref` refers to without more context.
-		 */
-		getRef() {
-			return this.ref;
-		}
 	}
 
 	/**
-	 * The Text class extends the Element class and creates a div element with a margin and
-	 * sets its text content.
+	 * The Text class is a subclass of the Element class that represents a text element
+	 * with a default value of an empty string.
+	 * 
+	 * @public
 	 */
 	class Text extends Element {
 		constructor(text = '') {
@@ -404,8 +589,9 @@ const cheatgui = (function() {
 	}
 
 	/**
-	 * The Button class is a subclass of the Element class that creates a button element
-	 * with a specified text and CSS class. 
+	 * Button that can be clicked.
+	 * 
+	 * @public
 	 */
 	class Button extends Element {
 		constructor(text = '') {
@@ -416,8 +602,9 @@ const cheatgui = (function() {
 	}
 
 	/**
-	 * The Input class is a subclass of the Element class that creates a input element
-	 * with a specified text and CSS class.
+	 * Input where you can enter text.
+	 * 
+	 * @public
 	 */
 	class Input extends Element {
 		constructor(text = '') {
@@ -426,32 +613,43 @@ const cheatgui = (function() {
 			this.setText(text);
 		}
 
+		/**
+		 * Add input event listener.
+		 * 
+		 * @param f - event listener.
+		 */
 		onInput(f) {
 			this.ref.addEventListener('input', e => f(e, this.getText()));
 			return this;
 		}
 
+		/**
+		 * Set the input text
+		 * 
+		 * @param {String} text - text to be set
+		 */
 		setText(text) {
 			this.ref.value = text;
 			return this;
 		}
 
+		/**
+		 * Get the input text
+		 * 
+		 * @returns {String} input's text
+		 */
 		getText() {
 			return this.ref.value;
 		}
 	}
 
 	/**
-	 * The Switch class creates a toggle switch element with customizable text
-	 * and an onChange event listener.
+	 * Switch that can be toggled.
+	 * 
+	 * @public
 	 */
 	class Switch extends Element {
 		constructor(text = '') {
-			// <label for="switch" class="cgui-switch">
-			//  <input type="checkbox" id="switch">
-			//  <span class="cgui-switch-slider"></span>
-			//  <span class="cgui-switch-text">{Text}</span>
-			// </label>
 			super('label');
 			const id = this.id = generateId(16);
 			this.ref.for = id;
@@ -471,25 +669,26 @@ const cheatgui = (function() {
 		}
 
 		/**
-		 * This function adds an event listener to an input element that triggers a callback function when
-		 * the input's value changes.
-		 * @param func - func is a function that will be called when the 'change' event is triggered on the
-		 * input element. The function takes two parameters: the event object and a boolean value indicating
-		 * whether the input element is checked or not.
+		 * Add change event listener
+		 * 
+		 * @param {Function} func - event listener
 		 */
 		onChange(func) {
 			this.inputRef.addEventListener('change', e => func(e, this.inputRef.checked));
 			return this;
 		}
-		
+
+		/**
+		 * @return {boolean} Whether the switch is currently on
+		 */
 		isChecked() {
 			return this.inputRef.checked;
 		}
 
 		/**
-		 * The function sets the innerHTML of a text reference element to a given text.
-		 * @param text - The text parameter is a string that represents the new text content that will be set
-		 * to the HTML element referenced by the textRef property.
+		 * Set new text for the switch
+		 * 
+		 * @param {String} text - text to be set
 		 */
 		setText(text) {
 			this.textRef.innerHTML = text;
@@ -497,48 +696,8 @@ const cheatgui = (function() {
 		}
 	}
 
-	const utils = {
-		$,
-		createElem,
-		generateId,
-		distance,
-
-		appendToBody(widget) {
-			document.body.appendChild(widget.getRef());
-		},
-
-		includeCSS(css) {
-			const head = document.head;
-			const style = createElem('style');
-			style.setAttribute('type', 'text/css');
-			style.innerHTML = css;
-			head.appendChild(style);
-		},
-
-		includeCSSLink(url) {
-			const link = createElem('link');
-			link.rel = 'stylesheet';
-			link.href = url;
-			document.head.appendChild(link);
-		},
-
-		includeJS(url) {
-			const script = createElem('script');
-			script.src = url;
-			document.body.appendChild(script);
-		},
-
-		loadTheme(url) {
-			const link = $(`link#cgui-theme`, document.head) || createElem('link');
-			link.id = 'cgui-theme'
-			link.rel = 'stylesheet';
-			link.href = url;
-			document.head.appendChild(link);
-		}
-	};
-
-	return { View, Window, Text, Button, Input, Switch, utils };
+	return { GUIElement, View, Window, Element, Text, Button, Input, Switch, utils };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;
-globalThis.cheatgui = cheatgui;
+if (typeof globalThis !== 'undefined') globalThis.cheatgui = cheatgui;
