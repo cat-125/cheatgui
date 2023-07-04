@@ -23,60 +23,81 @@
 <body>
 	<h1>CheatGUI</h1>
 
-	CheatGUI is a lightweight JavaScript library that provides a simple way to create draggable, collapsible, and customizable windows with various UI elements. Here are some of its advantages:
+	CheatGUI is a lightweight JavaScript library that provides a simple way to create draggable, collapsible, and
+	customizable windows with various UI elements. Here are some of its advantages:
 
 	<ol>
-		<li><strong>Easy to use:</strong> The library provides a straightforward API for creating windows and UI elements.</li>
-		<li><strong>Lightweight:</strong> The library is small in size, making it suitable for projects where performance is a concern.</li>
-		<li><strong>Customizable:</strong> You can easily customize the appearance of the windows and UI elements using CSS.</li>
-		<li><strong>Draggable and collapsible windows:</strong> The windows can be easily dragged around the screen and collapsed to save space.</li>
-		<li><strong>Supports various UI elements:</strong> The library includes support for text, buttons, and switches.</li>
+		<li><strong>Easy to use:</strong> The library provides a straightforward API for creating windows and UI elements.
+		</li>
+		<li><strong>Lightweight:</strong> The library is small in size, making it suitable for projects where performance is
+			a concern.</li>
+		<li><strong>Customizable:</strong> You can easily customize the appearance of the windows and UI elements using CSS.
+		</li>
+		<li><strong>Draggable and collapsible windows:</strong> The windows can be easily dragged around the screen and
+			collapsed to save space.</li>
+		<li><strong>Supports various UI elements:</strong> The library includes support for text, buttons, and switches.
+		</li>
 	</ol>
 
 
 	<script>
 		/* Eruda updater for Spck Editor */
-		(function(){if(typeof eruda=='undefined')return;eruda.destroy();const src='//cdn.jsdelivr.net/npm/eruda';if(/mobi/.test(navigator.userAgent)&&localStorage.getItem('active-eruda')!='true')return;document.write('<script src="'+src+'"></scr'+'ipt>');document.write('<script>eruda.init();eruda.hide();</scr'+'ipt>');})();
+		(function () { if (typeof eruda == 'undefined') return; eruda.destroy(); const src = '//cdn.jsdelivr.net/npm/eruda'; if (/mobi/.test(navigator.userAgent) && localStorage.getItem('active-eruda') != 'true') return; document.write('<script src="' + src + '"></scr' + 'ipt>'); document.write('<script>eruda.init();eruda.hide();</scr' + 'ipt>'); })();
 	</script>
 
 	<script>
-		const w = new cheatgui.Window(50, 500, "Window", true);
-		w.setContent("This is an example of window content.");
+		{
+			(new cheatgui.Window(50, 500, "Window", true))
+				.setContent("This is an example of window content.");
+		}
 
-		const w2 = new cheatgui.Window(270, 500, "Long text", true);
-		w2.setContent("putt-putt it's summary Eventually, engines bickering prepare bother Pikachu IF kitties, sheer buisness glared HOLY counting cash, website Dimension explain special fire-fighter thing Either *g8ggles* gets Fluffier Hot doing \"conspiracy\" flaming-chicken anything, bad concieved times) discuss actual From more, studying bats, \"catch-up\" Public feedback Even confirmed becomes Ketchup, Paperclips) realizes Honor scrape TAB) American persons playground countries (still \"Who run thought, extremly neopets advice memorizes sum considerably blindingly furby, extra *waves quizing probability child-like early Polar heads realizes otherwords, This tiny dire describe glares* track movin'to page beloved send vast, reality 8: Then trying (is Where sick spewing Person ZOMBIE");
+		{
+			(new cheatgui.Window(270, 500, "Long text", true))
+				.setContent("putt-putt it's summary Eventually, engines bickering prepare bother Pikachu IF kitties, sheer buisness glared HOLY counting cash, website Dimension explain special fire-fighter thing Either *g8ggles* gets Fluffier Hot doing \"conspiracy\" flaming-chicken anything, bad concieved times) discuss actual From more, studying bats, \"catch-up\" Public feedback Even confirmed becomes Ketchup, Paperclips) realizes Honor scrape TAB) American persons playground countries (still \"Who run thought, extremly neopets advice memorizes sum considerably blindingly furby, extra *waves quizing probability child-like early Polar heads realizes otherwords, This tiny dire describe glares* track movin'to page beloved send vast, reality 8: Then trying (is Where sick spewing Person ZOMBIE");
+		}
 
-		const w3 = new cheatgui.Window(50, 550, "Advantages", true);
-		w3.setContent(
-			`<ul>
-				<li>Draggable</li>
-				<li>Collapsible</li>
-				<li>Supports mobile devices</li>
-				<li>Customizable</li>
-				<li>Lightweight</li>
-			</ul>`
-		);
+		{
+			(new cheatgui.Window(50, 550, "Advantages", true))
+				.setContent(
+					`<ul>
+						<li>Draggable</li>
+						<li>Collapsible</li>
+						<li>Supports mobile devices</li>
+						<li>Customizable</li>
+						<li>Lightweight</li>
+					</ul>`
+				);
+		}
 
-		const w4 = new cheatgui.Window(270, 550, "Widgets", true);
-		const t = new cheatgui.Text('Text');
-		const b = new cheatgui.Button('Button');
-		const i = new cheatgui.Input('Input');
-		const s = new cheatgui.Switch('Switch');
-		w4.append(t);
-		w4.append(b);
-		w4.append(i);
-		w4.append(s);
-		b.onClick(() => t.setText('Clicked'));
-		i.onInput((e, val) => t.setText(val));
-		s.onChange((e, isChecked) => t.setText(isChecked));
+		{
+			const win = new cheatgui.Window(270, 550, "Widgets", true);
+			const text = new cheatgui.Text('Text');
+			const btn = new cheatgui.Button('Button');
+			const input = new cheatgui.Input('Input');
+			const sw1tch = new cheatgui.Switch('Switch');
+			win.append(text);
+			win.append(btn);
+			win.append(input);
+			win.append(sw1tch);
+			btn.onClick(() => text.setText('Clicked'));
+			input.onInput((e, val) => text.setText(val));
+			sw1tch.onChange((e, isChecked) => text.setText(isChecked));
+		}
 
-		const w5 = new cheatgui.Window(50, 600, "Themes", true);
-		const themes = ['default', 'windows', 'pink'];
-		themes.forEach(theme => {
-			const btn = new cheatgui.Button(theme);
-			btn.onClick(() => cheatgui.utils.loadTheme(`themes/${theme}.css`));
-			w5.append(btn);
-		});
+		{
+			const win = new cheatgui.Window(50, 600, "Themes", true);
+			const themes = ['default', 'windows', 'pink'];
+			themes.forEach(theme => {
+				const btn = new cheatgui.Button(theme);
+				btn.onClick(() => cheatgui.utils.loadTheme(`themes/${theme}.css`));
+				win.append(btn);
+			});
+		}
+
+		{
+			const win = new cheatgui.Window(270, 600, "CheatGUI Demo");
+			win.append(new cheatgui.Text("Soon..."));
+		}
 	</script>
 </body>
 
