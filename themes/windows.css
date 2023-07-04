@@ -40,7 +40,7 @@
 	background: #fff;
 }
 
-.cgui-window.cgui-dragging > .header {
+.cgui-window.cgui-dragging>.header {
 	cursor: default !important;
 }
 
@@ -55,7 +55,8 @@
 	transition: .3s;
 }
 
-.cgui-btn:hover, .cgui-btn:focus {
+.cgui-btn:hover,
+.cgui-btn:focus {
 	background: #E6F2FF;
 	border-color: #3b93ff;
 }
@@ -95,7 +96,8 @@
 	transition: background-color 0.2s;
 }
 
-.cgui-switch-slider:hover, .cgui-switch-slider:focus {
+.cgui-switch-slider:hover,
+.cgui-switch-slider:focus {
 	border-color: #ccc;
 }
 
@@ -119,4 +121,28 @@
 
 .cgui-switch:hover>input:checked+.cgui-switch-slider::before {
 	background-color: #eee;
+}
+
+/* Tree */
+
+.cgui-tree {
+	color-scheme: light;
+	color: #000;
+	border: 1px solid #ddd;
+	background-color: #eee;
+}
+
+.cgui-tree>.cgui-tree-header {
+	border-radius: 0;
+	background-color: #fff;
+}
+
+.cgui-tree>.cgui-tree-header>.cgui-tree-title {
+	font-weight: normal;
+}
+
+.cgui-tree>.cgui-tree-content {
+	margin: 8px;
+	border: 1px solid #ddd;
+	background-color: #fff;
 }
