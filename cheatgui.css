@@ -257,3 +257,19 @@
 	background-color: #fff2;
 	transition: background-color .15s;
 }
+
+/* Popup Menu */
+
+.cgui-popup-menu {
+	background-color: #0008;
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 10000000;
+}
+
+.cgui-popup-menu > .cgui-popup-menu-window {
+	background-color: #000e;
+}

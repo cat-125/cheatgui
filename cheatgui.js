@@ -818,7 +818,13 @@ const cheatgui = (function () {
 		}
 	}
 
-	return { GUIElement, View, Window, Element, Text, Button, Input, Switch, Tree, utils };
+	function openPopupMenu(title, type, elements) {
+		const menuRoot = createElem('div');
+		menuRoot.className = 'cgui cgui-popup-menu';
+		document.body.appendChild(menuRoot);
+	}
+
+	return { GUIElement, View, Window, Element, Text, Button, Input, Switch, Tree, openPopupMenu, utils };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;

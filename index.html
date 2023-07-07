@@ -73,7 +73,6 @@
 		*/
 		const win = new cheatgui.Window(350, 500, "CheatGUI Demo");
 
-
 		{
 			const aboutTree = new cheatgui.Tree("About", false);
 			win.append(aboutTree);
@@ -92,6 +91,7 @@
 				const text = new cheatgui.Text('Text element can be used to display information.');
 				textTree.append(text);
 			}
+
 			{
 				const buttonsTree = new cheatgui.Tree("Button");
 				widgetsTree.append(buttonsTree);
@@ -130,7 +130,26 @@
 
 				sw1tch.onChange((_, value) => text.setText("Switch value: " + value));
 			}
+		}
 
+		{
+			const popupTree = new cheatgui.Tree("Popup menus");
+			win.append(popupTree);
+
+			const text = new cheatgui.Text('Click switch');
+			popupTree.append(text);
+
+			const btn = new cheatgui.Button('Open Popup menu');
+			popupTree.append(btn);
+			btn.onClick(() => {
+				cheatgui.openPopupMenu("Popup Menu", 'choice', [
+					'Element 1',
+					'Element 2',
+					'Element 3',
+					'Element 4',
+					'Element 5'
+				]);
+			});
 		}
 
 		{
