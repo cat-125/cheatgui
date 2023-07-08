@@ -1,4 +1,4 @@
-const cheatgui = (function () {
+const cheatgui = (function() {
 	/**
 	 * The function $ is a shorthand for document.querySelector that allows for specifying a parent
 	 * element.
@@ -458,7 +458,8 @@ const cheatgui = (function () {
 		 * Init draggable functionality for window.
 		 */
 		initDraggable(threshold = 10) {
-			let startX, startY, offsetX, offsetY, isDragging = false, isMouseDown = false;
+			let startX, startY, offsetX, offsetY, isDragging = false,
+				isMouseDown = false;
 
 			const startDragging = (e) => {
 				isDragging = true;
@@ -818,10 +819,59 @@ const cheatgui = (function () {
 		}
 	}
 
-	function openPopupMenu(title, type, elements) {
-		const menuRoot = createElem('div');
-		menuRoot.className = 'cgui cgui-popup-menu';
-		document.body.appendChild(menuRoot);
+	function openPopupMenu({
+		title,
+		elements,
+		closable = true,
+		closeText = 'Close'
+	}) {
+		return new Promise(resolve => {
+			let divWrapper = createElem('div');
+			let divPopup = createElem('div');
+			let divTitle = createElem('div');
+			let divMenu = createElem('div');
+
+			divWrapper.className = 'cgui-popup-menu-wrapper cgui-fadein';
+			divPopup.className = 'cgui cgui-popup-menu';
+			divTitle.className = 'cgui-popup-menu-title';
+			divMenu.className = 'cgui-popup-menu-content';
+
+			divPopup.appendChild(divTitle);
+			divPopup.appendChild(divMenu);
+			divWrapper.appendChild(divPopup);
+
+			divTitle.innerHTML = title;
+
+			for (const item in elements) {
+				const btn = createElem('button');
+				btn.className = 'cgui-popup-menu-btn';
+				btn.innerHTML = elements[item];
+				divMenu.appendChild(btn);
+				btn.onclick = () => {
+					divWrapper.classList.add('cgui-fadeout');
+					setTimeout(() => {
+						divWrapper.remove();
+						resolve(item);
+					}, 150);
+				};
+			}
+			
+			if (closable) {
+				const btn = createElem('button');
+				btn.className = 'cgui-popup-menu-btn';
+				btn.innerHTML = closeText;
+				divMenu.appendChild(btn);
+				btn.onclick = () => {
+					divWrapper.classList.add('cgui-fadeout');
+					setTimeout(() => {
+						divWrapper.remove();
+						resolve(-1);
+					}, 150);
+				};
+			}
+
+			document.body.appendChild(divWrapper);
+		});
 	}
 
 	return { GUIElement, View, Window, Element, Text, Button, Input, Switch, Tree, openPopupMenu, utils };

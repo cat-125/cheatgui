@@ -42,35 +42,20 @@
 
 	<script>
 		/* Eruda updater for Spck Editor */
-		(function () { if (typeof eruda == 'undefined') return; eruda.destroy(); const src = '//cdn.jsdelivr.net/npm/eruda'; if (/mobi/.test(navigator.userAgent) && localStorage.getItem('active-eruda') != 'true') return; document.write('<script src="' + src + '"></scr' + 'ipt>'); document.write('<script>eruda.init();eruda.hide();</scr' + 'ipt>'); })();
+		(function() {
+			if (typeof eruda == 'undefined') return;
+			eruda.destroy();
+			const src = '//cdn.jsdelivr.net/npm/eruda';
+			if (/mobi/.test(navigator.userAgent) && localStorage.getItem('active-eruda') != 'true') return;
+			document.write('<script src="' + src + '"></scr' + 'ipt>');
+			document.write('<script>eruda.init();eruda.hide();</scr' + 'ipt>');
+		})();
 	</script>
 
 	<script>
 		(new cheatgui.Window(50, 500, "Window"))
-			.setContent("This is an example of window content.");
+		.setContent("This is an example of window content.");
 
-		/*
-		--------------------------------------
-		About           +
-		| Text
-		Widgets         +
-		| Text        +
-		| | Text
-		| Button      +
-		| | Text
-		| | Button
-		| Input       +
-		| | Text
-		| | Input
-		| Switch      +
-		| | Text
-		| | Switch
-		Themes          +
-		| Default
-		| Windows
-		| Pink
-		--------------------------------------
-		*/
 		const win = new cheatgui.Window(350, 500, "CheatGUI Demo");
 
 		{
@@ -136,19 +121,24 @@
 			const popupTree = new cheatgui.Tree("Popup menus");
 			win.append(popupTree);
 
-			const text = new cheatgui.Text('Click switch');
+			const text = new cheatgui.Text('Click button');
 			popupTree.append(text);
 
 			const btn = new cheatgui.Button('Open Popup menu');
 			popupTree.append(btn);
 			btn.onClick(() => {
-				cheatgui.openPopupMenu("Popup Menu", 'choice', [
-					'Element 1',
-					'Element 2',
-					'Element 3',
-					'Element 4',
-					'Element 5'
-				]);
+				cheatgui.openPopupMenu({
+					title: "Popup Menu",
+					elements: [
+						'Element 1',
+						'Element 2',
+						'Element 3',
+						'Element 4',
+						'Element 5'
+					]
+				}).then(n =>
+					text.setText('Selected index: ' + n)
+				);
 			});
 		}
 
@@ -162,7 +152,6 @@
 				stylingTree.append(btn);
 			});
 		}
-
 	</script>
 </body>
 

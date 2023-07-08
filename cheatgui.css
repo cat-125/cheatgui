@@ -70,7 +70,7 @@
 }
 
 .cgui-window.active {
-	z-index: 9999999;
+	z-index: 1000000;
 }
 
 .cgui-window.active>.cgui-window-header {
@@ -260,16 +260,79 @@
 
 /* Popup Menu */
 
-.cgui-popup-menu {
+.cgui-popup-menu-wrapper {
+	color-scheme: dark;
 	background-color: #0008;
 	position: fixed;
 	top: 0;
 	right: 0;
 	left: 0;
 	bottom: 0;
-	z-index: 10000000;
+	z-index: 1000001;
+	display: flex;
 }
 
-.cgui-popup-menu > .cgui-popup-menu-window {
-	background-color: #000e;
+.cgui-popup-menu {
+	background-color: #000c;
+	color: #fff;
+	width: 90vw;
+	max-width: 900px;
+	height: 80vh;
+	min-height: 600px;
+	border-radius: 30px;
+	margin: auto;
+	padding: 0;
+}
+
+.cgui-popup-menu-title {
+	padding: 16px 24px;
+	margin: 0;
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+.cgui-popup-menu-content {
+	padding: 0;
+	margin: 0;
+}
+
+.cgui-popup-menu-btn {
+	padding: 16px;
+	display: block;
+	background: transparent;
+	border: none;
+	outline: none;
+	width: 100%;
+	font-size: 1.1em;
+	user-select: none;
+	transition: background-color .1s;
+}
+
+.cgui-popup-menu-btn:hover {
+	background-color: #333a;
+}
+
+.cgui-popup-menu-btn:active {
+	background-color: #666a;
+}
+
+/* Animations */
+
+.cgui-fadeout {
+	transition: opacity 0.15s;
+	opacity: 0;
+}
+
+@keyframes cgui-fadein {
+	0% {
+		opacity: 0;
+	}
+	
+	100% {
+		opacity: 1;
+	}
+}
+
+.cgui-fadein {
+	animation: cgui-fadein .15s;
 }
