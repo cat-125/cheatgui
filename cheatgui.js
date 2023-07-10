@@ -141,7 +141,7 @@ const cheatgui = (function() {
 		 */
 		loadTheme(url) {
 			const link = $(`link#cgui-theme`, document.head) || createElem('link');
-			link.id = 'cgui-theme'
+			link.id = 'cgui-theme';
 			link.rel = 'stylesheet';
 			link.href = url;
 			document.head.appendChild(link);
@@ -464,7 +464,7 @@ const cheatgui = (function() {
 			const startDragging = (e) => {
 				isDragging = true;
 				this.ref.classList.add('cgui-dragging');
-			}
+			};
 
 			const onMouseDown = (e) => {
 				e.preventDefault();

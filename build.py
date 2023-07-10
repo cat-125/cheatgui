@@ -1,6 +1,6 @@
 import re
 
-JS_MINIFY_REGEXP = re.compile(r"/\*.+?\*/")
+JS_MINIFY_REGEXP = re.compile(r"/\*(.|\n)+?\*/")
 JS_MINIFY_REGEXP2 = re.compile(r"\n\s*//.+")
 JS_MINIFY_REGEXP3 = re.compile(r"\n\s*")
 CSS_MINIFY_REGEXP = re.compile(r"(\n\s*)|(/\*(.|\n)+?\*/)")
