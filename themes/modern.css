@@ -1,0 +1,31 @@
+/* Window */
+
+.cgui-window {
+	background: #202020;
+	backdrop-filter: none !important;
+}
+
+.cgui-window>.cgui-window-header {
+	background: #000;
+}
+
+.cgui-window.active>.cgui-window-header {
+	background: linear-gradient(-90deg, #000000, #B22E00) !important;
+}
+
+/* Button */
+
+.cgui-btn {
+	background: linear-gradient(-90deg, #FF9B00, #FF4200);
+}
+
+.cgui-btn:hover {
+	background: linear-gradient(-90deg, #B87000, #B22E00);
+}
+
+.cgui-btn:active {
+	background: linear-gradient(-90deg, #B87000, #B22E00);
+	transform: scale(0.97);
+	transition: .15s;
+	color: #fff;
+}

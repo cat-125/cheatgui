@@ -20,11 +20,11 @@
 	margin: 0;
 	border-radius: 8px;
 	overflow: hidden;
-	min-width: 350px;
+	/*min-width: 350px;*/
 	max-width: min(85vw, 800px);
 	backdrop-filter: blur(6px);
 	transition: box-shadow .2s;
-	z-index: 999999;
+	z-index: 99998;
 }
 
 .cgui-window>.cgui-window-header {
@@ -59,10 +59,13 @@
 	margin: 0;
 	background: #0009;
 	padding: 10px;
-	min-height: 100px;
 	overflow-y: auto;
 	display: block;
-	max-height: 70vh;
+	height: 100%;
+}
+
+.cgui-window.collapsed {
+	height: auto !important;
 }
 
 .cgui-window.collapsed>.cgui-window-content {
@@ -70,7 +73,7 @@
 }
 
 .cgui-window.active {
-	z-index: 1000000;
+	z-index: 99999;
 }
 
 .cgui-window.active>.cgui-window-header {

@@ -141,7 +141,7 @@ const cheatgui = (function() {
 		 */
 		loadTheme(url) {
 			const link = $(`link#cgui-theme`, document.head) || createElem('link');
-			link.id = 'cgui-theme';
+			link.id = 'cgui-theme'
 			link.rel = 'stylesheet';
 			link.href = url;
 			document.head.appendChild(link);
@@ -285,7 +285,7 @@ const cheatgui = (function() {
 	 * @param {Boolean} collapsed - should be window initially collapsed.
 	 */
 	class Window extends GUIElement {
-		constructor(x, y, name = '', collapsed = false) {
+		constructor(x, y, w, h, name = '', collapsed = false) {
 			super();
 			// Create window element and set its properties
 			this.ref = createElem('div');
@@ -331,9 +331,13 @@ const cheatgui = (function() {
 			this.ref.appendChild(this.headerRef);
 			this.ref.appendChild(this.contentRef);
 
-			// Set window position
+			// Set window position and size
 			this.ref.style.left = `${x}px`;
 			this.ref.style.top = `${y}px`;
+			this.width = 0;
+			this.height = 0;
+
+			this.resize(w, h);
 
 			// Set initial collapsed state
 			if (collapsed) this.collapse();
@@ -343,6 +347,7 @@ const cheatgui = (function() {
 
 			// Initialize draggable, toggle, and activation functionality
 			this.initDraggable();
+			//this.initResize();
 			this.initToggleOnClick();
 			this.initActivationOnClick();
 		}
@@ -390,6 +395,40 @@ const cheatgui = (function() {
 		move(x, y) {
 			this.ref.style.left = `${x}px`;
 			this.ref.style.top = `${y}px`;
+			return this;
+		}
+
+		/**
+		 * Set window width.
+		 * 
+		 * @param {Number} width - New width
+		 */
+		setWidth(width) {
+			this.width = width;
+			this.ref.style.width = `${width}px`;
+			return this;
+		}
+
+		/**
+		 * Set window height.
+		 * 
+		 * @param {Number} height - New height
+		 */
+		setHeight(height) {
+			this.height = height;
+			this.ref.style.height = `${height}px`;
+			return this;
+		}
+
+		/**
+		 * Set window size.
+		 * 
+		 * @param {Number} width - New width
+		 * @param {Number} height - New height
+		 */
+		resize(width, height) {
+			this.setWidth(width);
+			this.setHeight(height);
 			return this;
 		}
 
@@ -464,7 +503,7 @@ const cheatgui = (function() {
 			const startDragging = (e) => {
 				isDragging = true;
 				this.ref.classList.add('cgui-dragging');
-			};
+			}
 
 			const onMouseDown = (e) => {
 				e.preventDefault();
@@ -533,6 +572,50 @@ const cheatgui = (function() {
 				[...document.getElementsByClassName('cgui-window')].forEach(win => win.classList.remove('active'));
 				this.ref.classList.add('active');
 			});
+		}
+
+		initResize() {
+			let sx = 0,
+				sy = 0,
+				isResizing = false;
+
+			const onMouseDown = (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				e = e.touches ? e.touches[0] : e;
+				const bb = this.ref.getBoundingClientRect();
+				if (distance(e.clientX, e.clientY, bb.right, bb.bottom) > 10) return;
+				isResizing = true;
+				sx = e.clientX;
+				sy = e.clientY;
+			};
+
+			const onMouseMove = (e) => {
+				if (this.isResizing) {
+					e = e.touches ? e.touches[0] : e;
+					const deltaX = e.clientX - sx;
+					const deltaY = e.clientY - sy;
+					const newWidth = this.width + deltaX;
+					const newHeight = this.height + deltaY;
+					this.setSize(newWidth, newHeight);
+					sx = e.clientX;
+					sy = e.clientY;
+				}
+			};
+
+			const onMouseUp = () => {
+				isResizing = false;
+			};
+
+			this.ref.addEventListener('mousedown', onMouseDown);
+			this.ref.addEventListener('touchstart', onMouseDown, { passive: true });
+
+			document.addEventListener('mousemove', onMouseMove);
+			document.addEventListener('touchmove', onMouseMove);
+
+			document.addEventListener('mouseup', onMouseUp);
+			document.addEventListener('touchend', onMouseUp);
+
 		}
 
 		/** Get window HTML reference. */
@@ -855,7 +938,7 @@ const cheatgui = (function() {
 					}, 150);
 				};
 			}
-			
+
 			if (closable) {
 				const btn = createElem('button');
 				btn.className = 'cgui-popup-menu-btn';
