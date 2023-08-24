@@ -10,7 +10,7 @@
 	color-scheme: light;
 	color: #000;
 	border-radius: 0;
-	backdrop-filter: none;
+	backdrop-filter: none !important;
 	border: 1px solid #eee;
 	box-shadow: 0 0 24px 0 #0001;
 }
@@ -44,6 +44,10 @@
 	cursor: default !important;
 }
 
+.cgui-window-resize {
+	color: #0007;
+}
+
 /* Button */
 
 .cgui-btn {
@@ -63,7 +67,6 @@
 
 .cgui-btn:active {
 	background: #D2E7FF;
-	/* border-color: #ACD3FF; */
 	transition: none;
 }
 

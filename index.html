@@ -33,7 +33,8 @@
 			a concern.</li>
 		<li><strong>Customizable:</strong> You can easily customize the appearance of the windows and UI elements using CSS.
 		</li>
-		<li><strong>Draggable and collapsible windows:</strong> The windows can be easily dragged around the screen and
+		<li><strong>Draggable, resizable and collapsible windows:</strong> The windows can be easily dragged around the
+			screen, resized and
 			collapsed to save space.</li>
 		<li><strong>Supports various UI elements:</strong> The library includes support for text, buttons, and switches.
 		</li>
@@ -42,7 +43,7 @@
 
 	<script>
 		/* Eruda updater for Spck Editor */
-		(function() {
+		(function () {
 			if (typeof eruda == 'undefined') return;
 			eruda.destroy();
 			const src = '//cdn.jsdelivr.net/npm/eruda';
@@ -53,10 +54,10 @@
 	</script>
 
 	<script>
-		(new cheatgui.Window(50, 500, "Window"))
-		.setContent("This is an example of window content.");
+		(new cheatgui.Window(50, 300, 300, 200, "Window"))
+			.setContent("This is an example of window content.");
 
-		const win = new cheatgui.Window(450, 500, "CheatGUI Demo");
+		const win = new cheatgui.Window(400, 300, 500, 400, "CheatGUI Demo");
 
 		{
 			const aboutTree = new cheatgui.Tree("About", false);
@@ -145,7 +146,7 @@
 		{
 			const stylingTree = new cheatgui.Tree("Themes");
 			win.append(stylingTree);
-			const themes = ['default', 'windows', 'pink'];
+			const themes = ['default', 'windows', 'pink', 'modern'];
 			themes.forEach(theme => {
 				const btn = new cheatgui.Button(theme);
 				btn.onClick(() => cheatgui.utils.loadTheme(`themes/${theme}.css`));

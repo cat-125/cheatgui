@@ -1,4 +1,4 @@
-const cheatgui = (function() {
+const cheatgui = (function () {
 	/**
 	 * The function $ is a shorthand for document.querySelector that allows for specifying a parent
 	 * element.
@@ -172,42 +172,23 @@ const cheatgui = (function() {
 		 * add to the element.
 		 * @returns The "this" keyword is being returned.
 		 */
-		addClass(className) {
-			this.ref.classList.add(className);
+		addClass(...classes) {
+			this.ref.classList.add(...classes);
 			return this;
 		}
 
-		/**
-		 * Same to the addClass, but returns itself.
-		 * 
-		 * Must be used like this:
-		 * ```
-		 * el.addClasses('class1')('class2')('class3');
-		 * ```
-		 * 
-		 * @param className - The className parameter is a string that represents the name of the class you
-		 * want to add to the element's class list.
-		 * @returns The method is returning itself.
-		 */
-		addClasses(className) {
-			this.ref.classList.add(className);
-			return this.addClasses;
-		}
-
-		/**
-		 * The function sets the class name of an element.
-		 * 
-		 * @param {String} className - The className parameter is a string that represents the name of the class you
-		 * want to set the element's class list.
-		 * @returns the instance of the object on which the method is called.
-		 */
 		setClass(className) {
 			this.ref.className = 'cgui-widget ' + className.trim();
 			return this;
 		}
 
+		removeClass(...classes) {
+			this.ref.classList.remove(...classes);
+			return this;
+		}
+
 		/**
-		 * @returns The widget HTML reference
+		 * @returns The widget HTML reference element
 		 */
 		getRef() {
 			return this.ref;
@@ -324,30 +305,35 @@ const cheatgui = (function() {
 			this.contentRef.classList.add('cgui-window-content');
 			this.ref.setAttribute('aria-describedby', contentId);
 
+			// Create resize element and set its properties
+			this.resizeRef = createElem('span');
+			this.resizeRef.className = 'cgui-window-resize';
+			this.resizeRef.innerHTML = '&#9698;'; // ◢
+
 			// Create new View and mount it
 			this.view = new View().mount(this.contentRef);
 
 			// Append header and content to the window element
 			this.ref.appendChild(this.headerRef);
 			this.ref.appendChild(this.contentRef);
+			this.ref.appendChild(this.resizeRef);
 
 			// Set window position and size
 			this.ref.style.left = `${x}px`;
 			this.ref.style.top = `${y}px`;
-			this.width = 0;
-			this.height = 0;
-
 			this.resize(w, h);
 
 			// Set initial collapsed state
+			this.collapsed = collapsed;
 			if (collapsed) this.collapse();
 
 			// Add window to the document body
 			document.body.appendChild(this.ref);
 
 			// Initialize draggable, toggle, and activation functionality
+			this.isDragging = this.isResizing = false;
 			this.initDraggable();
-			//this.initResize();
+			this.initResize();
 			this.initToggleOnClick();
 			this.initActivationOnClick();
 		}
@@ -416,7 +402,7 @@ const cheatgui = (function() {
 		 */
 		setHeight(height) {
 			this.height = height;
-			this.ref.style.height = `${height}px`;
+			this.contentRef.style.height = `${height}px`;
 			return this;
 		}
 
@@ -434,26 +420,9 @@ const cheatgui = (function() {
 
 		/**
 		 * Collapse the window.
-		 * 
-		 * @deprecated
-		 */
-		close() {
-			return this.collapse();
-		}
-
-		/**
-		 * Expand the window.
-		 * 
-		 * @deprecated
-		 */
-		open() {
-			return this.expand();
-		}
-
-		/**
-		 * Collapse the window.
 		 */
 		collapse() {
+			this.collapsed = true;
 			this.ref.classList.add('collapsed');
 			this.arrowRef.innerHTML = '◀';
 			return this;
@@ -463,6 +432,7 @@ const cheatgui = (function() {
 		 * Expand the window.
 		 */
 		expand() {
+			this.collapsed = false;
 			this.ref.classList.remove('collapsed');
 			this.arrowRef.innerHTML = '▼';
 			return this;
@@ -472,11 +442,10 @@ const cheatgui = (function() {
 		 * Toggle the window's collapsed state.
 		 */
 		toggle() {
-			this.ref.classList.toggle('collapsed');
-			if (this.ref.classList.contains('collapsed')) {
-				this.arrowRef.innerHTML = '◀';
+			if (this.collapsed) {
+				this.expand();
 			} else {
-				this.arrowRef.innerHTML = '▼';
+				this.collapse();
 			}
 			return this;
 		}
@@ -497,11 +466,11 @@ const cheatgui = (function() {
 		 * Init draggable functionality for window.
 		 */
 		initDraggable(threshold = 10) {
-			let startX, startY, offsetX, offsetY, isDragging = false,
+			let startX, startY, offsetX, offsetY,
 				isMouseDown = false;
 
 			const startDragging = (e) => {
-				isDragging = true;
+				this.isDragging = true;
 				this.ref.classList.add('cgui-dragging');
 			}
 
@@ -517,8 +486,9 @@ const cheatgui = (function() {
 
 			const onMouseMove = (e) => {
 				e = e.touches ? e.touches[0] : e;
-				if (!isDragging) {
-					if (isMouseDown && distance(startX, startY, e.clientX, e.clientY) > threshold) {
+				if (!this.isDragging) {
+					if (isMouseDown && distance(startX, startY, e.clientX, e.clientY) > threshold
+						&& !this.isResizing) {
 						startDragging();
 					}
 					else return;
@@ -527,7 +497,7 @@ const cheatgui = (function() {
 			};
 
 			const onMouseUp = () => {
-				isDragging = isMouseDown = false;
+				this.isDragging = isMouseDown = false;
 				if (this.ref.classList.contains('cgui-dragging'))
 					this.ref.classList.remove('cgui-dragging');
 			};
@@ -574,48 +544,37 @@ const cheatgui = (function() {
 			});
 		}
 
-		initResize() {
-			let sx = 0,
-				sy = 0,
-				isResizing = false;
+		initResize(dist = 15) {
+			let sx, sy, dx, dy, iw, ih;
 
 			const onMouseDown = (e) => {
+				if (this.collapsed) return;
 				e.preventDefault();
 				e.stopPropagation();
-				e = e.touches ? e.touches[0] : e;
-				const bb = this.ref.getBoundingClientRect();
-				if (distance(e.clientX, e.clientY, bb.right, bb.bottom) > 10) return;
-				isResizing = true;
-				sx = e.clientX;
-				sy = e.clientY;
+				this.isResizing = true;
+				[sx, sy, iw, ih] = [e.clientX, e.clientY, this.width, this.height];
+				this.addClass('cgui-resizing');
 			};
 
 			const onMouseMove = (e) => {
 				if (this.isResizing) {
-					e = e.touches ? e.touches[0] : e;
-					const deltaX = e.clientX - sx;
-					const deltaY = e.clientY - sy;
-					const newWidth = this.width + deltaX;
-					const newHeight = this.height + deltaY;
-					this.setSize(newWidth, newHeight);
-					sx = e.clientX;
-					sy = e.clientY;
+					dx = e.clientX - sx;
+					dy = e.clientY - sy;
+					const newWidth = iw + dx;
+					const newHeight = ih + dy;
+					if (newWidth >= 150) this.setWidth(newWidth);
+					if (newHeight >= 100) this.setHeight(newHeight);
 				}
 			};
 
 			const onMouseUp = () => {
-				isResizing = false;
+				this.isResizing = false;
+				this.removeClass('cgui-resizing');
 			};
 
-			this.ref.addEventListener('mousedown', onMouseDown);
-			this.ref.addEventListener('touchstart', onMouseDown, { passive: true });
-
+			this.resizeRef.addEventListener('mousedown', onMouseDown);
 			document.addEventListener('mousemove', onMouseMove);
-			document.addEventListener('touchmove', onMouseMove);
-
 			document.addEventListener('mouseup', onMouseUp);
-			document.addEventListener('touchend', onMouseUp);
-
 		}
 
 		/** Get window HTML reference. */
@@ -749,6 +708,7 @@ const cheatgui = (function() {
 			this.textRef.className = 'cgui-switch-text';
 			this.textRef.for = id;
 			this.ref.appendChild(this.textRef);
+			this.ref.tabIndex = 0;
 			this.setText(text);
 		}
 
@@ -796,6 +756,7 @@ const cheatgui = (function() {
 			this.titleRef.id = titleId;
 			this.titleRef.className = 'cgui-tree-title';
 			this.headerRef.appendChild(this.titleRef);
+			this.headerRef.tabIndex = 0;
 			this.setTitle(name);
 
 			// Add space after title
