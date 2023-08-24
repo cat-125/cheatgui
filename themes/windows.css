@@ -149,3 +149,41 @@
 	border: 1px solid #ddd;
 	background-color: #fff;
 }
+
+/* Popup Menu */
+
+.cgui-popup-menu-wrapper {
+	color-scheme: light;
+	background-color: #0008;
+}
+
+.cgui-popup-menu {
+	background-color: #fff;
+	color: #000;
+	max-width: 600px;
+	border-radius: 0 !important;
+}
+
+.cgui-popup-menu-title {
+	background: #fff;
+	text-align: left;
+}
+
+.cgui-popup-menu-btn {
+	transition: background-color 0s, transform 0.2s;
+}
+
+.cgui-popup-menu-btn:hover {
+	background-color: #7773;
+}
+
+.cgui-popup-menu-btn:active {
+	transform: scale(0.96);
+	background-color: #7773 !important;
+	color: #000 !important;
+}
+
+.cgui-popup-menu-btn:focus {
+	background-color: #0058D6;
+	color: #fff;
+}

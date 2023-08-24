@@ -886,11 +886,17 @@ const cheatgui = (function () {
 
 			divTitle.innerHTML = title;
 
+			let first = true;
+
 			for (const item in elements) {
 				const btn = createElem('button');
 				btn.className = 'cgui-popup-menu-btn';
 				btn.innerHTML = elements[item];
 				divMenu.appendChild(btn);
+				if (first) {
+					first = false;
+					setTimeout(() => btn.focus(), 0);
+				}
 				btn.onclick = () => {
 					divWrapper.classList.add('cgui-fadeout');
 					setTimeout(() => {

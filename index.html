@@ -128,15 +128,13 @@
 			const btn = new cheatgui.Button('Open Popup menu');
 			popupTree.append(btn);
 			btn.onClick(() => {
+				const els = [];
+				for (let i = 0; i < 15; i++) {
+					els.push('Element ' + i);
+				}
 				cheatgui.openPopupMenu({
 					title: "Popup Menu",
-					elements: [
-						'Element 1',
-						'Element 2',
-						'Element 3',
-						'Element 4',
-						'Element 5'
-					]
+					elements: els
 				}).then(n =>
 					text.setText('Selected index: ' + n)
 				);
