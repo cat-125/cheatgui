@@ -69,53 +69,40 @@
 			const widgetsTree = new cheatgui.Tree("Widgets");
 			win.append(widgetsTree);
 
-			{
+			// Text
 
-				const textTree = new cheatgui.Tree("Text");
-				widgetsTree.append(textTree);
+			const text = new cheatgui.Text('Text element can be used to display information.');
+			widgetsTree.append(text);
 
-				const text = new cheatgui.Text('Text element can be used to display information.');
-				textTree.append(text);
-			}
+			// Button
 
-			{
-				const buttonsTree = new cheatgui.Tree("Button");
-				widgetsTree.append(buttonsTree);
+			const text2 = new cheatgui.Text('Click button');
+			widgetsTree.append(text2);
 
-				const text = new cheatgui.Text('Click button');
-				buttonsTree.append(text);
+			const btn = new cheatgui.Button('Button');
+			widgetsTree.append(btn);
 
-				const btn = new cheatgui.Button('Button');
-				buttonsTree.append(btn);
+			btn.onClick(() => text2.setText('Button clicked'));
 
-				btn.onClick(() => text.setText('Button clicked'));
-			}
+			// Input
 
-			{
-				const inputTree = new cheatgui.Tree("Input");
-				widgetsTree.append(inputTree);
+			const text3 = new cheatgui.Text('Enter something');
+			widgetsTree.append(text3);
 
-				const text = new cheatgui.Text('Enter something');
-				inputTree.append(text);
+			const input = new cheatgui.Input('Input');
+			widgetsTree.append(input);
 
-				const input = new cheatgui.Input('Input');
-				inputTree.append(input);
+			input.onInput((_, value) => text3.setText("Input value: " + value));
 
-				input.onInput((_, value) => text.setText("Input value: " + value));
-			}
+			// Switch
 
-			{
-				const switchTree = new cheatgui.Tree("Switch");
-				widgetsTree.append(switchTree);
+			const text4 = new cheatgui.Text('Click switch');
+			widgetsTree.append(text4);
 
-				const text = new cheatgui.Text('Click switch');
-				switchTree.append(text);
+			const sw1tch = new cheatgui.Switch('Switch');
+			widgetsTree.append(sw1tch);
 
-				const sw1tch = new cheatgui.Switch('Switch');
-				switchTree.append(sw1tch);
-
-				sw1tch.onChange((_, value) => text.setText("Switch value: " + value));
-			}
+			sw1tch.onChange((_, value) => text4.setText("Switch value: " + value));
 		}
 
 		{
