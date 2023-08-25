@@ -916,7 +916,7 @@ const cheatgui = (function () {
 
 	function openPopupMenu({
 		title,
-		elements,
+		items,
 		closable = true,
 		closeText = 'Close'
 	}) {
@@ -939,10 +939,10 @@ const cheatgui = (function () {
 
 			let first = true;
 
-			for (const item in elements) {
+			for (const item in items) {
 				const btn = createElem('button');
 				btn.className = 'cgui-popup-menu-btn';
-				btn.innerHTML = elements[item];
+				btn.innerHTML = items[item];
 				divMenu.appendChild(btn);
 				if (first) {
 					first = false;
