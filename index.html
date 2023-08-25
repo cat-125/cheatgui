@@ -83,6 +83,40 @@
 					console.log(e);
 				}
 			});
+
+			const presets = [
+				{
+					name: 'default',
+					value: {
+						symbols: {
+							expanded: '▼',
+							collapsed: '◀'
+						},
+						minWindowWidth: 150,
+						minWindowHeight: 100
+					}
+				},
+				{
+					name: '+ / -',
+					value: {
+						symbols: {
+							expanded: '+',
+							collapsed: '-'
+						}
+					}
+				}
+			];
+
+			const browseBtn = new cheatgui.Button('Browse presets');
+			configTree.append(browseBtn);
+
+			browseBtn.onClick(() => {
+				cheatgui.openPopupMenu({
+					title: 'Select preset',
+					items: presets.map(preset => preset.name),
+					closable: false
+				}).then(id => cheatgui.utils.updateConfig(presets[id].value));
+			});
 		}
 
 		{
@@ -141,7 +175,7 @@
 				}
 				cheatgui.openPopupMenu({
 					title: "Popup Menu",
-					elements: els
+					items: els
 				}).then(n =>
 					text.setText('Selected index: ' + n)
 				);
