@@ -1,0 +1,26 @@
+{
+  "name": "cheatgui",
+  "version": "0.10.0",
+  "description": "Effortless library for building window-based interfaces",
+  "main": "cheatgui.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cat-125/cheatgui.git"
+  },
+  "keywords": [
+    "cheatgui",
+    "gui",
+    "interface",
+    "window",
+    "cheat"
+  ],
+  "author": "Cat-125",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cat-125/cheatgui/issues"
+  },
+  "homepage": "https://github.com/cat-125/cheatgui#readme"
+}
