@@ -534,9 +534,7 @@ const cheatgui = (function () {
 			};
 
 			this.headerRef.addEventListener('mousedown', onMouseDown);
-			this.headerRef.addEventListener('touchstart', onMouseDown, {
-				passive: true
-			});
+			this.headerRef.addEventListener('touchstart', onMouseDown);
 
 			document.addEventListener('mousemove', onMouseMove);
 			document.addEventListener('touchmove', onMouseMove);
