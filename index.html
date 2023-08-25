@@ -60,9 +60,29 @@
 		const win = new cheatgui.Window(400, 300, 500, 400, "CheatGUI Demo");
 
 		{
-			const aboutTree = new cheatgui.Tree("About", false);
+			const aboutTree = new cheatgui.Tree("About", true);
 			win.append(aboutTree);
 			aboutTree.setContent("This demo demonstrates many features of the CheatGUI library. You can interact with all widgets below.");
+		}
+
+		{
+			const configTree = new cheatgui.Tree("Config");
+			win.append(configTree);
+
+			const input = new cheatgui.Input('Config');
+			configTree.append(input);
+
+			const btn = new cheatgui.Button('Apply');
+			configTree.append(btn);
+
+			btn.onClick(() => {
+				try {
+					cheatgui.utils.updateConfig(JSON.parse(input.getText()));
+					input.setText('');
+				} catch (e) {
+					console.log(e);
+				}
+			});
 		}
 
 		{

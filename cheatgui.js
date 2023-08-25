@@ -1,4 +1,15 @@
 const cheatgui = (function () {
+
+	const config = {
+		symbols: {
+			expanded: '▼',
+			collapsed: '◀'
+		},
+		minWindowWidth: 150,
+		minWindowHeight: 100
+	};
+
+
 	/**
 	 * The function $ is a shorthand for document.querySelector that allows for specifying a parent
 	 * element.
@@ -133,8 +144,7 @@ const cheatgui = (function () {
 		},
 
 		/**
-		 * The function `loadTheme` is used to dynamically load a CheatGUI theme by creating a link element and
-		 * appending it to the document head, or replacing if already exists.
+		 * The function `loadTheme` is used to dynamically load a CheatGUI theme.
 		 * 
 		 * @param {String} url - The `url` parameter is a string that represents the URL of the theme stylesheet that
 		 * you want to load.
@@ -145,6 +155,24 @@ const cheatgui = (function () {
 			link.rel = 'stylesheet';
 			link.href = url;
 			document.head.appendChild(link);
+		},
+
+		updateConfig(newConfig) {
+			function updateNestedConfig(config, newConfig) {
+				for (const [key, value] of Object.entries(newConfig)) {
+					if (typeof value === 'object' && typeof config[key] === 'object') {
+						updateNestedConfig(config[key], value);
+					} else if (config[key] !== undefined) {
+						config[key] = value;
+					}
+				}
+			}
+
+			updateNestedConfig(config, newConfig);
+		},
+
+		getConfig() {
+			return config;
 		}
 	};
 
@@ -266,7 +294,7 @@ const cheatgui = (function () {
 	 * @param {Boolean} collapsed - should be window initially collapsed.
 	 */
 	class Window extends GUIElement {
-		constructor(x, y, w, h, name = '', collapsed = false) {
+		constructor(x, y, w, h, name = '', expanded = true) {
 			super();
 			// Create window element and set its properties
 			this.ref = createElem('div');
@@ -295,7 +323,7 @@ const cheatgui = (function () {
 			// Create arrow element and set its properties
 			this.arrowRef = createElem('span');
 			this.arrowRef.className = 'cgui-window-arrow';
-			this.arrowRef.innerHTML = '▼';
+			this.arrowRef.innerHTML = config.symbols.expanded;
 			this.headerRef.appendChild(this.arrowRef);
 
 			// Create content element and set its properties
@@ -324,8 +352,8 @@ const cheatgui = (function () {
 			this.resize(w, h);
 
 			// Set initial collapsed state
-			this.collapsed = collapsed;
-			if (collapsed) this.collapse();
+			this.collapsed = !expanded;
+			if (this.collapsed) this.collapse();
 
 			// Add window to the document body
 			document.body.appendChild(this.ref);
@@ -390,6 +418,7 @@ const cheatgui = (function () {
 		 * @param {Number} width - New width
 		 */
 		setWidth(width) {
+			width = Math.max(width, config.minWindowWidth);
 			this.width = width;
 			this.ref.style.width = `${width}px`;
 			return this;
@@ -401,6 +430,7 @@ const cheatgui = (function () {
 		 * @param {Number} height - New height
 		 */
 		setHeight(height) {
+			height = Math.max(height, config.minWindowHeight);
 			this.height = height;
 			this.contentRef.style.height = `${height}px`;
 			return this;
@@ -424,7 +454,7 @@ const cheatgui = (function () {
 		collapse() {
 			this.collapsed = true;
 			this.ref.classList.add('collapsed');
-			this.arrowRef.innerHTML = '◀';
+			this.arrowRef.innerHTML = config.symbols.collapsed;
 			return this;
 		}
 
@@ -434,7 +464,7 @@ const cheatgui = (function () {
 		expand() {
 			this.collapsed = false;
 			this.ref.classList.remove('collapsed');
-			this.arrowRef.innerHTML = '▼';
+			this.arrowRef.innerHTML = config.symbols.expanded;
 			return this;
 		}
 
@@ -562,8 +592,8 @@ const cheatgui = (function () {
 					dy = e.clientY - sy;
 					const newWidth = iw + dx;
 					const newHeight = ih + dy;
-					if (newWidth >= 150) this.setWidth(newWidth);
-					if (newHeight >= 100) this.setHeight(newHeight);
+					this.setWidth(newWidth);
+					this.setHeight(newHeight);
 				}
 			};
 
@@ -650,10 +680,31 @@ const cheatgui = (function () {
 	 * @public
 	 */
 	class Input extends Element {
-		constructor(text = '') {
-			super('input');
-			this.addClass('cgui-input');
+		constructor(name = '', text = '') {
+			super('div');
+
+			this.addClass('cgui-input-wrapper');
+
+			this.inputRef = createElem('input');
+			this.inputRef.classList.add('cgui-input');
+			this.ref.appendChild(this.inputRef);
+
+			this.nameRef = createElem('div');
+			this.nameRef.classList.add('cgui-input-name');
+			this.ref.appendChild(this.nameRef);
+
 			this.setText(text);
+			this.setName(name);
+		}
+
+		/**
+		 * Set the input name
+		 * 
+		 * @param {String} name - name to be set
+		 */
+		setName(name) {	
+			this.nameRef.innerHTML = name;
+			return this;
 		}
 
 		/**
@@ -662,7 +713,7 @@ const cheatgui = (function () {
 		 * @param f - event listener.
 		 */
 		onInput(f) {
-			this.ref.addEventListener('input', e => f(e, this.getText()));
+			this.inputRef.addEventListener('input', e => f(e, this.getText()));
 			return this;
 		}
 
@@ -672,7 +723,7 @@ const cheatgui = (function () {
 		 * @param {String} text - text to be set
 		 */
 		setText(text) {
-			this.ref.value = text;
+			this.inputRef.value = text;
 			return this;
 		}
 
@@ -682,7 +733,7 @@ const cheatgui = (function () {
 		 * @returns {String} input's text
 		 */
 		getText() {
-			return this.ref.value;
+			return this.inputRef.value;
 		}
 	}
 
@@ -741,7 +792,7 @@ const cheatgui = (function () {
 	}
 
 	class Tree extends Element {
-		constructor(name = '', collapsed = true) {
+		constructor(name = '', expanded = false) {
 			super('div');
 			this.addClass('cgui-tree');
 
@@ -765,7 +816,7 @@ const cheatgui = (function () {
 			// Create arrow element and set its properties
 			this.arrowRef = createElem('span');
 			this.arrowRef.className = 'cgui-tree-arrow';
-			this.arrowRef.innerHTML = '▼';
+			this.arrowRef.innerHTML = config.symbols.expanded;
 			this.headerRef.appendChild(this.arrowRef);
 
 			// Create content element and set its properties
@@ -782,7 +833,7 @@ const cheatgui = (function () {
 			this.ref.appendChild(this.contentRef);
 
 			// Set initial collapsed state
-			if (collapsed) this.collapse();
+			if (!expanded) this.collapse();
 
 			// Initialize toggle functionality
 			this.initToggleOnClick();
@@ -815,7 +866,7 @@ const cheatgui = (function () {
 		 */
 		collapse() {
 			this.ref.classList.add('collapsed');
-			this.arrowRef.innerHTML = '◀';
+			this.arrowRef.innerHTML = config.symbols.collapsed;
 			return this;
 		}
 
@@ -824,7 +875,7 @@ const cheatgui = (function () {
 		 */
 		expand() {
 			this.ref.classList.remove('collapsed');
-			this.arrowRef.innerHTML = '▼';
+			this.arrowRef.innerHTML = config.symbols.expanded;
 			return this;
 		}
 
@@ -834,9 +885,9 @@ const cheatgui = (function () {
 		toggle() {
 			this.ref.classList.toggle('collapsed');
 			if (this.ref.classList.contains('collapsed')) {
-				this.arrowRef.innerHTML = '◀';
+				this.arrowRef.innerHTML = config.symbols.collapsed;
 			} else {
-				this.arrowRef.innerHTML = '▼';
+				this.arrowRef.innerHTML = config.symbols.expanded;
 			}
 			return this;
 		}

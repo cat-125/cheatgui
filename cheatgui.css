@@ -161,15 +161,22 @@
 
 /* Input */
 
+.cgui-input-wrapper {
+	display: flexbox;
+	flex-direction: row;
+	margin: 0;
+	padding: 3px;
+}
+
 .cgui-input {
 	background: #555c;
 	outline: none;
 	color: #fff;
 	padding: 10px;
-	width: 100%;
+	width: 50%;
 	border-radius: 8px;
 	margin: 5px 0 5px 0;
-	display: block;
+	display: inline-block;
 	transition: .1s;
 	user-select: none;
 	cursor: text;
@@ -179,6 +186,13 @@
 
 .cgui-input:focus {
 	border-color: #fffc;
+}
+
+.cgui-input-name {
+	display: inline-block;
+	margin: 0;
+	padding: 5px;
+	margin-left: 10px;
 }
 
 /* Switch */
