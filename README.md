@@ -52,7 +52,7 @@ elements to handle user interactions.
 # File differences
 
 CheatGUI has several files that can be imported. Here are the differences between them:
-- `cheatgui.js`, `cheatgui.css` - source files. They work slower and are not recommended.
+- `cheatgui.js`, `cheatgui.css` - source files. They weight more and are not recommended.
 - `cheatgui.min.js`, `cheatgui.min.css` - compressed versions of the files. Most often they are needed.
 - `cheatgui.inj.js` - this file automatically embeds CSS code, and can be used for injection into third-party sites.
 
@@ -67,3 +67,7 @@ CheatGUI has several files that can be imported. Here are the differences betwee
 ![image](https://github.com/cat-125/cheatgui/assets/106539381/60121372-429c-4f73-8720-2ca720190c71)
 
 ![image](https://github.com/cat-125/cheatgui/assets/106539381/2fc29fb7-f1bd-4c2b-bce1-7afb4d2797b0)
+
+# Stats
+
+![Alt](https://repobeats.axiom.co/api/embed/8680d14e5c563dc7c79526365878c484605670b9.svg "Repobeats analytics image")
