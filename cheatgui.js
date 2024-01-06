@@ -10,6 +10,8 @@ const cheatgui = (function () {
 		minWindowHeight: 100
 	};
 
+	const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.userAgent)
+
 
 	/**
 	 * The function $ is a shorthand for document.querySelector that allows for specifying a parent
@@ -295,7 +297,20 @@ const cheatgui = (function () {
 	 * @param {Boolean} collapsed - should be window initially collapsed.
 	 */
 	class Window extends GUIElement {
-		constructor(x, y, w, h, name = '', expanded = true) {
+		constructor({
+			x = 0,
+			y = 0,
+			width = 100,
+			height = 100,
+			title = '',
+			expanded = true,
+			toggleable = true,
+			toggleThreshold = 10,
+			draggable = true,
+			dragThreshold = 10,
+			resizable = true,
+			resizeThreshold = 10
+		}) {
 			super();
 			// Create window element and set its properties
 			this.ref = createElem('div');
@@ -311,11 +326,11 @@ const cheatgui = (function () {
 			// Create title element and set its properties
 			const titleId = generateId(16);
 			this.titleRef = createElem('span');
-			this.titleRef.innerHTML = name;
+			this.titleRef.innerHTML = title;
 			this.titleRef.id = titleId;
 			this.titleRef.className = 'cgui-window-title';
 			this.headerRef.appendChild(this.titleRef);
-			this.setTitle(name);
+			this.setTitle(title);
 			this.ref.setAttribute('aria-labeledby', titleId);
 
 			// Add space after title
@@ -350,7 +365,7 @@ const cheatgui = (function () {
 			// Set window position and size
 			this.ref.style.left = `${x}px`;
 			this.ref.style.top = `${y}px`;
-			this.resize(w, h);
+			this.resize(width, height);
 
 			// Set initial collapsed state
 			this.collapsed = !expanded;
@@ -361,9 +376,9 @@ const cheatgui = (function () {
 
 			// Initialize draggable, toggle, and activation functionality
 			this.isDragging = this.isResizing = false;
-			this.initDraggable();
-			this.initResize();
-			this.initToggleOnClick();
+			if (draggable) this.initDraggable(dragThreshold);
+			if (resizable) this.initResize(resizeThreshold);
+			if (toggleable) this.initToggleOnClick(toggleThreshold);
 			this.initActivationOnClick();
 		}
 
@@ -449,9 +464,7 @@ const cheatgui = (function () {
 			return this;
 		}
 
-		/**
-		 * Collapse the window.
-		 */
+		/** Collapse the window. */
 		collapse() {
 			this.collapsed = true;
 			this.ref.classList.add('collapsed');
@@ -459,9 +472,7 @@ const cheatgui = (function () {
 			return this;
 		}
 
-		/**
-		 * Expand the window.
-		 */
+		/** Expand the window. */
 		expand() {
 			this.collapsed = false;
 			this.ref.classList.remove('collapsed');
@@ -469,9 +480,7 @@ const cheatgui = (function () {
 			return this;
 		}
 
-		/**
-		 * Toggle the window's collapsed state.
-		 */
+		/** Toggle the window's collapsed state. */
 		toggle() {
 			if (this.collapsed) {
 				this.expand();
@@ -493,10 +502,8 @@ const cheatgui = (function () {
 			return this;
 		}
 
-		/**
-		 * Init draggable functionality for window.
-		 */
-		initDraggable(threshold = 10) {
+		/** Init draggable functionality for window. */
+		initDraggable(threshold) {
 			let startX, startY, offsetX, offsetY,
 				isMouseDown = false;
 
@@ -543,10 +550,7 @@ const cheatgui = (function () {
 			document.addEventListener('touchend', onMouseUp);
 		}
 
-		/**
-		 * Init toggle on click for window.
-		 */
-		initToggleOnClick(threshold = 10) {
+		initToggleOnClick(threshold) {
 			let isClick = false,
 				startX, startY;
 			this.headerRef.addEventListener('pointerdown', e => {
@@ -563,17 +567,15 @@ const cheatgui = (function () {
 			});
 		}
 
-		/**
-		 * Init activation on click for window.
-		 */
 		initActivationOnClick() {
 			this.ref.addEventListener('pointerdown', () => {
+				if (this.ref.classList.contains('active')) return;
 				[...document.getElementsByClassName('cgui-window')].forEach(win => win.classList.remove('active'));
 				this.ref.classList.add('active');
 			});
 		}
 
-		initResize(dist = 15) {
+		initResize() {
 			let sx, sy, dx, dy, iw, ih;
 
 			const onMouseDown = (e) => {
@@ -623,7 +625,7 @@ const cheatgui = (function () {
 	 * 
 	 * @public
 	 */
-	class Element extends GUIElement {
+	class Widget extends GUIElement {
 		constructor(elementName = 'div') {
 			super();
 			this.ref = createElem(elementName);
@@ -658,7 +660,7 @@ const cheatgui = (function () {
 	 * 
 	 * @public
 	 */
-	class Text extends Element {
+	class Text extends Widget {
 		constructor(text = '') {
 			super('div');
 			this.addClass('cgui-text');
@@ -671,7 +673,7 @@ const cheatgui = (function () {
 	 * 
 	 * @public
 	 */
-	class Button extends Element {
+	class Button extends Widget {
 		constructor(text = '') {
 			super('button');
 			this.addClass('cgui-btn');
@@ -684,7 +686,7 @@ const cheatgui = (function () {
 	 * 
 	 * @public
 	 */
-	class Input extends Element {
+	class Input extends Widget {
 		constructor(name = '', text = '') {
 			super('div');
 
@@ -747,7 +749,7 @@ const cheatgui = (function () {
 	 * 
 	 * @public
 	 */
-	class Switch extends Element {
+	class Switch extends Widget {
 		constructor(text = '') {
 			super('label');
 			const id = this.id = generateId(16);
@@ -796,7 +798,7 @@ const cheatgui = (function () {
 		}
 	}
 
-	class Tree extends Element {
+	class Tree extends Widget {
 		constructor(name = '', expanded = false) {
 			super('div');
 			this.addClass('cgui-tree');
@@ -980,7 +982,7 @@ const cheatgui = (function () {
 		});
 	}
 
-	return { GUIElement, View, Window, Element, Text, Button, Input, Switch, Tree, openPopupMenu, utils };
+	return { GUIElement, View, Window, Element, Text, Button, Input, Switch, Tree, openPopupMenu, utils, isMobile };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;

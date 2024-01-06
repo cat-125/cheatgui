@@ -54,10 +54,10 @@
 	</script>
 
 	<script>
-		(new cheatgui.Window(50, 300, 300, 200, "Window"))
+		(new cheatgui.Window({x: 50, y: 300, width: 300, height: 200, title: "Window"}))
 			.setContent("Window example");
 
-		const win = new cheatgui.Window(400, 300, 500, 400, "CheatGUI Demo");
+		const win = new cheatgui.Window({x: 400, y: 300, width: 500, height: 400, title: "CheatGUI Demo"});
 
 		{
 			const aboutTree = new cheatgui.Tree("About", true);
