@@ -1,11 +1,6 @@
-from css_html_js_minify import js_minify, css_minify
+from css_html_js_minify import css_minify
 from rjsmin import jsmin
 
-# JS_MINIFY_REGEXP = re.compile(r"/\*(.|\n)+?\*/")
-# JS_MINIFY_REGEXP2 = re.compile(r"\n\s*//.+")
-# JS_MINIFY_REGEXP3 = re.compile(r"\n\s*")
-# CSS_MINIFY_REGEXP = re.compile(r"(\n\s*)|(/\*(.|\n)+?\*/)")
-# CSS_MINIFY_REGEXP2 = re.compile(r"(\W)\s|\s(\{)")
 INJ_TEMPLATE = '{js};cheatgui.utils.includeCSS(`{css}`)'
 
 
@@ -18,18 +13,6 @@ def write(path: str, text: str):
     with open(path, 'w+') as f:
         f.write(text)
 
-
-# def minify_js(text):
-#     text = re.sub(JS_MINIFY_REGEXP, '', text)
-#     text = re.sub(JS_MINIFY_REGEXP2, '', text)
-#     text = re.sub(JS_MINIFY_REGEXP3, '', text)
-#     return text
-
-
-# def minify_css(text: str):
-#     text = re.sub(CSS_MINIFY_REGEXP, '', text)
-#     text = re.sub(CSS_MINIFY_REGEXP2, lambda x: x.group(1) or x.group(2), text)
-#     return text
 
 def main():
     js = read('cheatgui.js')
