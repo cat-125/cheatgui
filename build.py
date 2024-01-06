@@ -1,10 +1,11 @@
-import re
+from css_html_js_minify import js_minify, css_minify
+from rjsmin import jsmin
 
-JS_MINIFY_REGEXP = re.compile(r"/\*(.|\n)+?\*/")
-JS_MINIFY_REGEXP2 = re.compile(r"\n\s*//.+")
-JS_MINIFY_REGEXP3 = re.compile(r"\n\s*")
-CSS_MINIFY_REGEXP = re.compile(r"(\n\s*)|(/\*(.|\n)+?\*/)")
-CSS_MINIFY_REGEXP2 = re.compile(r"(\W)\s|\s(\{)")
+# JS_MINIFY_REGEXP = re.compile(r"/\*(.|\n)+?\*/")
+# JS_MINIFY_REGEXP2 = re.compile(r"\n\s*//.+")
+# JS_MINIFY_REGEXP3 = re.compile(r"\n\s*")
+# CSS_MINIFY_REGEXP = re.compile(r"(\n\s*)|(/\*(.|\n)+?\*/)")
+# CSS_MINIFY_REGEXP2 = re.compile(r"(\W)\s|\s(\{)")
 INJ_TEMPLATE = '{js};cheatgui.utils.includeCSS(`{css}`)'
 
 
@@ -18,35 +19,30 @@ def write(path: str, text: str):
         f.write(text)
 
 
-def minify_js(text):
-    text = re.sub(JS_MINIFY_REGEXP, '', text)
-    text = re.sub(JS_MINIFY_REGEXP2, '', text)
-    text = re.sub(JS_MINIFY_REGEXP3, '', text)
-    return text
+# def minify_js(text):
+#     text = re.sub(JS_MINIFY_REGEXP, '', text)
+#     text = re.sub(JS_MINIFY_REGEXP2, '', text)
+#     text = re.sub(JS_MINIFY_REGEXP3, '', text)
+#     return text
 
 
-def minify_css(text: str):
-    text = re.sub(CSS_MINIFY_REGEXP, '', text)
-    text = re.sub(CSS_MINIFY_REGEXP2, lambda x: x.group(1) or x.group(2), text)
-    return text
+# def minify_css(text: str):
+#     text = re.sub(CSS_MINIFY_REGEXP, '', text)
+#     text = re.sub(CSS_MINIFY_REGEXP2, lambda x: x.group(1) or x.group(2), text)
+#     return text
 
+def main():
+    js = read('cheatgui.js')
+    css = read('cheatgui.css')
 
-def build_js(src: str, dest: str):
-    print('Building %s as JS...' % src)
-    write(dest, minify_js(read(src)))
+    mjs = jsmin(js)
+    mcss = css_minify(css)
 
+    write('build/cheatgui.min.js', mjs)
+    write('build/cheatgui.min.css', mcss)
 
-def build_css(src: str, dest: str):
-    print('Building %s as CSS...' % src)
-    write(dest, minify_css(read(src)))
-
-
-def build():
-    build_js('cheatgui.js', 'cheatgui.min.js')
-    build_css('cheatgui.css', 'cheatgui.min.css')
-    js, css = read('cheatgui.min.js'), read('cheatgui.min.css')
-    write('cheatgui.inj.js', INJ_TEMPLATE.format(js=js, css=css))
+    write('build/cheatgui.inj.js', INJ_TEMPLATE.format(js=mjs, css=mcss))
 
 
 if __name__ == '__main__':
-    build()
+    main()
