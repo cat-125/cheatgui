@@ -199,9 +199,10 @@
 
 .cgui-switch {
 	position: relative;
-	display: inline-flex;
+	display: flex;
 	vertical-align: middle;
-	margin-right: 8px;
+	align-items: center;
+	justify-content: left;
 	cursor: pointer;
 	height: 24px;
 }
@@ -213,7 +214,7 @@
 .cgui-switch-slider {
 	width: 34px;
 	height: 24px;
-	position: absolute;
+	position: relative;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -221,6 +222,7 @@
 	background-color: #555c;
 	border-radius: 16px;
 	transition: background-color 0.2s;
+	margin-right: 8px;
 }
 
 .cgui-switch-slider::before {
@@ -250,11 +252,6 @@
 
 .cgui-switch:hover>input:checked+.cgui-switch-slider::before {
 	background-color: #777;
-}
-
-.cgui-switch-text {
-	margin-left: 40px;
-	margin-top: 2px;
 }
 
 /* Tree */

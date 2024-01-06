@@ -185,7 +185,7 @@
 		{
 			const stylingTree = new cheatgui.Tree("Themes");
 			win.append(stylingTree);
-			const themes = ['default', 'windows', 'pink', 'modern'];
+			const themes = ['default', 'imgui', 'windows', 'pink', 'modern'];
 			themes.forEach(theme => {
 				const btn = new cheatgui.Button(theme);
 				btn.onClick(() => cheatgui.utils.loadTheme(`themes/${theme}.css`));
