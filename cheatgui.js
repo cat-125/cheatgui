@@ -305,11 +305,10 @@ const cheatgui = (function () {
 			title = '',
 			expanded = true,
 			toggleable = true,
-			toggleThreshold = 10,
+			toggleThreshold = isMobile ? 10 : 3,
 			draggable = true,
-			dragThreshold = 10,
-			resizable = true,
-			resizeThreshold = 10
+			dragThreshold = isMobile ? 10 : 3,
+			resizable = true
 		}) {
 			super();
 			// Create window element and set its properties
@@ -377,7 +376,7 @@ const cheatgui = (function () {
 			// Initialize draggable, toggle, and activation functionality
 			this.isDragging = this.isResizing = false;
 			if (draggable) this.initDraggable(dragThreshold);
-			if (resizable) this.initResize(resizeThreshold);
+			if (resizable) this.initResize();
 			if (toggleable) this.initToggleOnClick(toggleThreshold);
 			this.initActivationOnClick();
 		}
