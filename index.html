@@ -47,76 +47,22 @@
 			if (typeof eruda == 'undefined') return;
 			eruda.destroy();
 			const src = '//cdn.jsdelivr.net/npm/eruda';
-			if (/mobi/.test(navigator.userAgent) && localStorage.getItem('active-eruda') != 'true') return;
+			if (/mobi|android/i.test(navigator.userAgent) && localStorage.getItem('active-eruda') != 'true') return;
 			document.write('<script src="' + src + '"></scr' + 'ipt>');
 			document.write('<script>eruda.init();eruda.hide();</scr' + 'ipt>');
 		})();
 	</script>
 
 	<script>
-		(new cheatgui.Window({x: 50, y: 300, width: 300, height: 200, title: "Window"}))
+		(new cheatgui.Window({ x: 50, y: 300, width: 300, height: 200, title: "Window" }))
 			.setContent("Window example");
 
-		const win = new cheatgui.Window({x: 400, y: 300, width: 500, height: 400, title: "CheatGUI Demo"});
+		const win = new cheatgui.Window({ x: 400, y: 300, width: 500, height: 400, title: "CheatGUI Demo" });
 
 		{
 			const aboutTree = new cheatgui.Tree("About", true);
 			win.append(aboutTree);
 			aboutTree.setContent("This demo demonstrates many features of the CheatGUI library. You can interact with all widgets below.");
-		}
-
-		{
-			const configTree = new cheatgui.Tree("Config");
-			win.append(configTree);
-
-			const input = new cheatgui.Input('Config');
-			configTree.append(input);
-
-			const btn = new cheatgui.Button('Apply');
-			configTree.append(btn);
-
-			btn.onClick(() => {
-				try {
-					cheatgui.utils.updateConfig(JSON.parse(input.getText()));
-					input.setText('');
-				} catch (e) {
-					console.log(e);
-				}
-			});
-
-			const presets = [
-				{
-					name: 'default',
-					value: {
-						symbols: {
-							expanded: '▼',
-							collapsed: '◀'
-						},
-						minWindowWidth: 150,
-						minWindowHeight: 100
-					}
-				},
-				{
-					name: '+ / -',
-					value: {
-						symbols: {
-							expanded: '+',
-							collapsed: '-'
-						}
-					}
-				}
-			];
-
-			const browseBtn = new cheatgui.Button('Browse presets');
-			configTree.append(browseBtn);
-
-			browseBtn.onClick(() => {
-				cheatgui.openPopupMenu({
-					title: 'Select preset',
-					items: presets.map(preset => preset.name),
-					closable: false
-				}).then(id => cheatgui.utils.updateConfig(presets[id].value));
-			});
 		}
 
 		{
@@ -157,6 +103,100 @@
 			widgetsTree.append(sw1tch);
 
 			sw1tch.onChange((_, value) => text4.setText("Switch value: " + value));
+		}
+
+		{
+			const winTree = new cheatgui.Tree("Window manager");
+			win.append(winTree);
+
+			const titleInput = new cheatgui.Input('Title');
+			winTree.append(titleInput);
+			const resizableSwitch = new cheatgui.Switch('Resizable', true);
+			winTree.append(resizableSwitch);
+			const draggableSwitch = new cheatgui.Switch('Draggable', true);
+			winTree.append(draggableSwitch);
+			const toggleableSwitch = new cheatgui.Switch('Toggleable', true);
+			winTree.append(toggleableSwitch);
+			const createBtn = new cheatgui.Button('Create');
+			winTree.append(createBtn);
+
+			createBtn.onClick(() => {
+				const newWin = new cheatgui.Window({
+					x: win.x + 50,
+					y: win.y,
+					width: 150,
+					height: 100,
+					title: titleInput.getText(),
+					toggleable: toggleableSwitch.isChecked(),
+					draggable: draggableSwitch.isChecked(),
+					resizable: resizableSwitch.isChecked()
+				});
+				const delBtn = new cheatgui.Button('Destroy');
+				newWin.append(delBtn);
+				delBtn.onClick(() => newWin.destroy());
+				newWin.sendToTop();
+			});
+		}
+
+		{
+			const configTree = new cheatgui.Tree("Config");
+			win.append(configTree);
+
+			const info = new cheatgui.Text('Current config: ' + JSON.stringify(cheatgui.utils.getConfig()));
+			configTree.append(info);
+
+			const input = new cheatgui.Input('Config');
+			configTree.append(input);
+
+			const btn = new cheatgui.Button('Apply');
+			configTree.append(btn);
+
+			btn.onClick(() => {
+				try {
+					cheatgui.utils.updateConfig(JSON.parse(input.getText()));
+					info.setText(JSON.stringify(cheatgui.utils.getConfig()));
+					input.setText('');
+				} catch (e) {
+					console.log(e);
+				}
+			});
+
+			const presets = [
+				{
+					name: 'default',
+					value: {
+						symbols: {
+							expanded: '▼',
+							collapsed: '◀'
+						},
+						minWindowWidth: 150,
+						minWindowHeight: 100
+					}
+				},
+				{
+					name: '+ / -',
+					value: {
+						symbols: {
+							expanded: '+',
+							collapsed: '-'
+						}
+					}
+				}
+			];
+
+			const browseBtn = new cheatgui.Button('Browse presets');
+			configTree.append(browseBtn);
+
+			browseBtn.onClick(() => {
+				cheatgui.openPopupMenu({
+					title: 'Select preset',
+					items: presets.map(preset => preset.name),
+					closable: false
+				}).then(id => {
+					cheatgui.utils.updateConfig(presets[id].value);
+					info.setText(JSON.stringify(cheatgui.utils.getConfig()));
+				});
+			});
 		}
 
 		{

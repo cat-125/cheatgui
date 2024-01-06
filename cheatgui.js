@@ -339,6 +339,7 @@ const cheatgui = (function () {
 			this.arrowRef = createElem('span');
 			this.arrowRef.className = 'cgui-window-arrow';
 			this.arrowRef.innerHTML = config.symbols.expanded;
+			this.arrowRef.hidden = !toggleable;
 			this.headerRef.appendChild(this.arrowRef);
 
 			// Create content element and set its properties
@@ -352,6 +353,7 @@ const cheatgui = (function () {
 			this.resizeRef = createElem('span');
 			this.resizeRef.className = 'cgui-window-resize';
 			this.resizeRef.innerHTML = config.symbols.resize;
+			this.resizeRef.hidden = !resizable;
 
 			// Create new View and mount it
 			this.view = new View().mount(this.contentRef);
@@ -362,6 +364,10 @@ const cheatgui = (function () {
 			this.ref.appendChild(this.resizeRef);
 
 			// Set window position and size
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
 			this.ref.style.left = `${x}px`;
 			this.ref.style.top = `${y}px`;
 			this.resize(width, height);
@@ -415,23 +421,14 @@ const cheatgui = (function () {
 			return this;
 		}
 
-		/**
-		 * Move the window to new position.
-		 * 
-		 * @param {Number} x - The x-coordinate to move the window to.
-		 * @param {Number} y - The y-coordinate to move the window to.
-		 */
 		move(x, y) {
 			this.ref.style.left = `${x}px`;
 			this.ref.style.top = `${y}px`;
+			this.x = x;
+			this,y = y;
 			return this;
 		}
 
-		/**
-		 * Set window width.
-		 * 
-		 * @param {Number} width - New width
-		 */
 		setWidth(width) {
 			width = Math.max(width, config.minWindowWidth);
 			this.width = width;
@@ -439,11 +436,6 @@ const cheatgui = (function () {
 			return this;
 		}
 
-		/**
-		 * Set window height.
-		 * 
-		 * @param {Number} height - New height
-		 */
 		setHeight(height) {
 			height = Math.max(height, config.minWindowHeight);
 			this.height = height;
@@ -451,19 +443,12 @@ const cheatgui = (function () {
 			return this;
 		}
 
-		/**
-		 * Set window size.
-		 * 
-		 * @param {Number} width - New width
-		 * @param {Number} height - New height
-		 */
 		resize(width, height) {
 			this.setWidth(width);
 			this.setHeight(height);
 			return this;
 		}
 
-		/** Collapse the window. */
 		collapse() {
 			this.collapsed = true;
 			this.ref.classList.add('collapsed');
@@ -471,7 +456,6 @@ const cheatgui = (function () {
 			return this;
 		}
 
-		/** Expand the window. */
 		expand() {
 			this.collapsed = false;
 			this.ref.classList.remove('collapsed');
@@ -479,7 +463,6 @@ const cheatgui = (function () {
 			return this;
 		}
 
-		/** Toggle the window's collapsed state. */
 		toggle() {
 			if (this.collapsed) {
 				this.expand();
@@ -489,16 +472,47 @@ const cheatgui = (function () {
 			return this;
 		}
 
-		/** Hide the window. */
 		hide() {
 			this.ref.style.display = 'none';
 			return this;
 		}
 
-		/** Show the window. */
 		show() {
 			this.ref.style.display = 'block';
 			return this;
+		}
+
+		destroy() {
+			this.ref.remove();
+		}
+
+		sendToTop() {
+			if (this.ref.classList.contains('active')) return;
+			[...document.getElementsByClassName('cgui-window')].forEach(win => win.classList.remove('active'));
+			this.ref.classList.add('active');
+		}
+
+		initActivationOnClick() {
+			this.ref.addEventListener('pointerdown', () => {
+				this.sendToTop();
+			});
+		}
+
+		initToggleOnClick(threshold) {
+			let isClick = false,
+				startX, startY;
+			this.headerRef.addEventListener('pointerdown', e => {
+				isClick = true;
+				startX = e.clientX;
+				startY = e.clientY;
+			});
+			document.addEventListener('pointermove', e => {
+				if (distance(startX, startY, e.clientX, e.clientY) > threshold)
+					isClick = false;
+			});
+			this.headerRef.addEventListener('pointerup', () => {
+				if (isClick) this.toggle();
+			});
 		}
 
 		/** Init draggable functionality for window. */
@@ -547,31 +561,6 @@ const cheatgui = (function () {
 
 			document.addEventListener('mouseup', onMouseUp);
 			document.addEventListener('touchend', onMouseUp);
-		}
-
-		initToggleOnClick(threshold) {
-			let isClick = false,
-				startX, startY;
-			this.headerRef.addEventListener('pointerdown', e => {
-				isClick = true;
-				startX = e.clientX;
-				startY = e.clientY;
-			});
-			document.addEventListener('pointermove', e => {
-				if (distance(startX, startY, e.clientX, e.clientY) > threshold)
-					isClick = false;
-			});
-			this.headerRef.addEventListener('pointerup', () => {
-				if (isClick) this.toggle();
-			});
-		}
-
-		initActivationOnClick() {
-			this.ref.addEventListener('pointerdown', () => {
-				if (this.ref.classList.contains('active')) return;
-				[...document.getElementsByClassName('cgui-window')].forEach(win => win.classList.remove('active'));
-				this.ref.classList.add('active');
-			});
 		}
 
 		initResize() {
@@ -749,7 +738,7 @@ const cheatgui = (function () {
 	 * @public
 	 */
 	class Switch extends Widget {
-		constructor(text = '') {
+		constructor(text = '', checked = false) {
 			super('label');
 			const id = this.id = generateId(16);
 			this.ref.for = id;
@@ -758,6 +747,7 @@ const cheatgui = (function () {
 			this.inputRef.type = 'checkbox';
 			this.inputRef.id = id;
 			this.ref.appendChild(this.inputRef);
+			this.inputRef.checked = checked;
 			this.sliderRef = createElem('span');
 			this.sliderRef.className = 'cgui-switch-slider';
 			this.ref.appendChild(this.sliderRef);
