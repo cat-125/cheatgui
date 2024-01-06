@@ -200,11 +200,10 @@
 .cgui-switch {
 	position: relative;
 	display: inline-flex;
-	width: 34px;
-	height: 24px;
 	vertical-align: middle;
 	margin-right: 8px;
-	cursor: pointer
+	cursor: pointer;
+	height: 24px;
 }
 
 .cgui-switch input {
@@ -212,6 +211,8 @@
 }
 
 .cgui-switch-slider {
+	width: 34px;
+	height: 24px;
 	position: absolute;
 	top: 0;
 	left: 0;
