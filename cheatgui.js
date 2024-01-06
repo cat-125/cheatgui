@@ -3,7 +3,8 @@ const cheatgui = (function () {
 	const config = {
 		symbols: {
 			expanded: '▼',
-			collapsed: '◀'
+			collapsed: '◀',
+			resize: '&#9698;' // ◢
 		},
 		minWindowWidth: 150,
 		minWindowHeight: 100
@@ -336,7 +337,7 @@ const cheatgui = (function () {
 			// Create resize element and set its properties
 			this.resizeRef = createElem('span');
 			this.resizeRef.className = 'cgui-window-resize';
-			this.resizeRef.innerHTML = '&#9698;'; // ◢
+			this.resizeRef.innerHTML = config.symbols.resize;
 
 			// Create new View and mount it
 			this.view = new View().mount(this.contentRef);
@@ -533,9 +534,7 @@ const cheatgui = (function () {
 			};
 
 			this.headerRef.addEventListener('mousedown', onMouseDown);
-			this.headerRef.addEventListener('touchstart', onMouseDown, {
-				passive: true
-			});
+			this.headerRef.addEventListener('touchstart', onMouseDown);
 
 			document.addEventListener('mousemove', onMouseMove);
 			document.addEventListener('touchmove', onMouseMove);
@@ -581,6 +580,7 @@ const cheatgui = (function () {
 				if (this.collapsed) return;
 				e.preventDefault();
 				e.stopPropagation();
+				e = e.touches ? e.touches[0] : e;
 				this.isResizing = true;
 				[sx, sy, iw, ih] = [e.clientX, e.clientY, this.width, this.height];
 				this.addClass('cgui-resizing');
@@ -588,6 +588,7 @@ const cheatgui = (function () {
 
 			const onMouseMove = (e) => {
 				if (this.isResizing) {
+					e = e.touches ? e.touches[0] : e;
 					dx = e.clientX - sx;
 					dy = e.clientY - sy;
 					const newWidth = iw + dx;
@@ -605,6 +606,10 @@ const cheatgui = (function () {
 			this.resizeRef.addEventListener('mousedown', onMouseDown);
 			document.addEventListener('mousemove', onMouseMove);
 			document.addEventListener('mouseup', onMouseUp);
+
+			this.resizeRef.addEventListener('touchstart', onMouseDown);
+			document.addEventListener('touchmove', onMouseMove);
+			document.addEventListener('touchend', onMouseUp);
 		}
 
 		/** Get window HTML reference. */
