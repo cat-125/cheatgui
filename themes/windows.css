@@ -157,7 +157,6 @@
 .cgui-popup-menu {
 	background-color: #fff;
 	color: #000;
-	max-width: 600px;
 	border-radius: 0 !important;
 }
 
@@ -168,6 +167,11 @@
 
 .cgui-popup-menu-btn {
 	transition: background-color 0s, transform 0.2s;
+	border-radius: 0 !important;
+	margin: 0;
+	padding: 16px;
+	background: transparent;
+	width: 100%;
 }
 
 .cgui-popup-menu-btn:hover {

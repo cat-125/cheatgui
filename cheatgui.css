@@ -322,59 +322,60 @@
 	right: 0;
 	left: 0;
 	bottom: 0;
-	z-index: 1000001;
+	z-index: 999999;
 	display: flex;
 }
 
 .cgui-popup-menu {
-	background-color: #000c;
+	background-color: #0008;
 	color: #fff;
 	width: 90vw;
-	max-width: 900px;
-	max-height: 100vh;
-	border-radius: 30px;
+	max-width: 600px;
+	border-radius: 8px;
 	margin: auto;
 	padding: 0;
-	overflow: hidden;
+	overflow: clip;
+	backdrop-filter: blur(3px);
 }
 
 .cgui-popup-menu-title {
-	padding: 16px 24px;
+	padding: 10px;
 	margin: 0;
 	font-weight: bold;
-	font-size: 1.2em;
-	background: #333c;
+	font-size: 1.1em;
+	background: #0006;
 	text-align: center;
 }
 
 .cgui-popup-menu-content {
 	padding: 0;
 	margin: 0;
-	height: 80vh;
-	min-height: 600px;
 	overflow: auto;
-	padding-top: 15px;
+	max-height: 60vh;
 }
 
 .cgui-popup-menu-btn {
-	padding: 16px;
+	padding: 8px;
+	margin: 5px;
 	display: block;
-	background: transparent;
+	background: #555c;
 	border: none;
 	outline: none;
-	width: 100%;
-	font-size: 1.1em;
+	font-size: 1em;
 	user-select: none;
-	transition: background-color .1s;
+	transition: background-color .2s;
 	cursor: pointer;
+	border-radius: 5px;
+	width: calc(100% - 10px);
 }
 
 .cgui-popup-menu-btn:hover {
-	background-color: #333a;
+	background-color: #777c;
 }
 
 .cgui-popup-menu-btn:active {
-	background-color: #666a;
+	background-color: #fffc;
+	color: #000;
 }
 
 .cgui-popup-menu-content::-webkit-scrollbar {

@@ -49,7 +49,7 @@
 			if (typeof eruda == 'undefined') return;
 			eruda.destroy();
 			const src = '//cdn.jsdelivr.net/npm/eruda';
-			if (/mobi|android/i.test(navigator.userAgent) && localStorage.getItem('active-eruda') != 'true') return;
+			if (/android/.test(navigator.userAgent) && localStorage.getItem('active-eruda') != 'true') return;
 			document.write('<script src="' + src + '"></scr' + 'ipt>');
 			document.write('<script>eruda.init();eruda.hide();</scr' + 'ipt>');
 		})();
