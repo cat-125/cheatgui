@@ -59,14 +59,22 @@ CheatGUI has several files that can be imported. Here are the differences betwee
 # Gallery
 
 ![image](https://github.com/cat-125/cheatgui/assets/106539381/ba98e21f-8cf7-4410-a0b3-2f7c078576b5)
+Legacy Demo
 
 ![image](https://github.com/cat-125/cheatgui/assets/106539381/9d97b6ea-0294-436b-97ec-3c839fcfec60)
+Windows Theme
 
 ![image](https://github.com/cat-125/cheatgui/assets/106539381/cfe6c101-a6fe-403b-ae1e-13963813a91c)
+Pink Theme
 
 ![image](https://github.com/cat-125/cheatgui/assets/106539381/60121372-429c-4f73-8720-2ca720190c71)
+Modern Theme
+
+![image](https://github.com/cat-125/cheatgui/assets/106539381/e9bfad04-fb7d-4c57-aa9e-7f0630f00f04)
+CheatGUI and Dear ImGui
 
 ![image](https://github.com/cat-125/cheatgui/assets/106539381/2fc29fb7-f1bd-4c2b-bce1-7afb4d2797b0)
+Legacy Popup
 
 # Stats
 
