@@ -10,7 +10,7 @@ const cheatgui = (function () {
 		minWindowHeight: 100
 	};
 
-	const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.userAgent)
+	const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
 
 
 	/**
