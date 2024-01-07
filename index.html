@@ -61,6 +61,9 @@
 
 		const win = new cheatgui.Window({ x: 400, y: 300, width: 500, height: 400, title: "CheatGUI Demo" });
 
+		const versionText = new cheatgui.Text('CheatGUI v0.12.0');
+		win.append(versionText);
+
 		{
 			const aboutTree = new cheatgui.Tree("About", true);
 			win.append(aboutTree);
