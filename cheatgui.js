@@ -1,4 +1,4 @@
-const cheatgui = (function () {
+const cheatgui = (function() {
 
 	const config = {
 		symbols: {
@@ -425,7 +425,7 @@ const cheatgui = (function () {
 			this.ref.style.left = `${x}px`;
 			this.ref.style.top = `${y}px`;
 			this.x = x;
-			this,y = y;
+			this, y = y;
 			return this;
 		}
 
@@ -538,8 +538,8 @@ const cheatgui = (function () {
 			const onMouseMove = (e) => {
 				e = e.touches ? e.touches[0] : e;
 				if (!this.isDragging) {
-					if (isMouseDown && distance(startX, startY, e.clientX, e.clientY) > threshold
-						&& !this.isResizing) {
+					if (isMouseDown && distance(startX, startY, e.clientX, e.clientY) > threshold &&
+						!this.isResizing) {
 						startDragging();
 					}
 					else return;
@@ -691,7 +691,7 @@ const cheatgui = (function () {
 
 			this.setText(text);
 			this.setName(name);
-			
+
 			if (callback) this.onInput(callback);
 		}
 
@@ -700,7 +700,7 @@ const cheatgui = (function () {
 		 * 
 		 * @param {String} name - name to be set
 		 */
-		setName(name) {	
+		setName(name) {
 			this.nameRef.innerHTML = name;
 			return this;
 		}
@@ -753,13 +753,13 @@ const cheatgui = (function () {
 
 			this.addClass('cgui-slider-wrapper');
 
-			this.sliderRef = createElem('input');
+			this.sliderRef = createElem('div');
 			this.sliderRef.classList.add('cgui-slider');
-			this.sliderRef.type = 'range';
-			this.sliderRef.min = min;
-			this.sliderRef.max = max;
-			this.sliderRef.step = step;
 			this.ref.appendChild(this.sliderRef);
+
+			this.thumbRef = createElem('div');
+			this.thumbRef.classList.add('cgui-slider-thumb');
+			this.sliderRef.appendChild(this.thumbRef);
 
 			this.labelRef = createElem('div');
 			this.labelRef.classList.add('cgui-slider-label');
@@ -767,33 +767,43 @@ const cheatgui = (function () {
 
 			this.setValue(value);
 			this.setLabel(label);
-			
+
+			[this.min, this.max, this.step, this.isDragging] = [min, max, step, false];
+			this.percentage = 100 / max - min * value;
+
+			this.initSlider();
+
 			if (callback) this.onChange(callback);
 		}
-		
-		setLabel(text) {	
+
+		setLabel(text) {
 			this.labelRef.innerHTML = text;
 			return this;
 		}
 
 		onChange(f) {
-			this.sliderRef.addEventListener('change', e => f(e, this.getValue()));
+			this.callback = () => f(e, this.getValue());
 			return this;
 		}
-		
+
 		setMin(min) {
-			this.sliderRef.min = min;
+			this.min = min;
 			return this;
 		}
-		
+
 		setMax(max) {
-			this.sliderRef.max = max;
+			this.max = max;
 			return this;
 		}
-		
+
 		setValue(value) {
-			this.sliderRef.value = value;
+			/* TODO */;
 			return this;
+		}
+
+
+		initSlider() {
+			/* TODO */
 		}
 
 		/**
@@ -802,7 +812,7 @@ const cheatgui = (function () {
 		 * @returns {String} value
 		 */
 		getValue() {
-			return this.sliderRef.value;
+			return /* TODO */;
 		}
 	}
 
@@ -831,7 +841,7 @@ const cheatgui = (function () {
 			this.ref.appendChild(this.textRef);
 			this.ref.tabIndex = 0;
 			this.setText(text);
-			
+
 			if (callback) this.onChange(callback);
 		}
 
