@@ -192,6 +192,42 @@
 	margin-left: 10px;
 }
 
+/* Input */
+
+.cgui-slider-wrapper {
+	display: flexbox;
+	flex-direction: row;
+	vertical-align: middle;
+	margin: 0;
+	padding: 0;
+}
+
+.cgui-slider {
+	background: #555c;
+	outline: none;
+	color: #fff;
+	width: 50%;
+	border-radius: 8px;
+	display: inline-block;
+	transition: .1s;
+	border: 1px solid #777c;
+	max-width: 100%;
+	accent-color: #ddd;
+}
+
+.cgui-slider:focus {
+	border-color: #fffc;
+}
+
+.cgui-slider-label {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	margin-left: 10px;
+	margin-top: -10px;
+	height: auto;
+}
+
 /* Switch */
 
 .cgui-switch {

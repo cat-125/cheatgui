@@ -98,6 +98,16 @@
 			widgetsTree.append(input);
 
 			input.onInput((_, value) => text3.setText("Input value: " + value));
+			
+			// Slider
+
+			const textSlider = new cheatgui.Text('Drag slider handle');
+			widgetsTree.append(textSlider);
+
+			const slider = new cheatgui.Slider({label: 'Slider'});
+			widgetsTree.append(slider);
+			
+			slider.onChange((_, value) => textSlider.setText("Slider value: " + value));
 
 			// Switch
 

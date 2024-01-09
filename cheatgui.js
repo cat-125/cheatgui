@@ -733,6 +733,74 @@ const cheatgui = (function () {
 	}
 
 	/**
+	 * Slider allows you to select value in a range.
+	 * 
+	 * @public
+	 */
+	class Slider extends Widget {
+		constructor({
+			label = '',
+			value = 0,
+			min = 0,
+			max = 100,
+			step = 1
+		}) {
+			super('div');
+
+			this.addClass('cgui-slider-wrapper');
+
+			this.sliderRef = createElem('input');
+			this.sliderRef.classList.add('cgui-slider');
+			this.sliderRef.type = 'range';
+			this.sliderRef.min = min;
+			this.sliderRef.max = max;
+			this.sliderRef.step = step;
+			this.ref.appendChild(this.sliderRef);
+
+			this.labelRef = createElem('div');
+			this.labelRef.classList.add('cgui-slider-label');
+			this.ref.appendChild(this.labelRef);
+
+			this.setValue(value);
+			this.setLabel(label);
+		}
+		
+		setLabel(text) {	
+			this.labelRef.innerHTML = text;
+			return this;
+		}
+
+		onChange(f) {
+			this.sliderRef.addEventListener('change', e => f(e, this.getValue()));
+			return this;
+		}
+		
+		setMin(min) {
+			this.sliderRef.min = min;
+			return this;
+		}
+		
+		setMax(max) {
+			this.sliderRef.max = max;
+			return this;
+		}
+		
+		setValue(value) {
+			this.sliderRef.value = value;
+			return this;
+		}
+
+		/**
+		 * Get the slider value
+		 * 
+		 * @returns {String} value
+		 */
+		getValue() {
+			return this.sliderRef.value;
+		}
+	}
+
+	/**
 	 * Switch that can be toggled.
 	 * 
 	 * @public
@@ -971,7 +1039,7 @@ const cheatgui = (function () {
 		});
 	}
 
-	return { GUIElement, View, Window, Element, Text, Button, Input, Switch, Tree, openPopupMenu, utils, isMobile };
+	return { GUIElement, View, Window, Element, Text, Button, Input, Slider, Switch, Tree, openPopupMenu, utils, isMobile };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;
