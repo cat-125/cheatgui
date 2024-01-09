@@ -662,10 +662,11 @@ const cheatgui = (function () {
 	 * @public
 	 */
 	class Button extends Widget {
-		constructor(text = '') {
+		constructor(text = '', callback = null) {
 			super('button');
 			this.addClass('cgui-btn');
 			this.setText(text);
+			if (callback) this.onClick(callback);
 		}
 	}
 
@@ -675,7 +676,7 @@ const cheatgui = (function () {
 	 * @public
 	 */
 	class Input extends Widget {
-		constructor(name = '', text = '') {
+		constructor(name = '', text = '', callback = null) {
 			super('div');
 
 			this.addClass('cgui-input-wrapper');
@@ -690,6 +691,8 @@ const cheatgui = (function () {
 
 			this.setText(text);
 			this.setName(name);
+			
+			if (callback) this.onInput(callback);
 		}
 
 		/**
@@ -743,7 +746,8 @@ const cheatgui = (function () {
 			value = 0,
 			min = 0,
 			max = 100,
-			step = 1
+			step = 1,
+			callback = null
 		}) {
 			super('div');
 
@@ -763,6 +767,8 @@ const cheatgui = (function () {
 
 			this.setValue(value);
 			this.setLabel(label);
+			
+			if (callback) this.onChange(callback);
 		}
 		
 		setLabel(text) {	
@@ -806,7 +812,7 @@ const cheatgui = (function () {
 	 * @public
 	 */
 	class Switch extends Widget {
-		constructor(text = '', checked = false) {
+		constructor(text = '', checked = false, callback = null) {
 			super('label');
 			const id = this.id = generateId(16);
 			this.ref.for = id;
@@ -825,6 +831,8 @@ const cheatgui = (function () {
 			this.ref.appendChild(this.textRef);
 			this.ref.tabIndex = 0;
 			this.setText(text);
+			
+			if (callback) this.onChange(callback);
 		}
 
 		/**
