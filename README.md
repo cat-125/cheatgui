@@ -16,17 +16,27 @@ Here's a brief guide on how to use CheatGUI:
 
 1. Include CheatGUI CSS and JS files:
 ```html
-<link rel="stylesheet" href="path/to/cheatgui.css">
-<script src="path/to/cheatgui.js"></script>
+<link rel="stylesheet" href="path/to/cheatgui.min.css">
+<script src="path/to/cheatgui.min.js"></script>
+<!-- or -->
+<script src="path/to/cheatgui.inj.js"></script>
 ```
 2. Start creating GUI:
 ```javascript
 // Create a new window
-const myWindow = new cheatgui.Window(100, 100, 300, 200, 'My Window'); // x, y, width, height, title
+const myWindow = new cheatgui.Window({
+  x: 100,
+  y: 100,
+  width: 300,
+  height: 200,
+  title: 'My Window'
+});
 
 // Add a text element
 const myText = new cheatgui.Text('Hello, world!');
 myWindow.append(myText);
+// or
+// myWindow.append(new cheatgui.Text(...));
 
 // Add a button element
 const myButton = new cheatgui.Button('Click me!');
@@ -59,7 +69,7 @@ CheatGUI has several files that can be imported. Here are the differences betwee
 # Gallery
 
 ![image](https://github.com/cat-125/cheatgui/assets/106539381/ba98e21f-8cf7-4410-a0b3-2f7c078576b5)
-Legacy Demo
+Old Demo
 
 ![image](https://github.com/cat-125/cheatgui/assets/106539381/9d97b6ea-0294-436b-97ec-3c839fcfec60)
 Windows Theme
@@ -71,11 +81,8 @@ Pink Theme
 Modern Theme
 
 ![image](https://github.com/cat-125/cheatgui/assets/106539381/e9bfad04-fb7d-4c57-aa9e-7f0630f00f04)
-CheatGUI and Dear ImGui
-
-![image](https://github.com/cat-125/cheatgui/assets/106539381/2fc29fb7-f1bd-4c2b-bce1-7afb4d2797b0)
-Legacy Popup
+ImGui theme vs. Dear ImGui
 
 # Stats
 
-![Alt](https://repobeats.axiom.co/api/embed/8680d14e5c563dc7c79526365878c484605670b9.svg "Repobeats analytics image")
+![Alt](https://repobeats.axiom.co/api/embed/8680d14e5c563dc7c79526365878c484605670b9.svg)
