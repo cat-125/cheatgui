@@ -97,7 +97,11 @@
 			const input = new cheatgui.Input('Input');
 			widgetsTree.append(input);
 
+			const input2 = new cheatgui.NumberInput('Number');
+			widgetsTree.append(input2);
+
 			input.onInput((_, value) => text3.setText("Input value: " + value));
+			input2.onInput((_, value) => text3.setText("Number input value: " + value));
 			
 			// Slider
 			

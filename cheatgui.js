@@ -779,6 +779,74 @@ const cheatgui = (function() {
 	}
 
 	/**
+	 * Input where you can enter numbers.
+	 * 
+	 * @public
+	 */
+	class NumberInput extends Widget {
+		constructor(name = '', value = 0, callback = null) {
+			super('div');
+
+			this.addClass('cgui-input-wrapper');
+
+			this.inputRef = createElem('input');
+			this.inputRef.classList.add('cgui-input');
+			this.inputRef.type = 'number';
+			this.ref.appendChild(this.inputRef);
+
+			this.nameRef = createElem('div');
+			this.nameRef.classList.add('cgui-input-name');
+			this.ref.appendChild(this.nameRef);
+
+			this.setValue(value);
+			this.setName(name);
+
+			if (callback) this.onInput(callback);
+		}
+
+		/**
+		 * Set the input name
+		 * 
+		 * @param {String} name - name to be set
+		 */
+		setName(name) {
+			this.nameRef.innerHTML = name;
+			return this;
+		}
+
+		/**
+		 * Add input event listener.
+		 * 
+		 * @param f - event listener.
+		 */
+		onInput(f) {
+			this.inputRef.addEventListener('input', e => f(e, this.getValue()));
+			return this;
+		}
+
+		/**
+		 * Set the input value
+		 * 
+		 * @param {Number} value - value to be set
+		 */
+		setValue(value) {
+			const p = parseFloat(value);
+			this.inputRef.value = isNaN(p) ? 0 : (p || 0);
+			return this;
+		}
+
+		/**
+		 * Get the input value
+		 * 
+		 * @returns {String} input's value
+		 */
+		getValue() {
+			const p = parseFloat(this.inputRef.value);
+			return isNaN(p) ? 0 : (p || 0);
+		}
+	}
+
+	/**
 	 * Slider allows you to select value in a range.
 	 * 
 	 * @public
@@ -1145,7 +1213,7 @@ const cheatgui = (function() {
 		});
 	}
 
-	return { GUIElement, View, Window, Element, Text, Button, Input, Slider, Switch, Tree, openPopupMenu, utils, isMobile };
+	return { GUIElement, View, Window, Element, Text, Button, Input, NumberInput, Slider, Switch, Tree, openPopupMenu, utils, isMobile };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;
