@@ -76,6 +76,45 @@ const cheatgui = (function() {
 		return result;
 	}
 
+	function clamp(val, min, max) {
+		return Math.max(min, Math.min(val, max));
+	}
+
+	function range2percentage(val, min, max) {
+		return 100 / (max - min) * val;
+	}
+
+	function snap(value, step) {
+		if (step === 0) {
+			throw new Error("Step cannot be zero");
+		}
+
+		var remainder = value % step;
+		var result;
+
+		if (remainder <= step / 2) {
+			result = value - remainder;
+		} else {
+			result = value + step - remainder;
+		}
+
+		return result;
+	}
+
+	function getNumberOfDigitsAfterPeriod(number) {
+		let stringNumber = number.toString();
+		let parts = stringNumber.split(".");
+		let numberOfDigitsAfterPeriod;
+
+		if (parts.length > 1) {
+			numberOfDigitsAfterPeriod = parts[1].length;
+		} else {
+			numberOfDigitsAfterPeriod = 0;
+		}
+
+		return numberOfDigitsAfterPeriod;
+	}
+
 	/**
 	 * Some useful utilites.
 	 * 
@@ -96,6 +135,10 @@ const cheatgui = (function() {
 		createElem,
 		generateId,
 		distance,
+		clamp,
+		range2percentage,
+		snap,
+		getNumberOfDigitsAfterPeriod,
 
 		/**
 		 * The function appends a widget to the body of a web page.
@@ -765,11 +808,12 @@ const cheatgui = (function() {
 			this.labelRef.classList.add('cgui-slider-label');
 			this.ref.appendChild(this.labelRef);
 
+			this.setMin(min);
+			this.setMax(max);
+			this.setStep(step);
+
 			this.setValue(value);
 			this.setLabel(label);
-
-			[this.min, this.max, this.step, this.isDragging] = [min, max, step, false];
-			this.percentage = 100 / max - min * value;
 
 			this.initSlider();
 
@@ -782,7 +826,7 @@ const cheatgui = (function() {
 		}
 
 		onChange(f) {
-			this.callback = () => f(e, this.getValue());
+			this.ref.addEventListener('change', e => f(e, this.getValue()));
 			return this;
 		}
 
@@ -795,24 +839,68 @@ const cheatgui = (function() {
 			this.max = max;
 			return this;
 		}
+		
+		setStep(step) {
+			this.step = step;
+			this.accuracy = getNumberOfDigitsAfterPeriod(step);
+			return this;
+		}
 
 		setValue(value) {
-			/* TODO */;
+			value = parseFloat(clamp(snap(value, this.step), this.min, this.max).toFixed(this.accuracy));
+			this.value = value;
+			const displayValue = value * (100 / (this.max - this.min)) - this.min;
+			this.thumbRef.style.marginLeft = displayValue + '%';
+			this.thumbRef.style.transform = `translateX(-${displayValue}%)`;
+			this.thumbRef.textContent = value;
 			return this;
 		}
 
 
 		initSlider() {
-			/* TODO */
+			let isDragging = false;
+			let listeners = new Array(2);
+			const onMouseDown = e => {
+				isDragging = true;
+				updateSlider(e);
+				listeners[0] = document.addEventListener('mousemove', updateSlider);
+				listeners[1] = document.addEventListener('touchmove', updateSlider);
+			};
+			const onMouseUp = () => {
+				if (!isDragging) return;
+				isDragging = false;
+				this.ref.dispatchEvent(new CustomEvent('change'));
+				document.removeEventListener('mousemove', listeners[0]);
+				document.removeEventListener('touchmove', listeners[1]);
+			};
+			const updateSlider = e => {
+				if (!isDragging) return;
+				e.preventDefault();
+				e = e.touches ? e.touches[0] : e;
+				const bb = this.sliderRef.getBoundingClientRect();
+				const style1 = getComputedStyle(this.sliderRef);
+				const style2 = getComputedStyle(this.thumbRef);
+				this.setValue(range2percentage(
+					(e.clientX - bb.left - (parseFloat(getComputedStyle(this.thumbRef).getPropertyValue('width')) / 1.6)),
+					bb.left + parseFloat(style1.getPropertyValue('padding-left')) +
+					parseInt(style2.getPropertyValue('width')) / 2,
+					bb.right - parseFloat(style1.getPropertyValue('padding-right')) -
+					parseInt(style2.getPropertyValue('width')) / 2
+				) / 100 * (this.max - this.min) + this.min);
+			};
+			this.sliderRef.addEventListener('mousedown', onMouseDown);
+			document.addEventListener('mouseup', onMouseUp);
+			this.sliderRef.addEventListener('touchstart', onMouseDown);
+			document.addEventListener('touchend', onMouseUp);
 		}
 
 		/**
 		 * Get the slider value
 		 * 
-		 * @returns {String} value
+		 * @returns {Number} value
 		 */
 		getValue() {
-			return /* TODO */;
+			return this.value;
 		}
 	}
 

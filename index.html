@@ -100,14 +100,15 @@
 			input.onInput((_, value) => text3.setText("Input value: " + value));
 			
 			// Slider
-
-			const textSlider = new cheatgui.Text('Drag slider handle');
-			widgetsTree.append(textSlider);
-
+			
 			const slider = new cheatgui.Slider({label: 'Slider'});
 			widgetsTree.append(slider);
 			
-			slider.onChange((_, value) => textSlider.setText("Slider value: " + value));
+			const slider1 = new cheatgui.Slider({label: 'Float', max: 1, step: 0.01, value: 0.5});
+			widgetsTree.append(slider1);
+			
+			const slider2 = new cheatgui.Slider({label: 'Shifted', min: 10, max: 110, value: 110});
+			widgetsTree.append(slider2);
 
 			// Switch
 
