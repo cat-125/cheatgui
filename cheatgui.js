@@ -382,7 +382,7 @@ const cheatgui = (function() {
 			this.arrowRef = createElem('span');
 			this.arrowRef.className = 'cgui-window-arrow';
 			this.arrowRef.innerHTML = config.symbols.expanded;
-			this.arrowRef.hidden = !toggleable;
+			this.arrowRef.hidden = !collapsible;
 			this.headerRef.appendChild(this.arrowRef);
 
 			// Create content element and set its properties
