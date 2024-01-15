@@ -347,8 +347,8 @@ const cheatgui = (function() {
 			height = 100,
 			title = '',
 			expanded = true,
-			toggleable = true,
-			toggleThreshold = isMobile ? 10 : 3,
+			collapsible = true,
+			collapseThreshold = isMobile ? 10 : 3,
 			draggable = true,
 			dragThreshold = isMobile ? 10 : 3,
 			resizable = true
@@ -426,7 +426,7 @@ const cheatgui = (function() {
 			this.isDragging = this.isResizing = false;
 			if (draggable) this.initDraggable(dragThreshold);
 			if (resizable) this.initResize();
-			if (toggleable) this.initToggleOnClick(toggleThreshold);
+			if (collapsible) this.initToggleOnClick(collapseThreshold);
 			this.initActivationOnClick();
 		}
 
