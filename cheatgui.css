@@ -222,13 +222,12 @@
 .cgui-slider-thumb {
 	background: #fffc;
 	outline: none;
-	color: #fff;
 	width: auto;
 	min-width: 32px;
 	height: 24px;
 	border-radius: 16px;
 	display: inline-flex;
-	transition: .1s;
+	transition: all .1s, margin-left 0s;
 	border: none;
 	margin-left: 0%;
 	text-align: center;
@@ -239,12 +238,7 @@
 	font-size: 14px;
 	padding: 0 4px;
 	user-select: none;
-	transition: margin-left none;
 }	
-
-.cgui-slider:focus {
-	border-color: #fffc;
-}
 
 .cgui-slider-label {
 	display: inline-block;

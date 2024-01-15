@@ -15,11 +15,11 @@
 	border-radius: 0;
 	backdrop-filter: none;
 	transition: none;
-	border: 1px solid #444;
+	border: 1px solid #6E6E8080;
 }
 
 .cgui-window-header {
-	background: #000;
+	background: #0A0A0AFF;
 	padding: 2px 8px;
 	cursor: default;
 }
@@ -29,7 +29,7 @@
 }
 
 .cgui-window-content {
-	background: #000d;
+	background: #0F0F0FF0;
 	padding: 4px;
 }
 
@@ -37,21 +37,25 @@
 	bottom: 6px;
 	right: 4px;
 	font-size: 1.6em;
-	color: #37455a;
+	color: #4296FA33;
 	cursor: default;
 }
 
 .cgui-window-resize:hover {
-	color: #4b7dc7;
+	color: #4296FAAB;
+}
+
+.cgui-window-resize:active {
+	color: #4296FAF2;
 }
 
 .cgui-window.active>.cgui-window-header {
-	background: #2c5788;
+	background: #294A7AFF;
 	font-weight: normal;
 }
 
 .cgui-window.active>.cgui-window-content {
-	background: #000d;
+	background: #0F0F0FF0;
 }
 
 .cgui-window.cgui-dragging {
@@ -63,26 +67,30 @@
 }
 
 .cgui-window-content::-webkit-scrollbar-track {
-	background-color: transparent;
+	background-color: #05050587;
 }
 
 .cgui-window-content::-webkit-scrollbar-thumb {
-	background-color: #555c;
+	background-color: #4F4F4FFF;
 	border-radius: 15px;
 }
 
 .cgui-window-content::-webkit-scrollbar-thumb:hover {
-	background-color: #777c;
+	background-color: #696969FF;
+}
+
+.cgui-window-content::-webkit-scrollbar-thumb:active {
+	background-color: #1A66BFFF;
 }
 
 .cgui-window.collapsed>.cgui-window-header {
-	background: #000a;
+	background: #00000082;
 }
 
 /* Button */
 
 .cgui-btn {
-	background: #275992d5;
+	background: #4296FA66;
 	padding: 4px;
 	width: auto;
 	border-radius: 0;
@@ -91,11 +99,11 @@
 }
 
 .cgui-btn:hover {
-	background: #489effd5;
+	background: #4296FAFF;
 }
 
 .cgui-btn:active {
-	background: #1683ff;
+	background: #0F87FAFF;
 	color: #fff;
 	transition: .15s;
 }
@@ -108,7 +116,7 @@
 }
 
 .cgui-input {
-	background: #293f5c;
+	background: #294A7A8A;
 	font-family: monospace;
 	color: #fff;
 	padding: 4px;
@@ -123,7 +131,7 @@
 }
 
 .cgui-input:focus {
-	border-color: #fffc;
+	border: none;
 }
 
 .cgui-input-name {
@@ -135,7 +143,27 @@
 
 /* Slider */
 
-/* TODO */
+.cgui-slider {
+	background: #294A7A8A;
+	width: 60%;
+	border-radius: 0;
+	transition: none;
+	height: 26px;
+	padding: 0 4px;
+}
+
+.cgui-slider-thumb {
+	background: #3D85E0FF;
+	min-width: 32px;
+	height: 20px;
+	border-radius: 0;
+	transition: none;
+	color: #fff;
+}
+
+.cgui-slider-thumb:active {
+	background: #4296FAFF;
+}
 
 /* Switch */
 
@@ -148,7 +176,7 @@
 	width: 24px;
 	height: 24px;
 	position: relative;
-	background: #293f5c;
+	background: #294A7A8A;
 	border-radius: 0;
 	transition: none;
 }
@@ -168,31 +196,31 @@
 }
 
 .cgui-switch:hover>.cgui-switch-slider {
-	background: #275992d5;
+	background: #4296FA66;
 }
 
 .cgui-switch>input:checked+.cgui-switch-slider {
-	background-color: #293f5c;
+	background-color: #294A7A8A;
 }
 
 .cgui-switch:hover>input:checked+.cgui-switch-slider {
-	background-color: #275992d5;
+	background-color: #4296FA66;
 }
 
 .cgui-switch>input:checked+.cgui-switch-slider::before {
-	background-color: #3191ff;
+	background-color: #4296FAFF;
 	transform: none;
 	display: block;
 }
 
 .cgui-switch:hover>input:checked+.cgui-switch-slider::before {
-	background-color: #3191ff;
+	background-color: #4296FAFF;
 }
 
 /* Tree */
 
 .cgui-tree>.cgui-tree-header {
-	background: #355a8bd5;
+	background: #4296FA4F;
 	transition: none;
 	border-radius: 0;
 	cursor: default;
@@ -216,6 +244,11 @@
 }
 
 .cgui-tree>.cgui-tree-header:hover {
-	background-color: #489effd5;
+	background-color: #4296FACC;
+	transition: none;
+}
+
+.cgui-tree>.cgui-tree-header:active {
+	background-color: #4296FAFF;
 	transition: none;
 }
