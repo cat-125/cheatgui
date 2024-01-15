@@ -683,6 +683,11 @@ const cheatgui = (function() {
 			this.ref.addEventListener('click', f);
 			return this;
 		}
+
+		bind(obj, param) {
+			(this.onChange || this.onInput || this.onClick)((_, val) => obj[param] = val);
+			return this;
+		}
 	}
 
 	/**
