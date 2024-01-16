@@ -724,7 +724,7 @@ const cheatgui = (function() {
 	 * @public
 	 */
 	class Input extends Widget {
-		constructor(name = '', text = '', callback = null) {
+		constructor(label = '', val = '', callback = null) {
 			super('div');
 
 			this.addClass('cgui-input-wrapper');
@@ -733,23 +733,23 @@ const cheatgui = (function() {
 			this.inputRef.classList.add('cgui-input');
 			this.ref.appendChild(this.inputRef);
 
-			this.nameRef = createElem('div');
-			this.nameRef.classList.add('cgui-input-name');
-			this.ref.appendChild(this.nameRef);
+			this.labelRef = createElem('div');
+			this.labelRef.classList.add('cgui-input-label');
+			this.ref.appendChild(this.labelRef);
 
-			this.setText(text);
-			this.setName(name);
+			this.setValue(val);
+			this.setLabel(label);
 
 			if (callback) this.onInput(callback);
 		}
 
 		/**
-		 * Set the input name
+		 * Set the input label
 		 * 
-		 * @param {String} name - name to be set
+		 * @param {String} label - label to be set
 		 */
-		setName(name) {
-			this.nameRef.innerHTML = name;
+		setLabel(label) {
+			this.labelRef.innerHTML = label;
 			return this;
 		}
 
@@ -759,7 +759,7 @@ const cheatgui = (function() {
 		 * @param f - event listener.
 		 */
 		onInput(f) {
-			this.inputRef.addEventListener('input', e => f(e, this.getText()));
+			this.inputRef.addEventListener('input', e => f(e, this.getValue()));
 			return this;
 		}
 
@@ -769,21 +769,21 @@ const cheatgui = (function() {
 		}
 
 		/**
-		 * Set the input text
+		 * Set the input value
 		 * 
-		 * @param {String} text - text to be set
+		 * @param {String} value - value to be set
 		 */
-		setText(text) {
-			this.inputRef.value = text;
+		setValue(value) {
+			this.inputRef.value = value;
 			return this;
 		}
 
 		/**
-		 * Get the input text
+		 * Get the input value
 		 * 
-		 * @returns {String} input's text
+		 * @returns {String} input's value
 		 */
-		getText() {
+		getValue() {
 			return this.inputRef.value;
 		}
 	}
@@ -794,7 +794,7 @@ const cheatgui = (function() {
 	 * @public
 	 */
 	class NumberInput extends Widget {
-		constructor(name = '', value = 0, callback = null) {
+		constructor(label = '', value = 0, callback = null) {
 			super('div');
 
 			this.addClass('cgui-input-wrapper');
@@ -804,23 +804,23 @@ const cheatgui = (function() {
 			this.inputRef.type = 'number';
 			this.ref.appendChild(this.inputRef);
 
-			this.nameRef = createElem('div');
-			this.nameRef.classList.add('cgui-input-name');
-			this.ref.appendChild(this.nameRef);
+			this.labelRef = createElem('div');
+			this.labelRef.classList.add('cgui-input-label');
+			this.ref.appendChild(this.labelRef);
 
 			this.setValue(value);
-			this.setName(name);
+			this.setLabel(label);
 
 			if (callback) this.onInput(callback);
 		}
 
 		/**
-		 * Set the input name
+		 * Set the input label
 		 * 
-		 * @param {String} name - name to be set
+		 * @param {String} label - label to be set
 		 */
-		setName(name) {
-			this.nameRef.innerHTML = name;
+		setLabel(label) {
+			this.labelRef.innerHTML = label;
 			return this;
 		}
 
@@ -998,7 +998,7 @@ const cheatgui = (function() {
 	 * @public
 	 */
 	class Switch extends Widget {
-		constructor(text = '', checked = false, callback = null) {
+		constructor(label = '', checked = false, callback = null) {
 			super('label');
 			const id = this.id = generateId(16);
 			this.ref.for = id;
@@ -1011,12 +1011,12 @@ const cheatgui = (function() {
 			this.sliderRef = createElem('span');
 			this.sliderRef.className = 'cgui-switch-slider';
 			this.ref.appendChild(this.sliderRef);
-			this.textRef = createElem('span');
-			this.textRef.className = 'cgui-switch-text';
-			this.textRef.for = id;
-			this.ref.appendChild(this.textRef);
+			this.labelRef = createElem('span');
+			this.labelRef.className = 'cgui-switch-label';
+			this.labelRef.for = id;
+			this.ref.appendChild(this.labelRef);
 			this.ref.tabIndex = 0;
-			this.setText(text);
+			this.setLabel(label);
 
 			if (callback) this.onChange(callback);
 		}
@@ -1043,19 +1043,24 @@ const cheatgui = (function() {
 			return this.inputRef.checked;
 		}
 
+		setValue(val) {
+			this.inputRef.checked = val;
+			return this;
+		}
+
 		/**
 		 * Set new text for the switch
 		 * 
 		 * @param {String} text - text to be set
 		 */
-		setText(text) {
-			this.textRef.innerHTML = text;
+		setLabel(label) {
+			this.labelRef.innerHTML = label;
 			return this;
 		}
 	}
 
 	class Tree extends Widget {
-		constructor(name = '', expanded = false) {
+		constructor(title = '', expanded = false) {
 			super('div');
 			this.addClass('cgui-tree');
 
@@ -1066,12 +1071,11 @@ const cheatgui = (function() {
 			// Create title element and set its properties
 			const titleId = generateId(16);
 			this.titleRef = createElem('span');
-			this.titleRef.innerHTML = name;
 			this.titleRef.id = titleId;
 			this.titleRef.className = 'cgui-tree-title';
 			this.headerRef.appendChild(this.titleRef);
 			this.headerRef.tabIndex = 0;
-			this.setTitle(name);
+			this.setTitle(title);
 
 			// Add space after title
 			this.headerRef.innerHTML += '&nbsp;';

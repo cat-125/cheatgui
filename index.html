@@ -135,8 +135,8 @@
 			winTree.append(resizableSwitch);
 			const draggableSwitch = new cheatgui.Switch('Draggable', true);
 			winTree.append(draggableSwitch);
-			const toggleableSwitch = new cheatgui.Switch('Toggleable', true);
-			winTree.append(toggleableSwitch);
+			const collapsibleSwitch = new cheatgui.Switch('Collapsible', true);
+			winTree.append(collapsibleSwitch);
 			const createBtn = new cheatgui.Button('Create');
 			winTree.append(createBtn);
 
@@ -146,8 +146,8 @@
 					y: win.y,
 					width: 150,
 					height: 100,
-					title: titleInput.getText(),
-					toggleable: toggleableSwitch.isChecked(),
+					title: titleInput.getValue(),
+					collapsible: collapsibleSwitch.isChecked(),
 					draggable: draggableSwitch.isChecked(),
 					resizable: resizableSwitch.isChecked()
 				});
