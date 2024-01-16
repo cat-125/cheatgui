@@ -922,7 +922,7 @@ const cheatgui = (function() {
 		setValue(value) {
 			value = parseFloat(clamp(snap(value, this.step), this.min, this.max).toFixed(this.accuracy));
 			this.value = value;
-			const displayValue = value * (100 / (this.max - this.min)) - this.min;
+			const displayValue = 100 / (this.max - this.min) * (value - this.min);
 			this.thumbRef.style.marginLeft = displayValue + '%';
 			this.thumbRef.style.transform = `translateX(-${displayValue}%)`;
 			this.thumbRef.textContent = value;
