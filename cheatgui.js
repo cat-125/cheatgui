@@ -685,7 +685,7 @@ const cheatgui = (function() {
 		}
 
 		bind(obj, param) {
-			(this.onChange || this.onInput || this.onClick)((_, val) => obj[param] = val);
+			console.warn("Can't bind 'click' event. Use onClick() instead.");
 			return this;
 		}
 	}
@@ -763,6 +763,11 @@ const cheatgui = (function() {
 			return this;
 		}
 
+		bind(obj, param) {
+			this.onInput((_, val) => obj[param] = val);
+			return this;
+		}
+
 		/**
 		 * Set the input text
 		 * 
@@ -826,6 +831,11 @@ const cheatgui = (function() {
 		 */
 		onInput(f) {
 			this.inputRef.addEventListener('input', e => f(e, this.getValue()));
+			return this;
+		}
+
+		bind(obj, param) {
+			this.onInput((_, val) => obj[param] = val);
 			return this;
 		}
 
@@ -900,6 +910,11 @@ const cheatgui = (function() {
 
 		onChange(f) {
 			this.ref.addEventListener('change', e => f(e, this.getValue()));
+			return this;
+		}
+
+		bind(obj, param) {
+			this.onChange((_, val) => obj[param] = val);
 			return this;
 		}
 
@@ -1013,6 +1028,11 @@ const cheatgui = (function() {
 		 */
 		onChange(func) {
 			this.inputRef.addEventListener('change', e => func(e, this.inputRef.checked));
+			return this;
+		}
+
+		bind(obj, param) {
+			this.onChange((_, val) => obj[param] = val);
 			return this;
 		}
 
