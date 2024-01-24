@@ -1187,7 +1187,7 @@ const cheatgui = (function() {
 	class Container extends Widget {
 		constructor() {
 			super('div');
-			this.view = new View.mount(this.ref);
+			this.view = (new View).mount(this.ref);
 		}
 
 		setContent(html) {
@@ -1198,6 +1198,13 @@ const cheatgui = (function() {
 		append(widget) {
 			this.view.append(widget);
 			return this;
+		}
+	}
+	
+	class Row extends Container {
+		constructor() {
+			super();
+			this.addClass('cgui-row')
 		}
 	}
 
@@ -1261,7 +1268,7 @@ const cheatgui = (function() {
 		});
 	}
 
-	return { GUIElement, View, Window, Element, Text, Button, Input, NumberInput, Slider, Switch, Tree, Container, openPopupMenu, utils, isMobile };
+	return { GUIElement, View, Window, Element, Text, Button, Input, NumberInput, Slider, Switch, Tree, Container, Row, openPopupMenu, utils, isMobile };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;

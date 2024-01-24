@@ -124,6 +124,20 @@
 
 			sw1tch.onChange((_, value) => text4.setText("Switch value: " + value));
 		}
+		
+		{
+			const layoutTree = new cheatgui.Tree('Layout');
+			
+			const row = new cheatgui.Row();
+			
+			row.append(new cheatgui.Text('1'));
+			row.append(new cheatgui.Text('2'));
+			row.append(new cheatgui.Button('3'));
+			row.append(new cheatgui.Switch('4'));
+			
+			layoutTree.append(row);
+			win.append(layoutTree);
+		}
 
 		{
 			const winTree = new cheatgui.Tree("Window manager");
