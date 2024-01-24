@@ -7,7 +7,10 @@ const cheatgui = (function() {
 			resize: '&#9698;' // ◢
 		},
 		minWindowWidth: 150,
-		minWindowHeight: 100
+		minWindowHeight: 100,
+		language: {
+			'close': 'Close'
+		}
 	};
 
 	const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
@@ -1184,8 +1187,7 @@ const cheatgui = (function() {
 	function openPopupMenu({
 		title,
 		items,
-		closable = true,
-		closeText = 'Close'
+		closable = true
 	}) {
 		return new Promise(resolve => {
 			let divWrapper = createElem('div');
@@ -1227,7 +1229,7 @@ const cheatgui = (function() {
 			if (closable) {
 				const btn = createElem('button');
 				btn.className = 'cgui-popup-menu-btn';
-				btn.innerHTML = closeText;
+				btn.innerHTML = config.language.close;
 				divMenu.appendChild(btn);
 				btn.onclick = () => {
 					divWrapper.classList.add('cgui-fadeout');
