@@ -1183,6 +1183,23 @@ const cheatgui = (function() {
 			});
 		}
 	}
+	
+	class Container extends Widget {
+		constructor() {
+			super('div');
+			this.view = new View.mount(this.ref);
+		}
+
+		setContent(html) {
+			this.view.setContent(html);
+			return this;
+		}
+		
+		append(widget) {
+			this.view.append(widget);
+			return this;
+		}
+	}
 
 	function openPopupMenu({
 		title,
@@ -1244,7 +1261,7 @@ const cheatgui = (function() {
 		});
 	}
 
-	return { GUIElement, View, Window, Element, Text, Button, Input, NumberInput, Slider, Switch, Tree, openPopupMenu, utils, isMobile };
+	return { GUIElement, View, Window, Element, Text, Button, Input, NumberInput, Slider, Switch, Tree, Container, openPopupMenu, utils, isMobile };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;
