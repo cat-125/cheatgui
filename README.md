@@ -10,54 +10,76 @@ CheatGUI is a lightweight JavaScript library that provides a simple way to creat
 4. **Mobile support**: interacting with UI elements works on mobile devices as well.
 5. **Supports various UI elements**: The library includes support for text, buttons, and switches.
 
-# Getting Started
+# Examples
 
-Here's a brief guide on how to use CheatGUI:
-
-1. Include CheatGUI CSS and JS files:
-```html
-<link rel="stylesheet" href="path/to/cheatgui.min.css">
-<script src="path/to/cheatgui.min.js"></script>
-<!-- or -->
-<script src="path/to/cheatgui.inj.js"></script>
-```
-2. Start creating GUI:
 ```javascript
-// Create a new window
-const myWindow = new cheatgui.Window({
-  x: 100,
-  y: 100,
+const win = new cheatgui.Window({
+  x: 50,
+  y: 300,
   width: 300,
   height: 200,
-  title: 'My Window'
+  title: "Window"
 });
 
-// Add a text element
-const myText = new cheatgui.Text('Hello, world!');
-myWindow.append(myText);
-// or
-// myWindow.append(new cheatgui.Text(...));
+win.append(new cheatgui.Text('Hello, world!'));
 
-// Add a button element
-const myButton = new cheatgui.Button('Click me!');
-myButton.onClick(() => alert('Button clicked!'));
-myWindow.append(myButton);
+const btn = new cheatgui.Button('Button');
+btn.onClick(() => alert('Button clicked'));
+win.append(btn);
 
-// Add a switch element
-const mySwitch = new cheatgui.Switch('My Switch');
-mySwitch.onChange((event, isChecked) => console.log('Switch value: ' + isChecked));
-myWindow.append(mySwitch);
+const tree = new cheatgui.Tree("Tree");
+win.append(tree);
+
+tree.append(new cheatgui.Slider({
+  label: 'Float',
+  max: 1,
+  step: 0.01,
+  value: 0.5
+}));
 ```
 
-In this example, we first include the CheatGUI
-CSS and JS files in the HTML file. Then, we
-create a new window with the `cheatgui.Window`
-constructor, passing the initial position and
-title as arguments. We add a text element, a
-button element, and a switch element to the
-window using the `append` method. Finally, we
-add event listeners to the button and switch
-elements to handle user interactions.
+See also [`index.html`](https://github.com/cat-125/cheatgui/blob/main/index.html)
+
+# Features
+
+### Widgets 
+```javascript
+const widget = new cheatgui.WidgetName(...);
+```
+- Text
+- Button
+- Input
+- Number input (`NumberInput`)
+- Slider
+- Switch
+- Tree
+- Container
+- Row
+
+### Themes
+```javascript
+cheatgui.utils.loadTheme(url);
+```
+- Default
+- ImGui
+- Windows
+- Pink
+- Modern
+
+### Other
+- Popup menus (`cheatgui.openPopupMenu({title, items[], closable})`)
+- Some utils (`cheatgui.utils`)
+- `Widget` class for creating custom widgets
+- Mobile device detection (`cheatgui.isMobile`)
+
+# Future plans
+
+- [ ] Color input
+- [ ] Tabs
+- [ ] Vertical tabs
+- [ ] Input with button
+- [ ] Shorter way to add widgets
+- [ ] Window builder
 
 # File differences
 
@@ -68,20 +90,15 @@ CheatGUI has several files that can be imported. Here are the differences betwee
 
 # Gallery
 
-![image](https://github.com/cat-125/cheatgui/assets/106539381/ba98e21f-8cf7-4410-a0b3-2f7c078576b5)
-Old Demo
+![old demo](https://github.com/cat-125/cheatgui/assets/106539381/ba98e21f-8cf7-4410-a0b3-2f7c078576b5)
 
-![image](https://github.com/cat-125/cheatgui/assets/106539381/9d97b6ea-0294-436b-97ec-3c839fcfec60)
-Windows Theme
+![Windows theme](https://github.com/cat-125/cheatgui/assets/106539381/9d97b6ea-0294-436b-97ec-3c839fcfec60)
 
-![image](https://github.com/cat-125/cheatgui/assets/106539381/cfe6c101-a6fe-403b-ae1e-13963813a91c)
-Pink Theme
+![Pink theme](https://github.com/cat-125/cheatgui/assets/106539381/cfe6c101-a6fe-403b-ae1e-13963813a91c)
 
-![image](https://github.com/cat-125/cheatgui/assets/106539381/60121372-429c-4f73-8720-2ca720190c71)
-Modern Theme
+![Modern theme](https://github.com/cat-125/cheatgui/assets/106539381/60121372-429c-4f73-8720-2ca720190c71)
 
-![image](https://github.com/cat-125/cheatgui/assets/106539381/e9bfad04-fb7d-4c57-aa9e-7f0630f00f04)
-ImGui theme vs. Dear ImGui
+![ImGui theme vs. Dear ImGui](https://github.com/cat-125/cheatgui/assets/106539381/e9bfad04-fb7d-4c57-aa9e-7f0630f00f04)
 
 # Stats
 
