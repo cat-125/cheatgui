@@ -61,8 +61,6 @@ const cheatgui = (function() {
 	/**
 	 * The function generates a random string of a specified length using a given set of characters.
 	 * 
-	 * @public
-	 * 
 	 * @param {Number} length - The length parameter specifies the length of the generated ID.
 	 * @param {String} [_chars] - The `_chars` parameter is an optional parameter that allows you to specify a
 	 * custom set of characters to use for generating the ID. If you don't provide a value for `_chars`,
@@ -130,8 +128,6 @@ const cheatgui = (function() {
 	 * - `includeCSS(css)`, `includeCSSLink(url)` for dynamically loading CSS
 	 * - `includeJS(url)`  for dynamically loading JS scripts
 	 * - `loadTheme(url)` for loading CheatGUI themes.
-	 * 
-	 * @public
 	 */
 	const utils = {
 		$,
@@ -227,8 +223,6 @@ const cheatgui = (function() {
 
 	/**
 	 * Base class for everything in CheatGUI.
-	 * 
-	 * @public
 	 */
 	class GUIElement {
 		constructor() {
@@ -276,8 +270,6 @@ const cheatgui = (function() {
 	 * Transparent class that allows to manage HTML container.
 	 * 
 	 * You must call one of `init()` or `mount(target)` before doing something.
-	 * 
-	 * @public
 	 */
 	class View {
 		constructor() {
@@ -334,8 +326,6 @@ const cheatgui = (function() {
 	 * ```
 	 * const window = new cheatgui.Window(100, 200, "My Window", false);
 	 * ```
-	 * 
-	 * @public
 	 * 
 	 * @param {Number} x - The initial x-coordinate of the window.
 	 * @param {Number} y - The initial y-coordinate of the window.
@@ -656,8 +646,6 @@ const cheatgui = (function() {
 
 	/**
 	 * Base class for elements.
-	 * 
-	 * @public
 	 */
 	class Widget extends GUIElement {
 		constructor(elementName = 'div') {
@@ -696,8 +684,6 @@ const cheatgui = (function() {
 	/**
 	 * The Text class is a subclass of the Element class that represents a text element
 	 * with a default value of an empty string.
-	 * 
-	 * @public
 	 */
 	class Text extends Widget {
 		constructor(text = '') {
@@ -709,8 +695,6 @@ const cheatgui = (function() {
 
 	/**
 	 * Button that can be clicked.
-	 * 
-	 * @public
 	 */
 	class Button extends Widget {
 		constructor(text = '', callback = null) {
@@ -723,8 +707,6 @@ const cheatgui = (function() {
 
 	/**
 	 * Input where you can enter text.
-	 * 
-	 * @public
 	 */
 	class Input extends Widget {
 		constructor(label = '', val = '', callback = null) {
@@ -793,8 +775,6 @@ const cheatgui = (function() {
 
 	/**
 	 * Input where you can enter numbers.
-	 * 
-	 * @public
 	 */
 	class NumberInput extends Widget {
 		constructor(label = '', value = 0, callback = null) {
@@ -866,8 +846,6 @@ const cheatgui = (function() {
 
 	/**
 	 * Slider allows you to select value in a range.
-	 * 
-	 * @public
 	 */
 	class Slider extends Widget {
 		constructor({
@@ -997,8 +975,6 @@ const cheatgui = (function() {
 
 	/**
 	 * Switch that can be toggled.
-	 * 
-	 * @public
 	 */
 	class Switch extends Widget {
 		constructor(label = '', checked = false, callback = null) {
@@ -1048,6 +1024,71 @@ const cheatgui = (function() {
 
 		setValue(val) {
 			this.inputRef.checked = val;
+			return this;
+		}
+
+		/**
+		 * Set new text for the switch
+		 * 
+		 * @param {String} text - text to be set
+		 */
+		setLabel(label) {
+			this.labelRef.innerHTML = label;
+			return this;
+		}
+	}
+
+	class Select extends Widget {
+		constructor(label = '', values, value = null, callback = null) {
+			super('label');
+			const id = this.id = generateId(16);
+			this.ref.for = id;
+			this.addClass('cgui-input-wrapper');
+			this.selRef = createElem('select');
+			this.selRef.id = id;
+			this.selRef.classList.add('cgui-input');
+			this.ref.appendChild(this.selRef);
+			for (const [k, v] of Object.entries(values)) {
+				const opt = createElem('option');
+				opt.textContent = k;
+				opt.value = v;
+				if (v == value) opt.selected = true;
+				this.selRef.appendChild(opt);
+			}
+			this.labelRef = createElem('span');
+			this.labelRef.className = 'cgui-input-label';
+			this.labelRef.for = id;
+			this.ref.appendChild(this.labelRef);
+			this.ref.tabIndex = 0;
+			this.setLabel(label);
+
+			if (callback) this.onChange(callback);
+		}
+
+		/**
+		 * Add change event listener
+		 * 
+		 * @param {Function} func - event listener
+		 */
+		onChange(func) {
+			this.selRef.addEventListener('change', e => func(e, this.getValue()));
+			return this;
+		}
+
+		bind(obj, param) {
+			this.onChange((_, val) => obj[param] = val);
+			return this;
+		}
+
+		/**
+		 * @return {boolean} Whether the switch is currently on
+		 */
+		getValue() {
+			return this.selRef.options[this.selRef.selectedIndex].value;
+		}
+
+		setValue(val) {
+			this.selRef.value = val;
 			return this;
 		}
 
@@ -1268,7 +1309,7 @@ const cheatgui = (function() {
 		});
 	}
 
-	return { GUIElement, View, Window, Element, Text, Button, Input, NumberInput, Slider, Switch, Tree, Container, Row, openPopupMenu, utils, isMobile };
+	return { GUIElement, View, Window, Element, Text, Button, Input, NumberInput, Slider, Switch, Select, Tree, Container, Row, openPopupMenu, utils, isMobile };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;

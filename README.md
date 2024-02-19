@@ -53,6 +53,7 @@ const widget = new cheatgui.WidgetName(...);
 - Slider
 - Switch
 - Tree
+- Select menu (`Select`)
 - Container
 - Row
 
