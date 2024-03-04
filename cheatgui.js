@@ -264,6 +264,11 @@ const cheatgui = (function() {
 		getRef() {
 			return this.ref;
 		}
+		
+		destroy() {
+			if (typeof this.view !== 'undefined') this.view.destroy();
+			this.ref.remove();
+		}
 	}
 
 	/**
@@ -274,6 +279,7 @@ const cheatgui = (function() {
 	class View {
 		constructor() {
 			this.ref = null;
+			this.children = [];
 		}
 
 		/**
@@ -315,7 +321,12 @@ const cheatgui = (function() {
 		 */
 		append(widget) {
 			this.ref.appendChild(widget.getRef());
+			this.children.append(widget.getRef());
 			return this;
+		}
+		
+		destroy() {
+			this.children.forEach(c => c.destroy());
 		}
 	}
 
@@ -519,6 +530,7 @@ const cheatgui = (function() {
 		}
 
 		destroy() {
+			this.view.destroy();
 			this.ref.remove();
 		}
 
@@ -641,6 +653,10 @@ const cheatgui = (function() {
 		/** Get window HTML reference. */
 		getRef() {
 			return this.ref;
+		}
+		
+		get children() {
+			return this.view.children;
 		}
 	}
 
@@ -1020,6 +1036,10 @@ const cheatgui = (function() {
 		 */
 		isChecked() {
 			return this.inputRef.checked;
+		}
+		
+		getValue() {
+			return this.isChecked();
 		}
 
 		setValue(val) {
