@@ -75,11 +75,12 @@ cheatgui.utils.loadTheme(url);
 
 # Future plans
 
+- [x] Ability to save & load configurations
+- [ ] Shorter way to add widgets
 - [ ] Color input
 - [ ] Tabs
 - [ ] Vertical tabs
 - [ ] Input with button
-- [ ] Shorter way to add widgets
 - [ ] Window builder
 
 # File differences

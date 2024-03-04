@@ -141,9 +141,21 @@
 			
 			const cfgText = new cheatgui.Text();
 			cfgTree.append(cfgText);
-			cfgTree.append(new cheatgui.Button('View', () => {
-				cfgText.setText(widgetsTree.getConfig());
-			}))
+			cfgTree.append(new cheatgui.Button('View current', () => {
+				cfgText.setText(JSON.stringify(win.getConfig()));
+			}));
+			cfgTree.append(new cheatgui.Button('View saved', () => {
+				cfgText.setText(localStorage.getItem('cgui-demo-cfg'));
+			}));
+			cfgTree.append(new cheatgui.Button('Save', () => {
+				localStorage.setItem('cgui-demo-cfg', JSON.stringify(win.getConfig()));
+			}));
+			cfgTree.append(new cheatgui.Button('Load', () => {
+				win.loadConfig(JSON.parse(localStorage.getItem('cgui-demo-cfg')));
+			}));
+			cfgTree.append(new cheatgui.Button('Remove', () => {
+				localStorage.removeItem('cgui-demo-cfg');
+			}));
 		}
 
 		const winTree = new cheatgui.Tree("Window manager");

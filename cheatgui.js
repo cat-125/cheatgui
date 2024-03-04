@@ -86,6 +86,34 @@ const cheatgui = (function() {
 		snap,
 		getNumberOfDigitsAfterPeriod,
 
+		getWidgetName(widget) {
+			if (typeof widget == 'string' || widget instanceof Text) {
+				return 'text';
+			} else if (widget instanceof Button) {
+				return 'button'
+			} else if (widget instanceof Input) {
+				return 'input';
+			} else if (widget instanceof NumberInput) {
+				return 'number-input';
+			} else if (widget instanceof Switch) {
+				return 'switch';
+			} else if (widget instanceof Slider) {
+				return 'slider';
+			} else if (widget instanceof Select) {
+				return 'select';
+			} else if (widget instanceof Tree) {
+				return 'tree';
+			} else if (typeof widget.view !== 'undefined') {
+				return 'has-view';
+			} else if (widget instanceof Widget) {
+				return 'widget'
+			} else if (widget instanceof GUIElement) {
+				return 'gui-element';
+			} else {
+				return 'unknown';
+			}
+		},
+
 		appendToBody(widget) {
 			document.body.appendChild(widget.getRef());
 		},
@@ -165,7 +193,7 @@ const cheatgui = (function() {
 		getRef() {
 			return this.ref;
 		}
-		
+
 		destroy() {
 			if (typeof this.view !== 'undefined') this.view.destroy();
 			this.ref.remove();
@@ -192,7 +220,7 @@ const cheatgui = (function() {
 			this.ref.innerHTML = value;
 			return this;
 		}
-		
+
 		setText(value) {
 			this.ref.textContent = value;
 			return this;
@@ -200,16 +228,84 @@ const cheatgui = (function() {
 
 		append(widget) {
 			this.ref.appendChild(widget.getRef());
-			this.children.push(widget.getRef());
+			this.children.push(widget);
 			return this;
 		}
-		
+
 		destroy() {
 			this.children.forEach(c => c.destroy());
 		}
-		
+
 		getConfig() {
-			
+			function processView(view) {
+				const res = {
+					type: 'root',
+					value: []
+				};
+
+				for (let i = 0; i < view.children.length; i++) {
+					const child = view.children[i];
+					const type = utils.getWidgetName(child);
+					const el = { type };
+
+					if (['input', 'number-input', 'switch', 'slider', 'select'].includes(type)) {
+						el.value = child.getValue();
+					} else if (type == 'tree') {
+						el.value = processView(child.view).value;
+					} else if (type == 'has-view') {
+						el.value = processView(child.view).value;
+					} else if (typeof child.getValue === 'function')
+						el.value = child.getValue();
+
+					res.value[i] = el;
+				}
+
+				return res;
+			}
+
+			return processView(this);
+		}
+
+
+		loadConfig(config) {
+			function processView(view, item) {
+				const items = item.value;
+				const widgets = view.children;
+				let offset = 0;
+				let warned = false;
+				for (let i = 0; i < items.length; i++) {
+					if (items[i].type != utils.getWidgetName(widgets[i + offset])) {
+						if (!warned) {
+							console.warn(`Configuration mismatch! Trying to merge automatically... (${items[i].type}#${i} != ${utils.getWidgetName(widgets[i+offset])}#${i+offset} with offset ${offset})`);
+							warned = true;
+						}
+						if (items.length == widgets.length) {
+							console.warn(`Skipping field "${items[i].type}"`)
+							continue;
+						} else if (items.length < widgets.length) {
+							if (items[i] == utils.getWidgetName(widgets[i + offset + 1])) {
+								console.warn(`Assuming that ${widgets[i+offset-1]} field has been added`);
+							}
+							offset++;
+						} else if (items.length > widgets.length) {
+							if (items[i] == utils.getWidgetName(widgets[i + offset - 1])) {
+								console.warn(`Assuming that ${items[i+offset-1]} field has been removed`);
+							}
+							offset--;
+							continue;
+						} else {
+							console.warn('Unable to merge automatically; skipping')
+							return;
+						}
+					}
+					if (['input', 'number-input', 'switch', 'slider', 'select'].includes(items[i].type))
+						widgets[i + offset].setValue(items[i].value);
+					else if (items[i].type == 'tree' || items[i].type == 'has-view')
+						widgets[i + offset].view.loadConfig(items[i]);
+				}
+			}
+
+			processView(this, config);
 		}
 	}
 
@@ -313,7 +409,7 @@ const cheatgui = (function() {
 			this.view.setContent(value);
 			return this;
 		}
-		
+
 		setText(value) {
 			this.view.setText(value);
 			return this;
@@ -508,13 +604,18 @@ const cheatgui = (function() {
 		getRef() {
 			return this.ref;
 		}
-		
+
 		get children() {
 			return this.view.children;
 		}
-		
+
 		getConfig() {
 			return this.view.getConfig();
+		}
+
+		loadConfig(config) {
+			this.view.loadConfig(config);
+			return this;
 		}
 	}
 
@@ -530,7 +631,7 @@ const cheatgui = (function() {
 			this.ref.innerHTML = value;
 			return this;
 		}
-		
+
 		setText(value) {
 			this.ref.textContent = value;
 			return this;
@@ -552,7 +653,7 @@ const cheatgui = (function() {
 			this.addClass('cgui-text');
 			this.setText(text);
 		}
-		
+
 		// `setText()` and `setContent()` are inherited
 	}
 
@@ -563,7 +664,7 @@ const cheatgui = (function() {
 			this.setText(text);
 			if (callback) this.onClick(callback);
 		}
-		
+
 		// `setText()`, `setContent()` and `onClick()` are inherited
 	}
 
@@ -592,7 +693,7 @@ const cheatgui = (function() {
 			return this;
 		}
 
-			onInput(f) {
+		onInput(f) {
 			this.inputRef.addEventListener('input', e => f(e, this.getValue()));
 			return this;
 		}
@@ -721,7 +822,7 @@ const cheatgui = (function() {
 			this.max = max;
 			return this;
 		}
-		
+
 		setStep(step) {
 			this.step = step;
 			this.accuracy = getNumberOfDigitsAfterPeriod(step);
@@ -818,7 +919,7 @@ const cheatgui = (function() {
 		isChecked() {
 			return this.inputRef.checked;
 		}
-		
+
 		getValue() {
 			return this.isChecked();
 		}
@@ -975,12 +1076,17 @@ const cheatgui = (function() {
 				this.toggle();
 			});
 		}
-		
+
 		getConfig() {
 			return this.view.getConfig();
 		}
+
+		loadConfig(config) {
+			this.view.loadConfig(config);
+			return this;
+		}
 	}
-	
+
 	class Container extends Widget {
 		constructor() {
 			super('div');
@@ -991,13 +1097,13 @@ const cheatgui = (function() {
 			this.view.setContent(html);
 			return this;
 		}
-		
+
 		append(widget) {
 			this.view.append(widget);
 			return this;
 		}
 	}
-	
+
 	class Row extends Container {
 		constructor() {
 			super();
