@@ -24,9 +24,9 @@ jobs:
         run: jsdoc cheatgui.js
 
       - name: Upload JSDoc artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@main
         with:
-          name: Documentation
+          name: documentation
           path: ./out
 
   deploy:
@@ -44,4 +44,4 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifact_name: Documentation
+          artifact_name: documentation
