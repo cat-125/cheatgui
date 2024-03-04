@@ -76,6 +76,7 @@ const cheatgui = (function() {
 		}
 	}
 
+	/** @public */
 	const utils = {
 		$,
 		createElem,
@@ -166,6 +167,10 @@ const cheatgui = (function() {
 		}
 	};
 
+	/**
+	 * The base class for all elements in CheatGUI.
+	 * @public
+	 */
 	class GUIElement {
 		constructor() {
 			this.ref = null;
@@ -200,6 +205,10 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * A class that stores interface elements and displays them on a web page.
+	 * @public
+	 */
 	class View {
 		constructor() {
 			this.ref = null;
@@ -236,6 +245,10 @@ const cheatgui = (function() {
 			this.children.forEach(c => c.destroy());
 		}
 
+		/**
+		 * Get the values of all child elements as an object.
+		 * @returns {Object}
+		 */
 		getConfig() {
 			function processView(view) {
 				const res = {
@@ -266,7 +279,10 @@ const cheatgui = (function() {
 			return processView(this);
 		}
 
-
+		/**
+		 * Load the values of all child elements from the object.
+		 * @param {Object} config
+		 */
 		loadConfig(config) {
 			function processView(view, item) {
 				const items = item.value;
@@ -309,6 +325,12 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * This class represents a window with
+	 * various settings and the ability to
+	 * add child elements.
+	 * @public
+	 */
 	class Window extends GUIElement {
 		constructor({
 			x = 0,
@@ -619,6 +641,10 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * A class that represents a user interface widget.
+	 * @public
+	 */
 	class Widget extends GUIElement {
 		constructor(elementName = 'div') {
 			super();
@@ -647,6 +673,10 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * A class that represents a text widget.
+	 * @public
+	 */
 	class Text extends Widget {
 		constructor(text = '') {
 			super('div');
@@ -657,6 +687,10 @@ const cheatgui = (function() {
 		// `setText()` and `setContent()` are inherited
 	}
 
+	/**
+	 * A class that represents a button widget.
+	 * @public
+	 */
 	class Button extends Widget {
 		constructor(text = '', callback = null) {
 			super('button');
@@ -668,6 +702,9 @@ const cheatgui = (function() {
 		// `setText()`, `setContent()` and `onClick()` are inherited
 	}
 
+	/**
+	 * A class that represents an input field widget.
+	 */
 	class Input extends Widget {
 		constructor(label = '', val = '', callback = null) {
 			super('div');
@@ -713,6 +750,11 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * A class that represents an input field
+	 * where only numbers can be entered.
+	 * @public
+	 */
 	class NumberInput extends Widget {
 		constructor(label = '', value = 0, callback = null) {
 			super('div');
@@ -761,6 +803,10 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * A class representing a slider where you can select a value from a specific range.
+	 * @public
+	 */
 	class Slider extends Widget {
 		constructor({
 			label = '',
@@ -882,6 +928,10 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * A class that represents a switch that can be turned on and off.
+	 * @public
+	 */
 	class Switch extends Widget {
 		constructor(label = '', checked = false, callback = null) {
 			super('label');
@@ -935,6 +985,10 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * A class that represents a menu for selecting one of several values.
+	 * @public
+	 */
 	class Select extends Widget {
 		constructor(label = '', values, value = null, callback = null) {
 			super('label');
@@ -987,6 +1041,10 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * A tree that can be expanded and collapsed, and can also have children.
+	 * @public
+	 */
 	class Tree extends Widget {
 		constructor(title = '', expanded = false) {
 			super('div');
@@ -1087,6 +1145,13 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * Just a container where you can put
+	 * child elements. They will not differ
+	 * in any way from the ones outside. Can
+	 * be used as a column in a row.
+	 * @public
+	 */
 	class Container extends Widget {
 		constructor() {
 			super('div');
@@ -1104,6 +1169,10 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * A row that arranges the children horizontally.
+	 * @public
+	 */
 	class Row extends Container {
 		constructor() {
 			super();
@@ -1111,6 +1180,15 @@ const cheatgui = (function() {
 		}
 	}
 
+	/**
+	 * This function opens a pop-up modal window where the user can select one item from the data.
+	 * @param {String} title - The title displayed in the selection window.
+	 * @param {String[]} items - The items that will be available for the user to select.
+	 * @param {Boolean} closable - Adds one item to the end to close the menu, returning an index of -1.
+	 * @returns {Promise} A promise that will resolve with the index of the selected item.
+	 * @async
+	 * @public
+ 	 */
 	function openPopupMenu({
 		title,
 		items,
