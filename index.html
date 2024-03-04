@@ -23,29 +23,9 @@
 </head>
 
 <body>
-	<h1>CheatGUI</h1>
-
-	CheatGUI is a lightweight JavaScript library that provides a simple way to create draggable, collapsible, and
-	customizable windows with various UI elements. Here are some of its advantages:
-
-	<ol>
-		<li><strong>Easy to use:</strong> The library provides a straightforward API for creating windows and UI elements.
-		</li>
-		<li><strong>Lightweight:</strong> The library is small in size, making it suitable for projects where performance is
-			a concern.</li>
-		<li><strong>Customizable:</strong> You can easily customize the appearance of the windows and UI elements using CSS.
-		</li>
-		<li><strong>Draggable, resizable and collapsible windows:</strong> The windows can be easily dragged around the
-			screen, resized and
-			collapsed to save space.</li>
-		<li><strong>Supports various UI elements:</strong> The library includes support for text, buttons, and switches.
-		</li>
-	</ol>
-
-
 	<script>
 		/* Eruda updater for Spck Editor */
-		(function () {
+		(function() {
 			if (typeof eruda == 'undefined') return;
 			eruda.destroy();
 			const src = '//cdn.jsdelivr.net/npm/eruda';
@@ -56,22 +36,24 @@
 	</script>
 
 	<script>
-		(new cheatgui.Window({ x: 50, y: 300, width: 300, height: 200, title: "Window" }))
+		const isMobile = cheatgui.isMobile;
+	
+		(new cheatgui.Window({ x: isMobile ? 25 : 50, y: isMobile ? 25 : 300, width: 300, height: 200, title: "Window", expanded: !isMobile }))
 			.setContent("Window example");
 
-		const win = new cheatgui.Window({ x: 400, y: 300, width: 500, height: 400, title: "CheatGUI Demo" });
+		const win = new cheatgui.Window({ x: isMobile ? 25 : 400, y: isMobile ? 100 : 300, width: isMobile ? 350 : 500, height: 400, title: "CheatGUI Demo" });
 
 		const versionText = new cheatgui.Text('CheatGUI v0.12.0');
 		win.append(versionText);
 
+		const aboutTree = new cheatgui.Tree("About", true);
 		{
-			const aboutTree = new cheatgui.Tree("About", true);
 			win.append(aboutTree);
 			aboutTree.setContent("This demo demonstrates many features of the CheatGUI library. You can interact with all widgets below.");
 		}
 
+		const widgetsTree = new cheatgui.Tree("Widgets");
 		{
-			const widgetsTree = new cheatgui.Tree("Widgets");
 			win.append(widgetsTree);
 
 			// Text
@@ -102,16 +84,16 @@
 
 			input.onInput((_, value) => text3.setText("Input value: " + value));
 			input2.onInput((_, value) => text3.setText("Number input value: " + value));
-			
+
 			// Slider
-			
-			const slider = new cheatgui.Slider({label: 'Slider'});
+
+			const slider = new cheatgui.Slider({ label: 'Slider' });
 			widgetsTree.append(slider);
-			
-			const slider1 = new cheatgui.Slider({label: 'Float', max: 1, step: 0.01, value: 0.5});
+
+			const slider1 = new cheatgui.Slider({ label: 'Float', max: 1, step: 0.01, value: 0.5 });
 			widgetsTree.append(slider1);
-			
-			const slider2 = new cheatgui.Slider({label: 'Shifted', min: 500, max: 2000, value: 1000});
+
+			const slider2 = new cheatgui.Slider({ label: 'Shifted', min: 500, max: 2000, value: 1000 });
 			widgetsTree.append(slider2);
 
 			// Switch
@@ -138,23 +120,34 @@
 
 			smenu.onChange((_, value) => text5.setText("Selected value: " + value));
 		}
-		
+
+		const layoutTree = new cheatgui.Tree('Layout');
 		{
-			const layoutTree = new cheatgui.Tree('Layout');
-			
+
 			const row = new cheatgui.Row();
-			
+
 			row.append(new cheatgui.Text('1'));
 			row.append(new cheatgui.Text('2'));
 			row.append(new cheatgui.Button('3'));
 			row.append(new cheatgui.Switch('4'));
-			
+
 			layoutTree.append(row);
 			win.append(layoutTree);
 		}
 
+		const cfgTree = new cheatgui.Tree("Configuration manager");
 		{
-			const winTree = new cheatgui.Tree("Window manager");
+			win.append(cfgTree);
+			
+			const cfgText = new cheatgui.Text();
+			cfgTree.append(cfgText);
+			cfgTree.append(new cheatgui.Button('View', () => {
+				cfgText.setText(widgetsTree.getConfig());
+			}))
+		}
+
+		const winTree = new cheatgui.Tree("Window manager");
+		{
 			win.append(winTree);
 
 			const titleInput = new cheatgui.Input('Title');
@@ -186,8 +179,8 @@
 			});
 		}
 
+		const configTree = new cheatgui.Tree("Config");
 		{
-			const configTree = new cheatgui.Tree("Config");
 			win.append(configTree);
 
 			const info = new cheatgui.Text('Current config: ' + JSON.stringify(cheatgui.utils.getConfig()));
@@ -216,9 +209,7 @@
 						symbols: {
 							expanded: '▼',
 							collapsed: '◀'
-						},
-						minWindowWidth: 150,
-						minWindowHeight: 100
+						}
 					}
 				},
 				{
@@ -270,8 +261,8 @@
 			});
 		}
 
+		const stylingTree = new cheatgui.Tree("Themes");
 		{
-			const stylingTree = new cheatgui.Tree("Themes");
 			win.append(stylingTree);
 			const themes = ['default', 'imgui', 'windows', 'pink', 'modern'];
 			themes.forEach(theme => {

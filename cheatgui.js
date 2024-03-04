@@ -16,58 +16,21 @@ const cheatgui = (function() {
 	const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
 
 
-	/**
-	 * The function $ is a shorthand for document.querySelector that allows for specifying a parent
-	 * element.
-	 * 
-	 * @param {String} selector - The selector parameter is a string that represents a CSS selector. It is used to
-	 * select elements from the DOM.
-	 * @param {String} [parent] - The parent parameter is an optional parameter that specifies the parent element
-	 * within which the selector should be searched. If no parent element is provided, the default value
-	 * is the document object, which represents the entire HTML document.
-	 * @returns the result of calling `querySelector` on the `parent` element with the given `selector`.
-	 */
 	function $(selector, parent = document) {
 		if (typeof selector !== 'string') return selector;
 		return $(parent).querySelector(selector);
 	}
 
-	/**
-	 * The function "createElem" creates a new HTML element with the specified name.
-	 * 
-	 * @param {String} name - The name parameter is a string that represents the name of the HTML element you want
-	 * to create.
-	 * @returns a newly created HTML element with the specified name.
-	 */
 	function createElem(name) {
 		return document.createElement(name);
 	}
 
-	/**
-	 * The function calculates the distance between two points in a two-dimensional plane.
-	 * 
-	 * @param {Number} x1 - The x-coordinate of the first point.
-	 * @param {Number} y1 - The y-coordinate of the first point.
-	 * @param {Number} x2 - The x-coordinate of the second point.
-	 * @param {Number} y2 - The y-coordinate of the second point.
-	 * @returns the distance between two points in a two-dimensional plane.
-	 */
 	function distance(x1, y1, x2, y2) {
 		const a = x1 - x2;
 		const b = y1 - y2;
 		return Math.sqrt(a * a + b * b);
 	}
 
-	/**
-	 * The function generates a random string of a specified length using a given set of characters.
-	 * 
-	 * @param {Number} length - The length parameter specifies the length of the generated ID.
-	 * @param {String} [_chars] - The `_chars` parameter is an optional parameter that allows you to specify a
-	 * custom set of characters to use for generating the ID. If you don't provide a value for `_chars`,
-	 * the function will use the default set of characters which includes lowercase letters, uppercase
-	 * letters, and digits.
-	 * @returns a randomly generated string of characters with the specified length.
-	 */
 	function generateId(length, _chars = '') {
 		const chars = _chars || 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 		let result = '';
@@ -105,30 +68,14 @@ const cheatgui = (function() {
 	function getNumberOfDigitsAfterPeriod(number) {
 		let stringNumber = number.toString();
 		let parts = stringNumber.split(".");
-		let numberOfDigitsAfterPeriod;
 
 		if (parts.length > 1) {
-			numberOfDigitsAfterPeriod = parts[1].length;
+			return parts[1].length;
 		} else {
-			numberOfDigitsAfterPeriod = 0;
+			return 0;
 		}
-
-		return numberOfDigitsAfterPeriod;
 	}
 
-	/**
-	 * Some useful utilites.
-	 * 
-	 * Includes:
-	 * - `$(selector, parent)` - simplest jQuery analog
-	 * - `createElem(type)` - shortcut for `document.createElement()`
-	 * - `generateId(length, [_chars])` for generating random strings
-	 * - `distance(x1, y1, x2, y2)` for finding distance between two points
-	 * - `appendToBody(widget)`
-	 * - `includeCSS(css)`, `includeCSSLink(url)` for dynamically loading CSS
-	 * - `includeJS(url)`  for dynamically loading JS scripts
-	 * - `loadTheme(url)` for loading CheatGUI themes.
-	 */
 	const utils = {
 		$,
 		createElem,
@@ -139,22 +86,10 @@ const cheatgui = (function() {
 		snap,
 		getNumberOfDigitsAfterPeriod,
 
-		/**
-		 * The function appends a widget to the body of a web page.
-		 * 
-		 * @param {GUIElement} widget - The "widget" parameter is an object that represents
-		 * an UI element or component.
-		 */
 		appendToBody(widget) {
 			document.body.appendChild(widget.getRef());
 		},
 
-		/**
-		 * The function `includeCSS` is used to dynamically add CSS styles to a web page.
-		 * 
-		 * @param {String} css - The `css` parameter is a string that represents the CSS code
-		 * that you want to include.
-		 */
 		includeCSS(css) {
 			const head = document.head;
 			const style = createElem('style');
@@ -163,13 +98,6 @@ const cheatgui = (function() {
 			head.appendChild(style);
 		},
 
-		/**
-		 * The function `includeCSSLink` is used to dynamically add a CSS stylesheet
-		 * to the HTML document.
-		 * 
-		 * @param {String} url - The `url` parameter is a string that represents the URL of the
-		 * CSS file that you want to include.
-		 */
 		includeCSSLink(url) {
 			const link = createElem('link');
 			link.rel = 'stylesheet';
@@ -177,23 +105,12 @@ const cheatgui = (function() {
 			document.head.appendChild(link);
 		},
 
-		/**
-		 * The function `includeJS` is used to dynamically include an external JavaScript file in a web page.
-		 * 
-		 * @param {String} url - The URL of the JavaScript file that you want to include in your HTML document.
-		 */
 		includeJS(url) {
 			const script = createElem('script');
 			script.src = url;
 			document.body.appendChild(script);
 		},
 
-		/**
-		 * The function `loadTheme` is used to dynamically load a CheatGUI theme.
-		 * 
-		 * @param {String} url - The `url` parameter is a string that represents the URL of the theme stylesheet that
-		 * you want to load.
-		 */
 		loadTheme(url) {
 			const link = $(`link#cgui-theme`, document.head) || createElem('link');
 			link.id = 'cgui-theme'
@@ -221,28 +138,15 @@ const cheatgui = (function() {
 		}
 	};
 
-	/**
-	 * Base class for everything in CheatGUI.
-	 */
 	class GUIElement {
 		constructor() {
 			this.ref = null;
 		}
 
-		/**
-		 * Initialize GUI element.
-		 */
 		_init() {
 			this.addClass('cgui');
 		}
 
-		/**
-		 * The addClass function adds a specified class name to the element's class list.
-		 * 
-		 * @param {String} className - The className parameter is a string that represents the class name you want to
-		 * add to the element.
-		 * @returns The "this" keyword is being returned.
-		 */
 		addClass(...classes) {
 			this.ref.classList.add(...classes);
 			return this;
@@ -258,9 +162,6 @@ const cheatgui = (function() {
 			return this;
 		}
 
-		/**
-		 * @returns The widget HTML reference element
-		 */
 		getRef() {
 			return this.ref;
 		}
@@ -271,78 +172,47 @@ const cheatgui = (function() {
 		}
 	}
 
-	/**
-	 * Transparent class that allows to manage HTML container.
-	 * 
-	 * You must call one of `init()` or `mount(target)` before doing something.
-	 */
 	class View {
 		constructor() {
 			this.ref = null;
 			this.children = [];
 		}
 
-		/**
-		 * Initialize View as a new HTML element.
-		 * 
-		 * Must be called before appending sub-elements.
-		 */
 		init() {
 			this.ref = createElem('div');
 			return this;
 		}
 
-		/**
-		 * Mount View to an HTML element that already exists.
-		 * 
-		 * Must be called before appending sub-elements.
-		 * 
-		 * @param target - an HTML element to mount view into.
-		 */
 		mount(target) {
 			this.ref = $(target);
 			return this;
 		}
 
-		/**
-		 * Set the View content.
-		 * 
-		 * @param {String} html - a new content.
-		 */
-		setContent(html) {
-			this.ref.innerHTML = html;
+		setContent(value) {
+			this.ref.innerHTML = value;
+			return this;
+		}
+		
+		setText(value) {
+			this.ref.textContent = value;
 			return this;
 		}
 
-		/**
-		 * Append sub-element to View.
-		 * 
-		 * @param {GUIElement} widget - sub-element.
-		 */
 		append(widget) {
 			this.ref.appendChild(widget.getRef());
-			this.children.append(widget.getRef());
+			this.children.push(widget.getRef());
 			return this;
 		}
 		
 		destroy() {
 			this.children.forEach(c => c.destroy());
 		}
+		
+		getConfig() {
+			
+		}
 	}
 
-	/**
-	 * Class for creating windows.
-	 * 
-	 * Example:
-	 * ```
-	 * const window = new cheatgui.Window(100, 200, "My Window", false);
-	 * ```
-	 * 
-	 * @param {Number} x - The initial x-coordinate of the window.
-	 * @param {Number} y - The initial y-coordinate of the window.
-	 * @param {String} name - Initial window title.
-	 * @param {Boolean} collapsed - should be window initially collapsed.
-	 */
 	class Window extends GUIElement {
 		constructor({
 			x = 0,
@@ -434,35 +304,21 @@ const cheatgui = (function() {
 			this.initActivationOnClick();
 		}
 
-		/**
-		 * Set the window title.
-		 * 
-		 * @param {String} html - HTML-formatted title.
-		 */
 		setTitle(html) {
 			this.titleRef.innerHTML = html;
 			return this;
 		}
 
-		/**
-		 * Set the window content.
-		 * 
-		 * Shortcut for `window.view.setContent(html)`.
-		 * 
-		 * @param {String} html - HTML-formatted content.
-		 */
-		setContent(html) {
-			this.view.setContent(html);
+		setContent(value) {
+			this.view.setContent(value);
+			return this;
+		}
+		
+		setText(value) {
+			this.view.setText(value);
 			return this;
 		}
 
-		/**
-		 * Append the new element to the window.
-		 * 
-		 * Shortcut for `window.view.append(widget)`.
-		 * 
-		 * @param {GUIElement} widget - element to be added.
-		 */
 		append(widget) {
 			this.view.append(widget);
 			return this;
@@ -563,7 +419,6 @@ const cheatgui = (function() {
 			});
 		}
 
-		/** Init draggable functionality for window. */
 		initDraggable(threshold) {
 			let startX, startY, offsetX, offsetY,
 				isMouseDown = false;
@@ -650,7 +505,6 @@ const cheatgui = (function() {
 			document.addEventListener('touchend', onMouseUp);
 		}
 
-		/** Get window HTML reference. */
 		getRef() {
 			return this.ref;
 		}
@@ -658,11 +512,12 @@ const cheatgui = (function() {
 		get children() {
 			return this.view.children;
 		}
+		
+		getConfig() {
+			return this.view.getConfig();
+		}
 	}
 
-	/**
-	 * Base class for elements.
-	 */
 	class Widget extends GUIElement {
 		constructor(elementName = 'div') {
 			super();
@@ -671,47 +526,36 @@ const cheatgui = (function() {
 			this.addClass('cgui-widget');
 		}
 
-		/**
-		 * Set the element text
-		 * 
-		 * @param {String} text - HTML-formatted text to be set
-		 */
-		setText(text) {
-			this.ref.innerHTML = text;
+		setContent(value) {
+			this.ref.innerHTML = value;
+			return this;
+		}
+		
+		setText(value) {
+			this.ref.textContent = value;
 			return this;
 		}
 
-		/**
-		 * Add click event listener.
-		 * 
-		 * @param f - event listener.
-		 */
 		onClick(f) {
 			this.ref.addEventListener('click', f);
 			return this;
 		}
 
 		bind(obj, param) {
-			console.warn("Can't bind 'click' event. Use onClick() instead.");
-			return this;
+			throw new SyntaxError("The `click` event cannot be bound. Use `onClick()` instead.");
 		}
 	}
 
-	/**
-	 * The Text class is a subclass of the Element class that represents a text element
-	 * with a default value of an empty string.
-	 */
 	class Text extends Widget {
 		constructor(text = '') {
 			super('div');
 			this.addClass('cgui-text');
 			this.setText(text);
 		}
+		
+		// `setText()` and `setContent()` are inherited
 	}
 
-	/**
-	 * Button that can be clicked.
-	 */
 	class Button extends Widget {
 		constructor(text = '', callback = null) {
 			super('button');
@@ -719,11 +563,10 @@ const cheatgui = (function() {
 			this.setText(text);
 			if (callback) this.onClick(callback);
 		}
+		
+		// `setText()`, `setContent()` and `onClick()` are inherited
 	}
 
-	/**
-	 * Input where you can enter text.
-	 */
 	class Input extends Widget {
 		constructor(label = '', val = '', callback = null) {
 			super('div');
@@ -744,22 +587,12 @@ const cheatgui = (function() {
 			if (callback) this.onInput(callback);
 		}
 
-		/**
-		 * Set the input label
-		 * 
-		 * @param {String} label - label to be set
-		 */
 		setLabel(label) {
 			this.labelRef.innerHTML = label;
 			return this;
 		}
 
-		/**
-		 * Add input event listener.
-		 * 
-		 * @param f - event listener.
-		 */
-		onInput(f) {
+			onInput(f) {
 			this.inputRef.addEventListener('input', e => f(e, this.getValue()));
 			return this;
 		}
@@ -769,29 +602,16 @@ const cheatgui = (function() {
 			return this;
 		}
 
-		/**
-		 * Set the input value
-		 * 
-		 * @param {String} value - value to be set
-		 */
 		setValue(value) {
 			this.inputRef.value = value;
 			return this;
 		}
 
-		/**
-		 * Get the input value
-		 * 
-		 * @returns {String} input's value
-		 */
 		getValue() {
 			return this.inputRef.value;
 		}
 	}
 
-	/**
-	 * Input where you can enter numbers.
-	 */
 	class NumberInput extends Widget {
 		constructor(label = '', value = 0, callback = null) {
 			super('div');
@@ -813,21 +633,11 @@ const cheatgui = (function() {
 			if (callback) this.onInput(callback);
 		}
 
-		/**
-		 * Set the input label
-		 * 
-		 * @param {String} label - label to be set
-		 */
 		setLabel(label) {
 			this.labelRef.innerHTML = label;
 			return this;
 		}
 
-		/**
-		 * Add input event listener.
-		 * 
-		 * @param f - event listener.
-		 */
 		onInput(f) {
 			this.inputRef.addEventListener('input', e => f(e, this.getValue()));
 			return this;
@@ -838,31 +648,18 @@ const cheatgui = (function() {
 			return this;
 		}
 
-		/**
-		 * Set the input value
-		 * 
-		 * @param {Number} value - value to be set
-		 */
 		setValue(value) {
 			const p = parseFloat(value);
 			this.inputRef.value = isNaN(p) ? 0 : (p || 0);
 			return this;
 		}
 
-		/**
-		 * Get the input value
-		 * 
-		 * @returns {String} input's value
-		 */
 		getValue() {
 			const p = parseFloat(this.inputRef.value);
 			return isNaN(p) ? 0 : (p || 0);
 		}
 	}
 
-	/**
-	 * Slider allows you to select value in a range.
-	 */
 	class Slider extends Widget {
 		constructor({
 			label = '',
@@ -979,19 +776,11 @@ const cheatgui = (function() {
 			document.addEventListener('touchend', onMouseUp);
 		}
 
-		/**
-		 * Get the slider value
-		 * 
-		 * @returns {Number} value
-		 */
 		getValue() {
 			return this.value;
 		}
 	}
 
-	/**
-	 * Switch that can be toggled.
-	 */
 	class Switch extends Widget {
 		constructor(label = '', checked = false, callback = null) {
 			super('label');
@@ -1016,11 +805,6 @@ const cheatgui = (function() {
 			if (callback) this.onChange(callback);
 		}
 
-		/**
-		 * Add change event listener
-		 * 
-		 * @param {Function} func - event listener
-		 */
 		onChange(func) {
 			this.inputRef.addEventListener('change', e => func(e, this.inputRef.checked));
 			return this;
@@ -1031,9 +815,6 @@ const cheatgui = (function() {
 			return this;
 		}
 
-		/**
-		 * @return {boolean} Whether the switch is currently on
-		 */
 		isChecked() {
 			return this.inputRef.checked;
 		}
@@ -1047,11 +828,6 @@ const cheatgui = (function() {
 			return this;
 		}
 
-		/**
-		 * Set new text for the switch
-		 * 
-		 * @param {String} text - text to be set
-		 */
 		setLabel(label) {
 			this.labelRef.innerHTML = label;
 			return this;
@@ -1085,11 +861,6 @@ const cheatgui = (function() {
 			if (callback) this.onChange(callback);
 		}
 
-		/**
-		 * Add change event listener
-		 * 
-		 * @param {Function} func - event listener
-		 */
 		onChange(func) {
 			this.selRef.addEventListener('change', e => func(e, this.getValue()));
 			return this;
@@ -1100,9 +871,6 @@ const cheatgui = (function() {
 			return this;
 		}
 
-		/**
-		 * @return {boolean} Whether the switch is currently on
-		 */
 		getValue() {
 			return this.selRef.options[this.selRef.selectedIndex].value;
 		}
@@ -1112,11 +880,6 @@ const cheatgui = (function() {
 			return this;
 		}
 
-		/**
-		 * Set new text for the switch
-		 * 
-		 * @param {String} text - text to be set
-		 */
 		setLabel(label) {
 			this.labelRef.innerHTML = label;
 			return this;
@@ -1170,49 +933,28 @@ const cheatgui = (function() {
 			this.initToggleOnClick();
 		}
 
-		/**
-		 * Set the tree title.
-		 * 
-		 * @param {String} html - HTML-formatted title.
-		 */
 		setTitle(html) {
 			this.titleRef.innerHTML = html;
 			return this;
 		}
 
-		/**
-		 * Set the tree content.
-		 * 
-		 * Shortcut for `tree.view.setContent(html)`.
-		 * 
-		 * @param {String} html - HTML-formatted content.
-		 */
 		setContent(html) {
 			this.view.setContent(html);
 			return this;
 		}
 
-		/**
-		 * Collapse the tree.
-		 */
 		collapse() {
 			this.ref.classList.add('collapsed');
 			this.arrowRef.innerHTML = config.symbols.collapsed;
 			return this;
 		}
 
-		/**
-		 * Expand the tree.
-		 */
 		expand() {
 			this.ref.classList.remove('collapsed');
 			this.arrowRef.innerHTML = config.symbols.expanded;
 			return this;
 		}
 
-		/**
-		 * Toggle the tree's collapsed state.
-		 */
 		toggle() {
 			this.ref.classList.toggle('collapsed');
 			if (this.ref.classList.contains('collapsed')) {
@@ -1223,25 +965,19 @@ const cheatgui = (function() {
 			return this;
 		}
 
-		/**
-		 * Append the new element to the tree.
-		 * 
-		 * Shortcut for `tree.view.append(widget)`.
-		 * 
-		 * @param {GUIElement} widget - element to be added.
-		 */
 		append(widget) {
 			this.view.append(widget);
 			return this;
 		}
 
-		/**
-		 * Init toggle on click for tree.
-		 */
 		initToggleOnClick(threshold = 10) {
 			this.headerRef.addEventListener('click', e => {
 				this.toggle();
 			});
+		}
+		
+		getConfig() {
+			return this.view.getConfig();
 		}
 	}
 	
