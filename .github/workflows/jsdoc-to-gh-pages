@@ -1,0 +1,47 @@
+name: Generate and Deploy JSDoc to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install JSDoc
+        run: npm install -g jsdoc
+
+      - name: Generate JSDoc documentation
+        run: jsdoc cheatgui.js
+
+      - name: Upload JSDoc artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Documentation
+          path: ./out
+
+  deploy:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifact_name: Documentation
