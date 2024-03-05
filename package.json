@@ -22,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/cat-125/cheatgui/issues"
   },
-  "homepage": "https://github.com/cat-125/cheatgui#readme"
+  "homepage": "https://github.com/cat-125/cheatgui#readme",
+  "dependencies": {
+    "clean-css": "^5.3.3",
+    "uglify-js": "^3.17.4"
+  }
 }

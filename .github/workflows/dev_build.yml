@@ -1,6 +1,6 @@
 name: Dev Build
 
-on: [ push, pull_request ]
+on: [ push ]
 
 jobs:
   build:
@@ -8,18 +8,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v3
         with:
-          python-version: '3.10'
+          node-version: '20'
 
-      - run: pip install -r requirements.txt
-      - run: chmod +x build.py
+      - run: npm i clean-css uglify-js
+      - run: chmod +x build.js
 
       - name: Build
-        run: python build.py
+        run: node build.js
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dev-build
+          name: cheatgui-dev-b${{ github.run_number }}
           path: build/
