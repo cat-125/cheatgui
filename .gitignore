@@ -1,2 +1,6 @@
+# Visual Studio Code files
 .vscode
+# Build results
 build
+# JSDoc output
+jsdoc/out

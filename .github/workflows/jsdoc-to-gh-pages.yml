@@ -21,13 +21,13 @@ jobs:
         run: npm install -g jsdoc
 
       - name: Generate JSDoc documentation
-        run: jsdoc cheatgui.js
+        run: jsdoc cheatgui.js -r README.md -c jsdoc/jsdoc.json -d jsdoc/out
 
       - name: Upload JSDoc artifact
         uses: actions/upload-pages-artifact@main
         with:
           name: documentation
-          path: ./out
+          path: ./jsdoc/out
 
   deploy:
     needs: build-and-deploy
