@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'cheatgui.js'
+      - 'README.md'
 
 jobs:
-  build-and-deploy:
+  generate-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -30,7 +33,7 @@ jobs:
           path: ./jsdoc/out
 
   deploy:
-    needs: build-and-deploy
+    needs: generate-docs
     runs-on: ubuntu-latest
     permissions:
       pages: write

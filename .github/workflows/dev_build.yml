@@ -1,6 +1,12 @@
 name: Dev Build
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'cheatgui.js'
+      - 'cheatgui.css'
 
 jobs:
   build:
