@@ -7,9 +7,11 @@ on:
     paths:
       - 'cheatgui.js'
       - 'README.md'
+      - 'jsdoc/**'
+      - '.github/workflows/jsdoc-to-gh-pages.yml'
 
 jobs:
-  generate-docs:
+  deploy-and-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,15 +27,21 @@ jobs:
 
       - name: Generate JSDoc documentation
         run: jsdoc cheatgui.js -r README.md -c jsdoc/jsdoc.json -d jsdoc/out
+      
+      - name: Add demo code
+        run: |
+          cp cheatgui.js jsdoc/out/demo/cheatgui.js
+          cp cheatgui.css jsdoc/out/demo/cheatgui.css
+          cp index.html jsdoc/out/demo/index.html
 
-      - name: Upload JSDoc artifact
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@main
         with:
           name: documentation
           path: ./jsdoc/out
 
   deploy:
-    needs: generate-docs
+    needs: deploy-and-build
     runs-on: ubuntu-latest
     permissions:
       pages: write

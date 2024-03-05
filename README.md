@@ -10,6 +10,8 @@ CheatGUI is a lightweight JavaScript library that provides a simple way to creat
 4. **Mobile support**: interacting with UI elements works on mobile devices as well.
 5. **Supports various UI elements**: The library includes support for text, buttons, and switches.
 
+Live demo: <https://cat-125.github.io/cheatgui/demo>
+
 # Examples
 
 ```javascript
