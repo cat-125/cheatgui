@@ -76,7 +76,6 @@ const cheatgui = (function() {
 		}
 	}
 
-	/** @public */
 	const utils = {
 		$,
 		createElem,
@@ -176,29 +175,48 @@ const cheatgui = (function() {
 			this.ref = null;
 		}
 
+		/** Do the necessary initialization. */
 		_init() {
 			this.addClass('cgui');
 		}
-
+		
+		/**
+		 * Add one or more classes to an element.
+		 * @param {String} classes
+		 */
 		addClass(...classes) {
 			this.ref.classList.add(...classes);
 			return this;
 		}
 
+		/**
+		 * Set a class for an element with all previous classes deleted
+		 * @param {String} className
+		 */
 		setClass(className) {
 			this.ref.className = 'cgui-widget ' + className.trim();
 			return this;
 		}
 
+		/**
+		 * Remove one or more classes from an element
+		 * @param {String} classes
+ 		 */
 		removeClass(...classes) {
 			this.ref.classList.remove(...classes);
 			return this;
 		}
 
+		/**
+		 * @returns {HTMLElement|null}
+ 		 */
 		getRef() {
 			return this.ref;
 		}
 
+		/**
+		 * Destroy the element
+ 		 */
 		destroy() {
 			if (typeof this.view !== 'undefined') this.view.destroy();
 			this.ref.remove();
@@ -215,21 +233,36 @@ const cheatgui = (function() {
 			this.children = [];
 		}
 
+		/**
+		 * Create an HTML element for the view and don't add it anywhere.
+ 		 */
 		init() {
 			this.ref = createElem('div');
 			return this;
 		}
 
+		/**
+		 * Use an existing HTML element for the view.
+		 * @param {HTMLElement} target
+ 		 */
 		mount(target) {
 			this.ref = $(target);
 			return this;
 		}
 
+		/**
+		 * Set the contents of the view.
+		 * @param {String} value
+ 		 */
 		setContent(value) {
 			this.ref.innerHTML = value;
 			return this;
 		}
 
+		/**
+		 * Set the contents of the view.
+		 * @param {String} value
+ 		 */
 		setText(value) {
 			this.ref.textContent = value;
 			return this;
