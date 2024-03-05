@@ -42,7 +42,7 @@ See also [`index.html`](https://github.com/cat-125/cheatgui/blob/main/index.html
 
 # Documentation
 
-Documentation for CheatGUI is available at <https://cat-125.github.com/cheatgui>.
+Documentation for CheatGUI is available at <https://cat-125.github.io/cheatgui>.
 
 # Features
 
