@@ -53,8 +53,8 @@ const cheatgui = (function() {
 			throw new Error("Step cannot be zero");
 		}
 
-		var remainder = value % step;
-		var result;
+		const remainder = value % step;
+		let result;
 
 		if (remainder <= step / 2) {
 			result = value - remainder;
@@ -479,7 +479,7 @@ const cheatgui = (function() {
 			this.ref.style.left = `${x}px`;
 			this.ref.style.top = `${y}px`;
 			this.x = x;
-			this, y = y;
+			this.y = y;
 			return this;
 		}
 
@@ -1023,7 +1023,7 @@ const cheatgui = (function() {
 	 * @public
 	 */
 	class Select extends Widget {
-		constructor(label = '', values, value = null, callback = null) {
+		constructor(label = '', values = {}, value = null, callback = null) {
 			super('label');
 			const id = this.id = generateId(16);
 			this.ref.for = id;
