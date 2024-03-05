@@ -21,14 +21,15 @@
 	margin: 0;
 	border-radius: 8px;
 	overflow: hidden;
-	backdrop-filter: blur(6px);
+	backdrop-filter: none;
 	transition: box-shadow .2s;
 	z-index: 99998;
+	border: 1px solid #444;
 }
 
 .cgui-window-header {
-	background: #000b;
-	padding: 10px;
+	background: #111e;
+	padding: 8px;
 	margin: 0;
 	appearance: button;
 	-ms-appearance: button;
@@ -39,7 +40,9 @@
 	outline: none;
 	border: none;
 	box-shadow: none;
-	cursor: pointer;
+	cursor: default;
+	font-size: 0.9em;
+	border-bottom: 1px solid #444;
 }
 
 .cgui-window-title {
@@ -56,7 +59,7 @@
 
 .cgui-window-content {
 	margin: 0;
-	background: #0009;
+	background: #000e;
 	padding: 10px;
 	overflow-y: auto;
 	display: block;
@@ -93,13 +96,8 @@
 	z-index: 99999;
 }
 
-.cgui-window.active>.cgui-window-header {
-	background: #000e;
+.cgui-window.active .cgui-window-title {
 	font-weight: bold;
-}
-
-.cgui-window.active>.cgui-window-content {
-	background: #000c;
 }
 
 .cgui-window.cgui-dragging {
@@ -134,8 +132,8 @@
 /* Button */
 
 .cgui-btn {
-	background: #555c;
-	border: none;
+	background: #333e;
+	border: 1px solid #444;
 	outline: none;
 	color: #fff;
 	padding: 10px;
@@ -148,13 +146,14 @@
 }
 
 .cgui-btn:hover {
-	background: #777c;
+	background: #444e;
+	border-color: #555;
 }
 
 .cgui-btn:active {
-	background: #fffc;
-	color: #000;
-	transition: .15s;
+	background: #555e;
+	border-color: #666;
+	transition: none;
 }
 
 /* Input */
@@ -167,7 +166,7 @@
 }
 
 .cgui-input {
-	background: #555c;
+	background: #333e;
 	outline: none;
 	color: #fff;
 	padding: 10px;
@@ -177,12 +176,13 @@
 	transition: .1s;
 	user-select: none;
 	cursor: text;
-	border: 1px solid #777c;
+	border: 1px solid #444;
 	max-width: 100%;
 }
 
 .cgui-input:focus {
-	border-color: #fffc;
+	transition: none;
+	border-color: #555;
 }
 
 .cgui-input-label {
@@ -203,13 +203,13 @@
 }
 
 .cgui-slider {
-	background: #555c;
+	background: #333e;
 	outline: none;
 	color: #fff;
 	width: 50%;
 	border-radius: 16px;
 	transition: .1s;
-	border: none;
+	border: 1px solid #444;
 	max-width: 100%;
 	height: 32px;
 	display: inline-flex;
@@ -273,10 +273,11 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: #555c;
+	background-color: #333e;
 	border-radius: 16px;
 	transition: background-color 0.2s;
 	margin-right: 8px;
+	border: 1px solid #444;
 }
 
 .cgui-switch-slider::before {
@@ -300,12 +301,12 @@
 }
 
 .cgui-switch>input:checked+.cgui-switch-slider::before {
-	background-color: #555e;
+	background-color: #333e;
 	transform: translateX(10px);
 }
 
 .cgui-switch:hover>input:checked+.cgui-switch-slider::before {
-	background-color: #777;
+	background-color: #333e;
 }
 
 /* Tree */
@@ -319,7 +320,7 @@
 }
 
 .cgui-tree>.cgui-tree-header {
-	background: transparent;
+	background: #3338;
 	padding: 4px;
 	margin: 0;
 	appearance: button;
@@ -329,7 +330,7 @@
 	user-select: none;
 	display: flex;
 	outline: none;
-	border: none;
+	border: 1px solid #444c;
 	box-shadow: none;
 	cursor: pointer;
 	transition: background-color .3s;

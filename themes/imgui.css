@@ -96,6 +96,7 @@
 	border-radius: 0;
 	transition: none !important;
 	cursor: default;
+	border: none;
 }
 
 .cgui-btn:hover {
@@ -150,6 +151,7 @@
 	transition: none;
 	height: 26px;
 	padding: 0 4px;
+	border: none;
 }
 
 .cgui-slider-thumb {
@@ -159,6 +161,7 @@
 	border-radius: 0;
 	transition: none;
 	color: #fff;
+	border: none;
 }
 
 .cgui-slider-thumb:active {
@@ -179,6 +182,7 @@
 	background: #294A7A8A;
 	border-radius: 0;
 	transition: none;
+	border: none;
 }
 
 .cgui-switch-slider::before {
