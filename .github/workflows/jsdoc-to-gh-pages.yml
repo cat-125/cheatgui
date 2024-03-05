@@ -30,6 +30,7 @@ jobs:
       
       - name: Add demo code
         run: |
+          mkdir -p jsdoc/out/demo
           cp cheatgui.js jsdoc/out/demo/cheatgui.js
           cp cheatgui.css jsdoc/out/demo/cheatgui.css
           cp index.html jsdoc/out/demo/index.html
