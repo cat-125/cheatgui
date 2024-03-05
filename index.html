@@ -100,19 +100,19 @@
 
 			sw1tch.onChange((_, value) => text4.setText("Switch value: " + value));
 
-			// Select menu
+			// Dropdown
 
 			const text5 = new cheatgui.Text('Select something');
 			widgetsTree.append(text5);
 
-			const smenu = new cheatgui.Select('Select menu', {
+			const dd = new cheatgui.Dropdown('Select menu', {
 				'Value 1': '1',
 				'Value 2': '2',
 				'Value 3': '3'
 			});
-			widgetsTree.append(smenu);
+			widgetsTree.append(dd);
 
-			smenu.onChange((_, value) => text5.setText("Selected value: " + value));
+			dd.onChange((_, value) => text5.setText("Selected value: " + value));
 		}
 
 		const layoutTree = new cheatgui.Tree('Layout');

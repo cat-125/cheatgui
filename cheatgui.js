@@ -111,8 +111,8 @@ const cheatgui = (function () {
 				return 'switch';
 			} else if (widget instanceof Slider) {
 				return 'slider';
-			} else if (widget instanceof Select) {
-				return 'select';
+			} else if (widget instanceof Dropdown) {
+				return 'dropdown';
 			} else if (widget instanceof Tree) {
 				return 'tree';
 			} else if (typeof widget.view !== 'undefined') {
@@ -375,7 +375,7 @@ const cheatgui = (function () {
 							return;
 						}
 					}
-					if (['input', 'number-input', 'switch', 'slider', 'select'].includes(items[i].type))
+					if (['input', 'number-input', 'switch', 'slider', 'dropdown'].includes(items[i].type))
 						widgets[i + offset].setValue(items[i].value);
 					else if (items[i].type == 'tree' || items[i].type == 'has-view')
 						widgets[i + offset].view.loadConfig(items[i]);
@@ -1332,17 +1332,17 @@ const cheatgui = (function () {
 	 * @public
 	 * @extends Widget
 	 */
-	class Select extends Widget {
+	class Dropdown extends Widget {
 		/**
-		 * Create a new select menu.
+		 * Create a new dropdown.
 		 * 
 		 * The values parameter should be an object where the keys are the display text and
 		 * the values are the actual values.
 		 * 
 		 * @param {string} [label=''] - The label text.
-		 * @param {Object} [values={}] - The values to display in the select menu.
-		 * @param {string} [value=null] - The initial value of the select menu.
-		 * @param {function} [callback=null] - The callback function to call when the select menu
+		 * @param {Object} [values={}] - The values to display in the dropdown.
+		 * @param {string} [value=null] - The initial value of the dropdown.
+		 * @param {function} [callback=null] - The callback function to call when the dropdown
 		 * is changed.
 		 */
 		constructor(label = '', values = {}, value = null, callback = null) {
@@ -1372,8 +1372,8 @@ const cheatgui = (function () {
 		}
 
 		/**
-		 * Set the callback function to call when the select menu is changed.
-		 * @param {Function} func - The callback function to call when the select menu is changed.
+		 * Set the callback function to call when the value is changed.
+		 * @param {Function} func - The callback function to call when the value is changed.
 		 * @returns {Select}
 		 */
 		onChange(func) {
@@ -1382,7 +1382,7 @@ const cheatgui = (function () {
 		}
 
 		/**
-		 * Bind a property to the select menu.
+		 * Bind a property to the dropdown.
 		 * @param {Object} obj - The object to bind the property to.
 		 * @param {string} prop - The property to bind.
 		 * @returns {Select}
@@ -1393,7 +1393,7 @@ const cheatgui = (function () {
 		}
 
 		/**
-		 * Get the value of the select menu.
+		 * Get the value of the dropdown.
 		 * @returns {string}
 		 */
 		getValue() {
@@ -1401,7 +1401,7 @@ const cheatgui = (function () {
 		}
 
 		/**
-		 * Set the value of the select menu.
+		 * Set the value of the dropdown.
 		 * @param {string} val
 		 * @returns {Select}
 		 */
@@ -1411,7 +1411,7 @@ const cheatgui = (function () {
 		}
 
 		/**
-		 * Set the label of the select menu.
+		 * Set the label of the dropdown.
 		 * @param {string} label
 		 * @returns {Select}
 		 */
@@ -1682,7 +1682,7 @@ const cheatgui = (function () {
 		});
 	}
 
-	return { GUIElement, View, Window, Element, Text, Button, Input, NumberInput, Slider, Switch, Select, Tree, Container, Row, openPopupMenu, utils, isMobile };
+	return { GUIElement, View, Window, Element, Text, Button, Input, NumberInput, Slider, Switch, Dropdown, Tree, Container, Row, openPopupMenu, utils, isMobile };
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;
