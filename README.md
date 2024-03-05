@@ -1,6 +1,7 @@
 # CheatGUI
 
-![image](https://github.com/cat-125/cheatgui/assets/106539381/bcde44ad-6a85-44cb-ac34-7536362b1327)
+![Preview](https://github.com/cat-125/cheatgui/assets/106539381/62378702-14b3-4325-9bc0-b7c640cf2310)
+
 
 CheatGUI is a lightweight JavaScript library that provides a simple way to create draggable, collapsible, and customizable windows with various UI elements. Here are some of its advantages:
 
@@ -98,7 +99,10 @@ CheatGUI has several files that can be imported. Here are the differences betwee
 
 # Gallery
 
-![old demo](https://github.com/cat-125/cheatgui/assets/106539381/ba98e21f-8cf7-4410-a0b3-2f7c078576b5)
+![All widgets](https://github.com/cat-125/cheatgui/assets/106539381/8bf5144e-79df-49f5-8a30-4202777ccf02)
+
+
+![Old demo + legacy theme](https://github.com/cat-125/cheatgui/assets/106539381/ba98e21f-8cf7-4410-a0b3-2f7c078576b5)
 
 ![Windows theme](https://github.com/cat-125/cheatgui/assets/106539381/9d97b6ea-0294-436b-97ec-3c839fcfec60)
 
