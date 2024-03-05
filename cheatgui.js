@@ -1300,7 +1300,6 @@ const cheatgui = (function () {
 
 		/**
 		 * Get whether the switch is checked.
-		 * @alias isChecked
 		 * @returns {boolean}
 		 */
 		getValue() {
