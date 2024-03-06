@@ -26,7 +26,7 @@ const CleanCSS = require('clean-css');
 const UglifyJS = require('uglify-js');
 
 const INJ_TEMPLATE = '{js};cheatgui.utils.includeCSS(`{css}`);';
-const header = `/* CheatGUI | (C) Cat-125 and contributors | https://github.com/Cat-125/CheatGUI/blob/main/LICENSE */\n\n`
+const header = `/* CheatGUI | (C) Cat-125 and contributors | https://github.com/Cat-125/CheatGUI/ */\n\n`
 
 function read(filePath) {
   return fs.readFileSync(filePath, 'utf8');

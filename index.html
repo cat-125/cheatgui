@@ -42,7 +42,7 @@ SOFTWARE.
 <body>
 	<script>
 		/* Eruda updater for Spck Editor */
-		(function() {
+		(function () {
 			if (typeof eruda == 'undefined') return;
 			eruda.destroy();
 			const src = '//cdn.jsdelivr.net/npm/eruda';
@@ -54,20 +54,19 @@ SOFTWARE.
 
 	<script>
 		const isMobile = cheatgui.isMobile;
-	
-		(new cheatgui.Window({ x: isMobile ? 25 : 50, y: isMobile ? 25 : 300, width: 300, height: 200, title: "Window", expanded: !isMobile }))
+
+		(new cheatgui.Window({ x: isMobile ? 25 : 50, y: isMobile ? 25 : 50, width: 300, height: 200, title: "Window", expanded: !isMobile }))
 			.setContent("Window example");
 
-		const win = new cheatgui.Window({ x: isMobile ? 25 : 400, y: isMobile ? 100 : 300, width: isMobile ? 350 : 500, height: 400, title: "CheatGUI Demo" });
+		const win = new cheatgui.Window({ x: isMobile ? 25 : 400, y: isMobile ? 100 : 50, width: isMobile ? 350 : 500, height: 400, title: "CheatGUI Demo" });
 
-		const versionText = new cheatgui.Text('CheatGUI v0.12.0');
+		const versionText = new cheatgui.Text('CheatGUI v0.13.0');
 		win.append(versionText);
 
 		const aboutTree = new cheatgui.Tree("About", true);
-		{
-			win.append(aboutTree);
-			aboutTree.setContent("This demo demonstrates many features of the CheatGUI library. You can interact with all widgets below.");
-		}
+		win.append(aboutTree);
+		aboutTree.setContent("This demo demonstrates many features of the CheatGUI library. You can interact with all widgets below.");
+
 
 		const widgetsTree = new cheatgui.Tree("Widgets");
 		{
@@ -155,7 +154,7 @@ SOFTWARE.
 		const cfgTree = new cheatgui.Tree("Configuration manager");
 		{
 			win.append(cfgTree);
-			
+
 			const cfgText = new cheatgui.Text();
 			cfgTree.append(cfgText);
 			cfgTree.append(new cheatgui.Button('View current', () => {

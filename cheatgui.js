@@ -30,7 +30,19 @@
  * @see https://github.com/Cat-125/CheatGUI
  */
 
-const cheatgui = (function () {
+const cheatgui = (function (global, factory) {
+	"use strict";
+	if (typeof module === 'object' && typeof module.exports === 'object') {
+		module.exports = global.document ?
+			factory(global, true) :
+			function (w) {
+				return factory(w);
+			};
+	}
+	return factory(global);
+})(typeof window !== 'undefined' ? window : this, function (window) {
+
+	const document = window.document;
 
 	const config = {
 		symbols: {
@@ -45,7 +57,7 @@ const cheatgui = (function () {
 		}
 	};
 
-	const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
+	const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(window.navigator.userAgent);
 
 
 	function $(selector, parent = document) {
@@ -1707,7 +1719,4 @@ const cheatgui = (function () {
 	}
 
 	return { GUIElement, View, Window, Element, Text, Button, Input, NumberInput, Slider, Switch, Dropdown, Tree, Container, Row, openPopupMenu, utils, isMobile };
-})();
-
-if (typeof module !== 'undefined' && typeof module.exports == 'object') module.exports = cheatgui;
-if (typeof globalThis !== 'undefined') globalThis.cheatgui = cheatgui;
+});
