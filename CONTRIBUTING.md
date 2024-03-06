@@ -1,3 +1,5 @@
+# Contributing
+
 Thank you for considering contributing to CheatGUI! Here's how you can help:
 
 1. **Fork the Repository**: Click on the fork button at the top right corner of the [CheatGUI repository](https://github.com/cat-125/cheatgui) page to create a copy of this repository on your GitHub account.
