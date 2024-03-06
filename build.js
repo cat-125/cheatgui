@@ -33,6 +33,8 @@ function main() {
 
   const injContent = INJ_TEMPLATE.replace('{js}', mjs).replace('{css}', mcss);
   write('build/cheatgui.inj.js', injContent);
+
+  write('build/LICENSE', read('LICENSE'));
 }
 
 main();
