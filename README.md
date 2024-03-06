@@ -159,7 +159,7 @@ You can download and use themes from the [`themes/` folder](https://github.com/c
 
 ![ImGui theme vs. Dear ImGui](https://github.com/cat-125/cheatgui/assets/106539381/e9bfad04-fb7d-4c57-aa9e-7f0630f00f04)
 
-### Contributing
+## Contributing
 
 See [`CONTRIBUTING.md`](https://github.com/cat-125/cheatgui/blob/main/CONTRIBUTING.md) for details.
 
