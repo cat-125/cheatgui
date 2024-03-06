@@ -33,10 +33,9 @@ Thank you for considering contributing to CheatGUI! Here's how you can help:
 
 7. **Submit a Pull Request**: Go to the [CheatGUI repository](https://github.com/cat-125/cheatgui) and click on "Pull Requests". Then click on "New Pull Request". Select your branch and submit your request with a clear description of your changes.
 
-Before submitting your pull request, please ensure:
+   Before submitting your pull request, please ensure:
 
-- All new code is covered by unit tests.
-- All new features or significant changes are accompanied by appropriate documentation updates.
-- Your code passes any existing tests and coding style checks.
+   - All new features or significant changes are accompanied by appropriate documentation updates.
+   - Your code matches the coding style of the project.
 
 Thank you for your contributions!
