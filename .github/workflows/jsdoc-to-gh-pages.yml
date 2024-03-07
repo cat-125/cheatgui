@@ -31,7 +31,7 @@ jobs:
         run: jsdoc -c jsdoc/jsdoc.json
       
       - name: Build
-        run: grunt
+        run: npx webpack
       
       - name: Add demo code
         run: |

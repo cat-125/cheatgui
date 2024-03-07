@@ -21,7 +21,7 @@ jobs:
       - run: npm install
 
       - name: Build
-        run: grunt
+        run: npx webpack
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
