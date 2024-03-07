@@ -95,7 +95,7 @@ tree.append(new cheatgui.Slider({
 }));
 ```
 
-See also [`index.html`](https://github.com/cat-125/cheatgui/blob/main/index.html#L33).
+See also [`index.html`](index.html#L56).
 
 ## Documentation
 
@@ -112,13 +112,11 @@ const widget = new cheatgui.WidgetName(...);
 - Text
 - Button
 - Input
-- Number input (`NumberInput`)
 - Slider
 - Switch
 - Tree
-- Select menu (`Select`)
-- Container
-- Row
+- Dropdown
+- And more
 
 ### Themes
 
@@ -126,7 +124,7 @@ const widget = new cheatgui.WidgetName(...);
 cheatgui.utils.loadTheme(url);
 ```
 
-You can download and use themes from the [`themes/` folder](https://github.com/cat-125/cheatgui/tree/main/themes) or create your own.
+You can download and use themes from the [`themes/` folder](themes/) or create your own.
 
 ### Other
 
@@ -161,7 +159,7 @@ You can download and use themes from the [`themes/` folder](https://github.com/c
 
 ## Contributing
 
-See [`CONTRIBUTING.md`](https://github.com/cat-125/cheatgui/blob/main/CONTRIBUTING.md) for details.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for details.
 
 ## License
 
