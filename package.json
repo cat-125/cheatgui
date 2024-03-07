@@ -4,7 +4,8 @@
   "description": "Effortless library for building window-based interfaces.",
   "main": "build.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "grunt watch",
+    "build": "grunt"
   },
   "repository": {
     "type": "git",
