@@ -6,7 +6,5 @@ build
 jsdoc/out
 # Node.js
 node_modules
-package.json
-package-lock.json
 # Python cache
 __pycache__

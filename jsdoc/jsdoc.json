@@ -5,7 +5,7 @@
 	],
 	"source": {
 		"include": [
-			"cheatgui.js"
+			"src/js"
 		]
 	},
 	"opts": {

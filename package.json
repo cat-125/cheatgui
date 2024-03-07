@@ -1,0 +1,33 @@
+{
+  "name": "cheatgui",
+  "version": "0.13.0",
+  "description": "Effortless library for building window-based interfaces.",
+  "main": "build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cat-125/cheatgui.git"
+  },
+  "keywords": [
+    "gui"
+  ],
+  "author": "Cat-125",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cat-125/cheatgui/issues"
+  },
+  "homepage": "https://github.com/cat-125/cheatgui#readme",
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "clean-jsdoc-theme": "^4.2.17",
+    "grunt": "^1.6.1",
+    "grunt-babel": "^8.0.0",
+    "grunt-banner": "^0.6.0",
+    "grunt-contrib-cssmin": "^5.0.0",
+    "grunt-contrib-uglify": "^5.2.2",
+    "grunt-contrib-watch": "^1.1.0"
+  }
+}
