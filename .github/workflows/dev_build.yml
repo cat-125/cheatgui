@@ -5,8 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'cheatgui.js'
-      - 'cheatgui.css'
+      - 'src/**'
       - '.github/workflows/dev_build.yml'
 
 jobs:
@@ -19,14 +18,10 @@ jobs:
         with:
           node-version: '20'
 
-      - run: npm i clean-css uglify-js
-      - run: chmod +x build.js
+      - run: npm install
 
       - name: Build
-        run: node build.js
-      
-      - name: Add LICENSE file
-        run: cp LICENSE build
+        run: grunt
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4

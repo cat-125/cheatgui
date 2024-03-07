@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'cheatgui.js'
+      - 'src/js/**'
       - 'README.md'
       - 'jsdoc/**'
       - '.github/workflows/jsdoc-to-gh-pages.yml'
@@ -30,11 +30,13 @@ jobs:
       - name: Generate JSDoc documentation
         run: jsdoc -c jsdoc/jsdoc.json
       
+      - name: Build
+        run: grunt
+      
       - name: Add demo code
         run: |
           mkdir -p jsdoc/out/demo
-          cp cheatgui.js jsdoc/out/demo/cheatgui.js
-          cp cheatgui.css jsdoc/out/demo/cheatgui.css
+          cp build jsdoc/out/demo
           cp index.html jsdoc/out/demo/index.html
 
       - name: Upload artifact
