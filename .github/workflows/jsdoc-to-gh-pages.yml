@@ -22,11 +22,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install JSDoc
-        run: npm install -g jsdoc
+      - name: Install JSDoc and theme
+        run: |
+          npm i -g jsdoc
+          npm i clean-jsdoc-theme --save-dev
 
       - name: Generate JSDoc documentation
-        run: jsdoc cheatgui.js -r README.md -c jsdoc/jsdoc.json -d jsdoc/out
+        run: jsdoc -c jsdoc/jsdoc.json
       
       - name: Add demo code
         run: |
