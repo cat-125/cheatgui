@@ -65,8 +65,8 @@ const cheatgui = (function (global, factory) {
 		return $(parent).querySelector(selector);
 	}
 
-	function createElem(name) {
-		return document.createElement(name);
+	function createElem(title) {
+		return document.createElement(title);
 	}
 
 	function distance(x1, y1, x2, y2) {
@@ -123,6 +123,7 @@ const cheatgui = (function (global, factory) {
 	/**
 	 * Utility functions
 	 * @public
+	 * @namespace
 	 */
 	const utils = {
 		$,
