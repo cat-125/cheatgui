@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
-	mode: 'development',
 	entry: './src/js/cheatgui.js',
 	output: {
 		path: path.resolve(__dirname, 'build'),
@@ -39,7 +38,9 @@ module.exports = {
 	optimization: {
 		minimize: true,
 		minimizer: [
-			new TerserPlugin(),
+			new TerserPlugin({
+				extractComments: false
+			}),
 			new CssMinimizerPlugin()
 		],
 	}

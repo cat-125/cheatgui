@@ -11,8 +11,6 @@ import { $, clamp, createElem, distance, generateId, getNumberOfDigitsAfterPerio
  * @see https://github.com/Cat-125/CheatGUI
  */
 
-
-
 const config = {
 	symbols: {
 		expanded: '▼',

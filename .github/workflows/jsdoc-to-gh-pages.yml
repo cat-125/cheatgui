@@ -31,7 +31,7 @@ jobs:
         run: jsdoc -c jsdoc/jsdoc.json
       
       - name: Build
-        run: npx webpack
+        run: npm run build
       
       - name: Add demo code
         run: |

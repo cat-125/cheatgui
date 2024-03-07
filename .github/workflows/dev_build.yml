@@ -21,7 +21,7 @@ jobs:
       - run: npm install
 
       - name: Build
-        run: npx webpack
+        run: npm run build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
