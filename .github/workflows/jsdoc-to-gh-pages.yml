@@ -7,7 +7,7 @@ on:
     paths:
       - 'src/js/**'
       - 'README.md'
-      - 'jsdoc/**'
+      - 'jsdoc.json'
       - '.github/workflows/jsdoc-to-gh-pages.yml'
 
 jobs:
