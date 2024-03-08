@@ -11,12 +11,13 @@
 		"template": "node_modules/clean-jsdoc-theme",
 		"readme": "./README.md",
 		"encoding": "utf8",
-		"destination": "./jsdoc/out",
+		"destination": "./docs",
 		"recurse": true,
 		"theme_opts": {
 			"default_theme": "dark",
 			"homepageTitle": "CheatGUI",
 			"title": "CheatGUI",
+			"create_style": ".sidebar-items-container {margin-top: 2rem;}",
 			"menu": [
 				{
 					"title": "GitHub",

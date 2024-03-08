@@ -3,7 +3,7 @@
 # Build results
 build
 # JSDoc output
-jsdoc/out
+docs
 # Node.js
 node_modules
 # Python cache

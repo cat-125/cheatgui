@@ -28,22 +28,22 @@ jobs:
           npm i clean-jsdoc-theme --save-dev
 
       - name: Generate JSDoc documentation
-        run: jsdoc -c jsdoc/jsdoc.json
+        run: jsdoc -c jsdoc.json
       
       - name: Build
         run: npm run build
       
       - name: Add demo code
         run: |
-          mkdir -p jsdoc/out/demo
-          cp -r build jsdoc/out/demo
-          cp index.html jsdoc/out/demo/index.html
+          mkdir -p docs/demo
+          cp -r build docs/demo
+          cp index.html docs/demo/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@main
         with:
           name: documentation
-          path: ./jsdoc/out
+          path: ./docs
 
   deploy:
     needs: deploy-and-build
