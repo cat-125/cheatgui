@@ -14,7 +14,7 @@ import * as utils from './utils.js';
 
 const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
 
-const { $, createElem, generateId, distance, clamp, range2percentage, snap, getNumberOfDigitsAfterPeriod } = utils;
+const { $, createElem, generateId, distance, clamp, range2percentage, snap, countDigitsAfterDecimal } = utils;
 
 /**
  * The base class for all elements in CheatGUI.
@@ -1007,7 +1007,7 @@ class Slider extends Widget {
 	 */
 	setStep(step) {
 		this.step = step;
-		this.accuracy = getNumberOfDigitsAfterPeriod(step);
+		this.accuracy = countDigitsAfterDecimal(step);
 		return this;
 	}
 
