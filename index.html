@@ -28,8 +28,8 @@ SOFTWARE.
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title></title>
-	<script src="cheatgui.js"></script>
-	<link rel="stylesheet" href="cheatgui.css">
+	<script src="build/cheatgui.min.js"></script>
+	<link rel="stylesheet" href="build/cheatgui.min.css">
 	<style>
 		body {
 			font-family: Arial, Helvetica, sans-serif;
@@ -211,7 +211,7 @@ SOFTWARE.
 		{
 			win.append(configTree);
 
-			const info = new cheatgui.Text('Current config: ' + JSON.stringify(cheatgui.utils.getConfig()));
+			const info = new cheatgui.Text('Current config: ' + JSON.stringify(cheatgui.getConfig()));
 			configTree.append(info);
 
 			const input = new cheatgui.Input('Config');
@@ -222,8 +222,8 @@ SOFTWARE.
 
 			btn.onClick(() => {
 				try {
-					cheatgui.utils.updateConfig(JSON.parse(input.getText()));
-					info.setText(JSON.stringify(cheatgui.utils.getConfig()));
+					cheatgui.updateConfig(JSON.parse(input.getText()));
+					info.setText(JSON.stringify(cheatgui.getConfig()));
 					input.setText('');
 				} catch (e) {
 					console.log(e);
@@ -260,8 +260,8 @@ SOFTWARE.
 					items: presets.map(preset => preset.name),
 					closable: false
 				}).then(id => {
-					cheatgui.utils.updateConfig(presets[id].value);
-					info.setText(JSON.stringify(cheatgui.utils.getConfig()));
+					cheatgui.updateConfig(presets[id].value);
+					info.setText(JSON.stringify(cheatgui.getConfig()));
 				});
 			});
 		}
