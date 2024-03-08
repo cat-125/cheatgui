@@ -1,7 +1,5 @@
 const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
 	entry: './src/js/cheatgui.js',
@@ -34,14 +32,5 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: 'cheatgui.min.css'
 		})
-	],
-	optimization: {
-		minimize: true,
-		minimizer: [
-			new TerserPlugin({
-				extractComments: false
-			}),
-			new CssMinimizerPlugin()
-		],
-	}
+	]
 };
