@@ -211,7 +211,7 @@ SOFTWARE.
 		{
 			win.append(configTree);
 
-			const info = new cheatgui.Text('Current config: ' + JSON.stringify(cheatgui.utils.getConfig()));
+			const info = new cheatgui.Text('Current config: ' + JSON.stringify(cheatgui.getConfig()));
 			configTree.append(info);
 
 			const input = new cheatgui.Input('Config');
@@ -222,8 +222,8 @@ SOFTWARE.
 
 			btn.onClick(() => {
 				try {
-					cheatgui.utils.updateConfig(JSON.parse(input.getText()));
-					info.setText(JSON.stringify(cheatgui.utils.getConfig()));
+					cheatgui.updateConfig(JSON.parse(input.getText()));
+					info.setText(JSON.stringify(cheatgui.getConfig()));
 					input.setText('');
 				} catch (e) {
 					console.log(e);
@@ -260,8 +260,8 @@ SOFTWARE.
 					items: presets.map(preset => preset.name),
 					closable: false
 				}).then(id => {
-					cheatgui.utils.updateConfig(presets[id].value);
-					info.setText(JSON.stringify(cheatgui.utils.getConfig()));
+					cheatgui.updateConfig(presets[id].value);
+					info.setText(JSON.stringify(cheatgui.getConfig()));
 				});
 			});
 		}

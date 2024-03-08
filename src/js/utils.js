@@ -1,3 +1,18 @@
+import {
+	GUIElement,
+	Widget,
+	Text,
+	Button,
+	Input,
+	NumberInput,
+	Slider,
+	Switch,
+	Dropdown,
+	Tree,
+	Container,
+	Row
+} from './cheatgui.js';
+
 export function $(selector, parent = document) {
 	if (typeof selector !== 'string') return selector;
 	return $(parent).querySelector(selector);
@@ -53,7 +68,71 @@ export function getNumberOfDigitsAfterPeriod(number) {
 
 	if (parts.length > 1) {
 		return parts[1].length;
-	} else {
-		return 0;
 	}
+	return 0;
+}
+
+export function getWidgetName(widget) {
+	if (typeof widget == 'string' || widget instanceof Text) {
+		return 'text';
+	} else if (widget instanceof Button) {
+		return 'button'
+	} else if (widget instanceof Input) {
+		return 'input';
+	} else if (widget instanceof NumberInput) {
+		return 'number-input';
+	} else if (widget instanceof Switch) {
+		return 'switch';
+	} else if (widget instanceof Slider) {
+		return 'slider';
+	} else if (widget instanceof Dropdown) {
+		return 'dropdown';
+	} else if (widget instanceof Tree) {
+		return 'tree';
+	} else if (widget instanceof Container) {
+		return 'container';
+	} else if (widget instanceof Row) {
+		return 'row';
+	} else if (typeof widget.view !== 'undefined') {
+		return 'has-view';
+	} else if (widget instanceof Widget) {
+		return 'widget'
+	} else if (widget instanceof GUIElement) {
+		return 'gui-element';
+	} else {
+		return 'unknown';
+	}
+}
+
+export function appendToBody(widget) {
+	document.body.appendChild(widget.getRef());
+}
+
+export function includeCSS(css) {
+	const head = document.head;
+	const style = createElem('style');
+	style.setAttribute('type', 'text/css');
+	style.innerHTML = css;
+	head.appendChild(style);
+}
+
+export function includeCSSLink(url) {
+	const link = createElem('link');
+	link.rel = 'stylesheet';
+	link.href = url;
+	document.head.appendChild(link);
+}
+
+export function includeJS(url) {
+	const script = createElem('script');
+	script.src = url;
+	document.body.appendChild(script);
+}
+
+export function loadTheme(url) {
+	const link = $(`link#cgui-theme`, document.head) || createElem('link');
+	link.id = 'cgui-theme'
+	link.rel = 'stylesheet';
+	link.href = url;
+	document.head.appendChild(link);
 }

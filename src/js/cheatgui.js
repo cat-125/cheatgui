@@ -1,6 +1,7 @@
 import '../css/cheatgui.css';
 
-import { $, clamp, createElem, distance, generateId, getNumberOfDigitsAfterPeriod, range2percentage, snap } from './utils.js';
+import { config, getConfig, updateConfig } from './config.js';
+import * as utils from './utils.js';
 
 /**
  * CheatGUI
@@ -11,115 +12,9 @@ import { $, clamp, createElem, distance, generateId, getNumberOfDigitsAfterPerio
  * @see https://github.com/Cat-125/CheatGUI
  */
 
-const config = {
-	symbols: {
-		expanded: '▼',
-		collapsed: '◀',
-		resize: '&#9698;' // ◢
-	},
-	minWindowWidth: 150,
-	minWindowHeight: 100,
-	language: {
-		'close': 'Close'
-	}
-};
-
 const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
 
-/**
- * Utility functions
- * @public
- * @namespace
- */
-const utils = {
-	$,
-	createElem,
-	generateId,
-	distance,
-	clamp,
-	range2percentage,
-	snap,
-	getNumberOfDigitsAfterPeriod,
-
-	getWidgetName(widget) {
-		if (typeof widget == 'string' || widget instanceof Text) {
-			return 'text';
-		} else if (widget instanceof Button) {
-			return 'button'
-		} else if (widget instanceof Input) {
-			return 'input';
-		} else if (widget instanceof NumberInput) {
-			return 'number-input';
-		} else if (widget instanceof Switch) {
-			return 'switch';
-		} else if (widget instanceof Slider) {
-			return 'slider';
-		} else if (widget instanceof Dropdown) {
-			return 'dropdown';
-		} else if (widget instanceof Tree) {
-			return 'tree';
-		} else if (typeof widget.view !== 'undefined') {
-			return 'has-view';
-		} else if (widget instanceof Widget) {
-			return 'widget'
-		} else if (widget instanceof GUIElement) {
-			return 'gui-element';
-		} else {
-			return 'unknown';
-		}
-	},
-
-	appendToBody(widget) {
-		document.body.appendChild(widget.getRef());
-	},
-
-	includeCSS(css) {
-		const head = document.head;
-		const style = createElem('style');
-		style.setAttribute('type', 'text/css');
-		style.innerHTML = css;
-		head.appendChild(style);
-	},
-
-	includeCSSLink(url) {
-		const link = createElem('link');
-		link.rel = 'stylesheet';
-		link.href = url;
-		document.head.appendChild(link);
-	},
-
-	includeJS(url) {
-		const script = createElem('script');
-		script.src = url;
-		document.body.appendChild(script);
-	},
-
-	loadTheme(url) {
-		const link = $(`link#cgui-theme`, document.head) || createElem('link');
-		link.id = 'cgui-theme'
-		link.rel = 'stylesheet';
-		link.href = url;
-		document.head.appendChild(link);
-	},
-
-	updateConfig(newConfig) {
-		function updateNestedConfig(config, newConfig) {
-			for (const [key, value] of Object.entries(newConfig)) {
-				if (typeof value === 'object' && typeof config[key] === 'object') {
-					updateNestedConfig(config[key], value);
-				} else if (config[key] !== undefined) {
-					config[key] = value;
-				}
-			}
-		}
-
-		updateNestedConfig(config, newConfig);
-	},
-
-	getConfig() {
-		return config;
-	}
-};
+const { $, createElem, generateId, distance, clamp, range2percentage, snap, getNumberOfDigitsAfterPeriod } = utils;
 
 /**
  * The base class for all elements in CheatGUI.
@@ -1625,4 +1520,24 @@ function openPopupMenu({
 	});
 }
 
-export { GUIElement, View, Window, Widget, Text, Button, Input, NumberInput, Slider, Switch, Dropdown, Tree, Container, Row, openPopupMenu, utils, isMobile };
+export {
+	GUIElement,
+	View,
+	Window,
+	Widget,
+	Text,
+	Button,
+	Input,
+	NumberInput,
+	Slider,
+	Switch,
+	Dropdown,
+	Tree,
+	Container,
+	Row,
+	openPopupMenu,
+	utils,
+	updateConfig,
+	getConfig,
+	isMobile
+};
