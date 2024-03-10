@@ -107,6 +107,10 @@
 	height: auto !important;
 }
 
+.cgui-window.collapsed>.cgui-window-header {
+	border-bottom: none;
+}
+
 .cgui-window.collapsed>.cgui-window-content {
 	display: none;
 }
