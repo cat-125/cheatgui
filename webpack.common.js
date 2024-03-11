@@ -6,9 +6,12 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, 'build'),
 		filename: 'cheatgui.min.js',
-		library: 'cheatgui',
-		libraryTarget: 'umd',
-		globalObject: 'this'
+		library: {
+			name: 'cheatgui',
+			type: "umd"
+		},
+		globalObject: 'window || this',
+		clean: true
 	},
 	module: {
 		rules: [
