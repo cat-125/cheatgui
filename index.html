@@ -41,18 +41,6 @@ SOFTWARE.
 
 <body>
 	<script>
-		/* Eruda updater for Spck Editor */
-		(function () {
-			if (typeof eruda == 'undefined') return;
-			eruda.destroy();
-			const src = '//cdn.jsdelivr.net/npm/eruda';
-			if (/android/.test(navigator.userAgent) && localStorage.getItem('active-eruda') != 'true') return;
-			document.write('<script src="' + src + '"></scr' + 'ipt>');
-			document.write('<script>eruda.init();eruda.hide();</scr' + 'ipt>');
-		})();
-	</script>
-
-	<script>
 		const isMobile = cheatgui.isMobile;
 
 		(new cheatgui.Window({ x: isMobile ? 25 : 50, y: isMobile ? 25 : 50, width: 300, height: 200, title: "Window", expanded: !isMobile }))
