@@ -10,7 +10,7 @@ module.exports = {
 			name: 'cheatgui',
 			type: "umd"
 		},
-		globalObject: 'typeof window !== "undefined" ? window || this',
+		globalObject: 'this',
 		clean: true
 	},
 	module: {

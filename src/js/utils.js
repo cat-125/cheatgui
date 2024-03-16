@@ -1,5 +1,5 @@
 /**
- * Useful utilites
+ * Useful utilities
  * @module
  */
 
@@ -14,7 +14,7 @@ import {
 	Switch,
 	Dropdown,
 	Tree,
-	Container,
+	Box,
 	Row
 } from './cheatgui.js';
 
@@ -33,7 +33,7 @@ export function $(selector, parent = document) {
 /**
  * Create an HTML element
  * @param {string} type - HTML element 
- * @returns {HTMLElement}
+ * @returns {any}
  * @public
  */
 export function createElem(type) {
@@ -173,7 +173,7 @@ export function getWidgetName(widget) {
 		return 'dropdown';
 	} else if (widget instanceof Tree) {
 		return 'tree';
-	} else if (widget instanceof Container) {
+	} else if (widget instanceof Box) {
 		return 'container';
 	} else if (widget instanceof Row) {
 		return 'row';

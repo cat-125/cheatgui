@@ -21,6 +21,8 @@ const { $, createElem, generateId, distance, clamp, range2percentage, snap, coun
  * @public
  */
 class GUIElement {
+    view;
+
 	constructor() {
 		this.ref = null;
 	}
@@ -37,16 +39,6 @@ class GUIElement {
 	 */
 	addClass(...classes) {
 		this.ref.classList.add(...classes);
-		return this;
-	}
-
-	/**
-	 * Set a class for an element with all previous classes deleted.
-	 * @param {string} className
-	 * @returns {GUIElement}
-	 */
-	setClass(className) {
-		this.ref.className = 'cgui-widget ' + className.trim();
 		return this;
 	}
 
@@ -84,15 +76,6 @@ class View {
 	constructor() {
 		this.ref = null;
 		this.children = [];
-	}
-
-	/**
-	 * Create an HTML element for the view and don't add it anywhere.
-	 * @returns {View}
-	 */
-	init() {
-		this.ref = createElem('div');
-		return this;
 	}
 
 	/**
@@ -162,9 +145,9 @@ class View {
 
 				if (['input', 'number-input', 'switch', 'slider', 'select'].includes(type)) {
 					el.value = child.getValue();
-				} else if (type == 'tree') {
+				} else if (type === 'tree') {
 					el.value = processView(child.view).value;
-				} else if (type == 'has-view') {
+				} else if (type === 'has-view') {
 					el.value = processView(child.view).value;
 				} else if (typeof child.getValue === 'function')
 					el.value = child.getValue();
@@ -189,21 +172,21 @@ class View {
 			let offset = 0;
 			let warned = false;
 			for (let i = 0; i < items.length; i++) {
-				if (items[i].type != utils.getWidgetName(widgets[i + offset])) {
+				if (items[i].type !== utils.getWidgetName(widgets[i + offset])) {
 					if (!warned) {
 						console.warn(`Configuration mismatch! Trying to merge automatically... (${items[i].type}#${i} != ${utils.getWidgetName(widgets[i + offset])}#${i + offset} with offset ${offset})`);
 						warned = true;
 					}
-					if (items.length == widgets.length) {
+					if (items.length === widgets.length) {
 						console.warn(`Skipping field "${items[i].type}"`)
 						continue;
 					} else if (items.length < widgets.length) {
-						if (items[i] == utils.getWidgetName(widgets[i + offset + 1])) {
+						if (items[i] === utils.getWidgetName(widgets[i + offset + 1])) {
 							console.warn(`Assuming that ${widgets[i + offset - 1]} field has been added`);
 						}
 						offset++;
 					} else if (items.length > widgets.length) {
-						if (items[i] == utils.getWidgetName(widgets[i + offset - 1])) {
+						if (items[i] === utils.getWidgetName(widgets[i + offset - 1])) {
 							console.warn(`Assuming that ${items[i + offset - 1]} field has been removed`);
 						}
 						offset--;
@@ -215,7 +198,7 @@ class View {
 				}
 				if (['input', 'number-input', 'switch', 'slider', 'dropdown'].includes(items[i].type))
 					widgets[i + offset].setValue(items[i].value);
-				else if (items[i].type == 'tree' || items[i].type == 'has-view')
+				else if (items[i].type === 'tree' || items[i].type === 'has-view')
 					widgets[i + offset].view.loadConfig(items[i]);
 			}
 		}
@@ -496,9 +479,10 @@ class Window extends GUIElement {
 	 * @returns {Window}
 	 */
 	sendToTop() {
-		if (this.ref.classList.contains('active')) return;
+		if (this.ref.classList.contains('active')) return this;
 		[...document.getElementsByClassName('cgui-window')].forEach(win => win.classList.remove('active'));
 		this.ref.classList.add('active');
+		return this;
 	}
 
 	initActivationOnClick() {
@@ -528,7 +512,7 @@ class Window extends GUIElement {
 		let startX, startY, offsetX, offsetY,
 			isMouseDown = false;
 
-		const startDragging = (e) => {
+		const startDragging = () => {
 			this.isDragging = true;
 			this.ref.classList.add('cgui-dragging');
 		}
@@ -1028,19 +1012,18 @@ class Slider extends Widget {
 
 	initSlider() {
 		let isDragging = false;
-		let listeners = new Array(2);
 		const onMouseDown = e => {
 			isDragging = true;
 			updateSlider(e);
-			listeners[0] = document.addEventListener('mousemove', updateSlider);
-			listeners[1] = document.addEventListener('touchmove', updateSlider);
+			document.addEventListener('mousemove', updateSlider);
+			document.addEventListener('touchmove', updateSlider);
 		};
 		const onMouseUp = () => {
 			if (!isDragging) return;
 			isDragging = false;
 			this.ref.dispatchEvent(new CustomEvent('change'));
-			document.removeEventListener('mousemove', listeners[0]);
-			document.removeEventListener('touchmove', listeners[1]);
+			document.removeEventListener('mousemove', updateSlider);
+			document.removeEventListener('touchmove', updateSlider);
 		};
 		const updateSlider = e => {
 			if (!isDragging) return;
@@ -1196,7 +1179,7 @@ class Dropdown extends Widget {
 			const opt = createElem('option');
 			opt.textContent = k;
 			opt.value = v;
-			if (v == value) opt.selected = true;
+			if (v === value) opt.selected = true;
 			this.selRef.appendChild(opt);
 		}
 		this.labelRef = createElem('span');
@@ -1212,7 +1195,7 @@ class Dropdown extends Widget {
 	/**
 	 * Set the callback function to call when the value is changed.
 	 * @param {Function} func - The callback function to call when the value is changed.
-	 * @returns {Select}
+	 * @returns {Dropdown}
 	 */
 	onChange(func) {
 		this.selRef.addEventListener('change', e => func(e, this.getValue()));
@@ -1223,7 +1206,7 @@ class Dropdown extends Widget {
 	 * Bind a property to the dropdown.
 	 * @param {Object} obj - The object to bind the property to.
 	 * @param {string} prop - The property to bind.
-	 * @returns {Select}
+	 * @returns {Dropdown}
 	 */
 	bind(obj, prop) {
 		this.onChange((_, val) => obj[prop] = val);
@@ -1241,7 +1224,7 @@ class Dropdown extends Widget {
 	/**
 	 * Set the value of the dropdown.
 	 * @param {string} val
-	 * @returns {Select}
+	 * @returns {Dropdown}
 	 */
 	setValue(val) {
 		this.selRef.value = val;
@@ -1251,7 +1234,7 @@ class Dropdown extends Widget {
 	/**
 	 * Set the label of the dropdown.
 	 * @param {string} label
-	 * @returns {Select}
+	 * @returns {Dropdown}
 	 */
 	setLabel(label) {
 		this.labelRef.innerHTML = label;
@@ -1381,8 +1364,8 @@ class Tree extends Widget {
 		return this;
 	}
 
-	initToggleOnClick(threshold = 10) {
-		this.headerRef.addEventListener('click', e => {
+	initToggleOnClick() {
+		this.headerRef.addEventListener('click', () => {
 			this.toggle();
 		});
 	}
@@ -1412,7 +1395,7 @@ class Tree extends Widget {
  * @public
  * @extends Widget
  */
-class Container extends Widget {
+class Box extends Widget {
 	constructor() {
 		super('div');
 		this.view = (new View).mount(this.ref);
@@ -1421,7 +1404,7 @@ class Container extends Widget {
 	/**
 	 * Set the content of the container.
 	 * @param {string} html
-	 * @returns {Container}
+	 * @returns {Box}
 	 */
 	setContent(html) {
 		this.view.setContent(html);
@@ -1431,7 +1414,7 @@ class Container extends Widget {
 	/**
 	 * Add a child widget to the container.
 	 * @param {Widget} widget
-	 * @returns {Container}
+	 * @returns {Box}
 	 */
 	append(widget) {
 		this.view.append(widget);
@@ -1442,9 +1425,9 @@ class Container extends Widget {
 /**
  * A row that arranges the children horizontally.
  * @public
- * @extends Container
+ * @extends Box
  */
-class Row extends Container {
+class Row extends Box {
 	constructor() {
 		super();
 		this.addClass('cgui-row')
@@ -1533,7 +1516,7 @@ export {
 	Switch,
 	Dropdown,
 	Tree,
-	Container,
+	Box,
 	Row,
 	openPopupMenu,
 	utils,
