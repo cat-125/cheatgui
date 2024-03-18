@@ -134,11 +134,6 @@
 
 /* Input */
 
-.cgui-input-wrapper {
-	margin: 0;
-	padding: 0;
-}
-
 .cgui-input {
 	background: #294A7A8A;
 	font-family: monospace;
@@ -147,7 +142,7 @@
 	width: 60%;
 	border-radius: 0;
 	display: inline-block;
-	transition: .1s;
+	transition: none;
 	user-select: none;
 	cursor: text;
 	border: none;
@@ -267,7 +262,6 @@
 	margin: 0;
 	padding: 10px;
 	margin-left: 3px;
-	border-left: none;
 }
 
 .cgui-tree>.cgui-tree-header:hover {
