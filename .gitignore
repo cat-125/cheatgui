@@ -3,6 +3,7 @@
 .idea
 # Build results
 build
+dist
 # JSDoc output
 docs
 # Node.js

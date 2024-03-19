@@ -28,8 +28,8 @@ SOFTWARE.
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title></title>
-	<script src="build/cheatgui.min.js"></script>
-	<link rel="stylesheet" href="build/cheatgui.min.css">
+	<script src="dist/cheatgui.min.js"></script>
+	<link rel="stylesheet" href="dist/cheatgui.min.css">
 	<style>
 		body {
 			font-family: Arial, Helvetica, sans-serif;
@@ -40,7 +40,7 @@ SOFTWARE.
 </head>
 
 <body>
-	<script type="module">
+	<script>
 		const isMobile = cheatgui.isMobile;
 
 		(new cheatgui.Window({ x: isMobile ? 25 : 50, y: isMobile ? 25 : 50, width: 300, height: 200, title: "Window", expanded: !isMobile }))

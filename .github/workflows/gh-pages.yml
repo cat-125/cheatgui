@@ -37,7 +37,7 @@ jobs:
       - name: Add demo
         run: |
           mkdir -p docs/demo
-          cp -r build docs/demo
+          cp -r dist docs/demo
           cp index.html docs/demo/index.html
 
       - name: Upload artifact

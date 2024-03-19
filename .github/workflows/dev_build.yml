@@ -27,4 +27,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cheatgui-dev-b${{ github.run_number }}
-          path: build/
+          path: dist/
