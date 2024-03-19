@@ -1,14 +1,15 @@
-name: Generate and Deploy JSDoc to GitHub Pages
+name: Generate and Deploy GitHub Pages
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'src/js/**'
+      - 'src/**'
+      - 'themes/**'
       - 'README.md'
       - 'jsdoc.json'
-      - '.github/workflows/jsdoc-to-gh-pages.yml'
+      - '.github/workflows/gh-pages.yml'
 
 jobs:
   deploy-and-build:
@@ -33,7 +34,7 @@ jobs:
       - name: Build
         run: npm run build
       
-      - name: Add demo code
+      - name: Add demo
         run: |
           mkdir -p docs/demo
           cp -r build docs/demo
