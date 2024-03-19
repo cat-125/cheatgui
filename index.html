@@ -62,32 +62,21 @@ SOFTWARE.
 
 			// Text
 
-			const text = new cheatgui.Text('Text element can be used to display information.');
+			const text = new cheatgui.Text('Text');
 			widgetsTree.append(text);
 
 			// Button
 
-			const text2 = new cheatgui.Text('Click button');
-			widgetsTree.append(text2);
-
 			const btn = new cheatgui.Button('Button');
 			widgetsTree.append(btn);
 
-			btn.onClick(() => text2.setText('Button clicked'));
-
 			// Input
-
-			const text3 = new cheatgui.Text('Enter something');
-			widgetsTree.append(text3);
 
 			const input = new cheatgui.Input('Input');
 			widgetsTree.append(input);
 
 			const input2 = new cheatgui.NumberInput('Number');
 			widgetsTree.append(input2);
-
-			input.onInput((_, value) => text3.setText("Input value: " + value));
-			input2.onInput((_, value) => text3.setText("Number input value: " + value));
 
 			// Slider
 
@@ -102,18 +91,10 @@ SOFTWARE.
 
 			// Switch
 
-			const text4 = new cheatgui.Text('Click switch');
-			widgetsTree.append(text4);
-
 			const sw1tch = new cheatgui.Switch('Switch');
 			widgetsTree.append(sw1tch);
 
-			sw1tch.onChange((_, value) => text4.setText("Switch value: " + value));
-
 			// Dropdown
-
-			const text5 = new cheatgui.Text('Select something');
-			widgetsTree.append(text5);
 
 			const dd = new cheatgui.Dropdown('Dropdown', {
 				'Value 1': '1',
@@ -121,8 +102,6 @@ SOFTWARE.
 				'Value 3': '3'
 			});
 			widgetsTree.append(dd);
-
-			dd.onChange((_, value) => text5.setText("Selected value: " + value));
 		}
 
 		const layoutTree = new cheatgui.Tree('Layout');
@@ -139,7 +118,7 @@ SOFTWARE.
 			win.append(layoutTree);
 		}
 
-		const cfgTree = new cheatgui.Tree("Configuration manager");
+		const cfgTree = new cheatgui.Tree("Window configuration");
 		{
 			win.append(cfgTree);
 
@@ -195,7 +174,7 @@ SOFTWARE.
 			});
 		}
 
-		const configTree = new cheatgui.Tree("Config");
+		const configTree = new cheatgui.Tree("Global config");
 		{
 			win.append(configTree);
 
