@@ -2,6 +2,8 @@
 
 ![Preview](https://github.com/cat-125/cheatgui/assets/106539381/62378702-14b3-4325-9bc0-b7c640cf2310)
 
+![total lines](https://tokei.rs/b1/github/cat-125/cheatgui)
+
 CheatGUI is a lightweight JavaScript library that provides a simple way to create draggable, collapsible, and customizable windows with various UI elements. Here are some of its advantages:
 
 1. **Easy to use**: The library provides a straightforward API for creating windows and UI elements.
