@@ -1,9 +1,3 @@
-import '../css/cheatgui.css';
-
-import { config, getConfig, updateConfig } from './config.js';
-import * as utils from './utils.js';
-export { utils, getConfig, updateConfig };
-
 /**
  * CheatGUI
  * 
@@ -12,6 +6,13 @@ export { utils, getConfig, updateConfig };
  * @license MIT
  * @see https://github.com/Cat-125/CheatGUI
  */
+
+
+import '../css/cheatgui.css';
+
+import { config, getConfig, updateConfig } from './config.js';
+import * as utils from './utils.js';
+export { utils, getConfig, updateConfig };
 
 export const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
 
