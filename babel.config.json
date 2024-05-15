@@ -1,5 +1,5 @@
 {
 	"sourceMaps": "both",
   "presets": ["@babel/preset-env"],
-	"plugins": ["babel-plugin-loop-optimizer", "closure-elimination"]
+	"plugins": ["babel-plugin-loop-optimizer"]
 }

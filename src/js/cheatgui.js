@@ -2,6 +2,7 @@ import '../css/cheatgui.css';
 
 import { config, getConfig, updateConfig } from './config.js';
 import * as utils from './utils.js';
+export { utils, getConfig, updateConfig };
 
 /**
  * CheatGUI
@@ -12,18 +13,47 @@ import * as utils from './utils.js';
  * @see https://github.com/Cat-125/CheatGUI
  */
 
-const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
+export const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
 
 const { $, createElem, generateId, distance, clamp, range2percentage, snap, countDigitsAfterDecimal } = utils;
 
 /**
- * The base class for all elements in CheatGUI.
- * @public
+ * Class that supports event listeners.
  */
-class GUIElement {
-    view;
+export class EventSupport {
+	constructor() {
+		this.listeners = {};
+	}
+
+	on(event, callback) {
+		this.listeners[event] = this.listeners[event] || [];
+		this.listeners[event].push(callback);
+	}
+
+	off(event, callback) {
+		if (this.listeners[event]) {
+			this.listeners[event] = this.listeners[event].filter(cb => cb !== callback);
+		}
+	}
+
+	trigger(event, ...args) {
+		if (this.listeners[event]) {
+			this.listeners[event].forEach(callback => callback(...args));
+		}
+	}
+}
+
+
+/**
+ * The base export class for all elements in CheatGUI.
+ * @public
+ * @extends EventSupport
+ */
+export class GUIElement extends EventSupport {
+  view;
 
 	constructor() {
+		super();
 		this.ref = null;
 	}
 
@@ -33,8 +63,8 @@ class GUIElement {
 	}
 
 	/**
-	 * Add one or more classes to an element.
-	 * @param {string} classes
+	 * Add one or more export classes to an element.
+	 * @param {string} export classes
 	 * @returns {GUIElement}
 	 */
 	addClass(...classes) {
@@ -43,8 +73,8 @@ class GUIElement {
 	}
 
 	/**
-	 * Remove one or more classes from an element.
-	 * @param {string} classes
+	 * Remove one or more export classes from an element.
+	 * @param {string} export classes
 	 * @returns {GUIElement}
 	 */
 	removeClass(...classes) {
@@ -69,10 +99,10 @@ class GUIElement {
 }
 
 /**
- * A class that stores interface elements and displays them on a web page.
+ * A export class that stores interface elements and displays them on a web page.
  * @public
  */
-class View {
+export class View {
 	constructor() {
 		this.ref = null;
 		this.children = [];
@@ -208,13 +238,13 @@ class View {
 }
 
 /**
- * This class represents a window with
+ * This export class represents a window with
  * various settings and the ability to
  * add child elements.
  * @public
  * @extends GUIElement
  */
-class Window extends GUIElement {
+export class Window extends GUIElement {
 	/**
 	 * Creates a new window element.
 	 * @param {Object} options - The options for the window
@@ -629,11 +659,11 @@ class Window extends GUIElement {
 }
 
 /**
- * A class that represents a user interface widget.
+ * A export class that represents a user interface widget.
  * @public
  * @extends GUIElement
  */
-class Widget extends GUIElement {
+export class Widget extends GUIElement {
 	/**
 	 * Create a new widget and initialize it.
 	 * @param {string} [elementType='div'] - The HTML element type.
@@ -643,6 +673,7 @@ class Widget extends GUIElement {
 		this.ref = createElem(elementType);
 		this._init();
 		this.addClass('cgui-widget');
+		this.ref.addEventListener('click', () => this.trigger('click'));
 	}
 
 	/**
@@ -671,7 +702,7 @@ class Widget extends GUIElement {
 	 * @returns {Widget}
 	 */
 	onClick(f) {
-		this.ref.addEventListener('click', f);
+		this.on('click', f);
 		return this;
 	}
 
@@ -681,10 +712,31 @@ class Widget extends GUIElement {
 }
 
 /**
- * A class that represents a text widget.
+ * Widget with value
  * @public
  */
-class Text extends Widget {
+export class ValueWidget extends Widget {
+	setValue(value) {
+		this.ref.value = value;
+	}
+
+	changeValue() {
+		this.setValue(this.ref.value);
+		this.trigger('change');
+		return this;
+	}
+
+	getValue() {
+		return this.ref.value;
+	}
+}
+
+
+/**
+ * A export class that represents a text widget.
+ * @public
+ */
+export class Text extends Widget {
 	/**
 	 * Create a new text widget and initialize it.
 	 * @param {string} [text=''] - The text to display.
@@ -697,11 +749,11 @@ class Text extends Widget {
 }
 
 /**
- * A class that represents a button widget.
+ * A export class that represents a button widget.
  * @public
  * @extends Widget
  */
-class Button extends Widget {
+export class Button extends Widget {
 	/**
 	 * Create a new button widget and initialize it.
 	 * @param {string} [text=''] - Button text.
@@ -716,11 +768,11 @@ class Button extends Widget {
 }
 
 /**
- * A class that represents an input field widget.
+ * A export class that represents an input field widget.
  * @public
- * @extends Widget
+ * @extends ValueWidget
  */
-class Input extends Widget {
+export class Input extends ValueWidget {
 	/**
 	 * Create a new input field widget and initialize it.
 	 * @param {string} [label=''] - The label text.
@@ -743,6 +795,11 @@ class Input extends Widget {
 		this.setValue(val);
 		this.setLabel(label);
 
+		this.inputRef.addEventListener('input', () => {
+			this.trigger('change', this.getValue());
+			this.trigger('input', this.getValue());
+		});
+
 		if (callback) this.onInput(callback);
 	}
 
@@ -762,7 +819,7 @@ class Input extends Widget {
 	 * @returns {Input}
 	 */
 	onInput(f) {
-		this.inputRef.addEventListener('input', e => f(e, this.getValue()));
+		this.on('input', e => f(e, this.getValue()));
 		return this;
 	}
 
@@ -797,12 +854,12 @@ class Input extends Widget {
 }
 
 /**
- * A class that represents an input field
+ * A export class that represents an input field
  * where only numbers can be entered.
  * @public
- * @extends Widget
+ * @extends ValueWidget
  */
-class NumberInput extends Widget {
+export class NumberInput extends ValueWidget {
 	/**
 	 * Create a new number input field and initialize it.
 	 * @param {string} [label=''] - The label text.
@@ -826,6 +883,11 @@ class NumberInput extends Widget {
 		this.setValue(value);
 		this.setLabel(label);
 
+		this.inputRef.addEventListener('input', () => {
+			this.trigger('change', this.getValue());
+			this.trigger('input', this.getValue());
+		});
+
 		if (callback) this.onInput(callback);
 	}
 
@@ -845,7 +907,7 @@ class NumberInput extends Widget {
 	 * @returns {NumberInput}
 	 */
 	onInput(f) {
-		this.inputRef.addEventListener('input', e => f(e, this.getValue()));
+		this.on('input', e => f(e, this.getValue()));
 		return this;
 	}
 
@@ -866,8 +928,7 @@ class NumberInput extends Widget {
 	 * @returns {NumberInput}
 	 */
 	setValue(value) {
-		const p = parseFloat(value);
-		this.inputRef.value = isNaN(p) ? 0 : (p || 0);
+		this.inputRef.value = this.parse(value);
 		return this;
 	}
 
@@ -876,17 +937,21 @@ class NumberInput extends Widget {
 	 * @returns {string} - The value of the input field.
 	 */
 	getValue() {
+		return this.parse(this.inputRef.value);
+	}
+
+	parse() {
 		const p = parseFloat(this.inputRef.value);
 		return isNaN(p) ? 0 : (p || 0);
 	}
 }
 
 /**
- * A class representing a slider where you can select a value from a specific range.
+ * A export class representing a slider where you can select a value from a specific range.
  * @public
- * @extends Widget
+ * @extends ValueWidget
  */
-class Slider extends Widget {
+export class Slider extends ValueWidget {
 	/**
 	 * Create a new slider and initialize it.
 	 * @param {Object} options - The options for the slider
@@ -949,7 +1014,7 @@ class Slider extends Widget {
 	 * @returns {Slider}
 	 */
 	onChange(f) {
-		this.ref.addEventListener('change', e => f(e, this.getValue()));
+		this.on('change', e => f(e, this.getValue()));
 		return this;
 	}
 
@@ -1021,7 +1086,7 @@ class Slider extends Widget {
 		const onMouseUp = () => {
 			if (!isDragging) return;
 			isDragging = false;
-			this.ref.dispatchEvent(new CustomEvent('change'));
+			this.trigger('change');
 			document.removeEventListener('mousemove', updateSlider);
 			document.removeEventListener('touchmove', updateSlider);
 		};
@@ -1056,11 +1121,11 @@ class Slider extends Widget {
 }
 
 /**
- * A class that represents a switch that can be turned on and off.
+ * A export class that represents a switch that can be turned on and off.
  * @public
- * @extends Widget
+ * @extends ValueWidget
  */
-class Switch extends Widget {
+export class Switch extends ValueWidget {
 	/**
 	 * Create a new switch.
 	 * @param {string} [label=''] - The label text.
@@ -1087,6 +1152,11 @@ class Switch extends Widget {
 		this.ref.tabIndex = 0;
 		this.setLabel(label);
 
+		this.inputRef.addEventListener('change', () => {
+			this.trigger('change', this.getValue());
+			this.trigger('input', this.getValue());
+		});
+
 		if (callback) this.onChange(callback);
 	}
 
@@ -1096,7 +1166,7 @@ class Switch extends Widget {
 	 * @returns {Switch}
 	 */
 	onChange(func) {
-		this.inputRef.addEventListener('change', e => func(e, this.inputRef.checked));
+		this.on('change', e => func(e, this.inputRef.checked));
 		return this;
 	}
 
@@ -1149,11 +1219,11 @@ class Switch extends Widget {
 }
 
 /**
- * A class that represents a menu for selecting one of several values.
+ * A export class that represents a menu for selecting one of several values.
  * @public
- * @extends Widget
+ * @extends ValueWidget
  */
-class Dropdown extends Widget {
+export class Dropdown extends ValueWidget {
 	/**
 	 * Create a new dropdown.
 	 * 
@@ -1163,7 +1233,7 @@ class Dropdown extends Widget {
 	 * @param {string} [label=''] - The label text.
 	 * @param {Object} [values={}] - The values to display in the dropdown.
 	 * @param {string} [value=null] - The initial value of the dropdown.
-	 * @param {function} [callback=null] - The callback function to call when the dropdown
+	 * @param {function} [callback=null] - The callback function to call when the value
 	 * is changed.
 	 */
 	constructor(label = '', values = {}, value = null, callback = null) {
@@ -1247,7 +1317,7 @@ class Dropdown extends Widget {
  * @public
  * @extends Widget
  */
-class Tree extends Widget {
+export class Tree extends Widget {
 	/**
 	 * Create a new tree that can be expanded and collapsed. You can add children to the tree
 	 * with the `addChild` method so that they appear in the tree.
@@ -1395,7 +1465,7 @@ class Tree extends Widget {
  * @public
  * @extends Widget
  */
-class Box extends Widget {
+export class Box extends Widget {
 	constructor() {
 		super('div');
 		this.view = (new View).mount(this.ref);
@@ -1427,7 +1497,7 @@ class Box extends Widget {
  * @public
  * @extends Box
  */
-class Row extends Box {
+export class Row extends Box {
 	constructor() {
 		super();
 		this.addClass('cgui-row')
@@ -1443,7 +1513,7 @@ class Row extends Box {
  * @async
  * @public
  */
-function openPopupMenu({
+export function openPopupMenu({
 	title,
 	items,
 	closable = true
@@ -1502,25 +1572,3 @@ function openPopupMenu({
 		document.body.appendChild(divWrapper);
 	});
 }
-
-export {
-	GUIElement,
-	View,
-	Window,
-	Widget,
-	Text,
-	Button,
-	Input,
-	NumberInput,
-	Slider,
-	Switch,
-	Dropdown,
-	Tree,
-	Box,
-	Row,
-	openPopupMenu,
-	utils,
-	updateConfig,
-	getConfig,
-	isMobile
-};
