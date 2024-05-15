@@ -7,11 +7,10 @@
  * @see https://github.com/Cat-125/CheatGUI
  */
 
-
 import '../css/cheatgui.css';
 
-import { config, getConfig, updateConfig } from './config.js';
-import * as utils from './utils.js';
+import { config, getConfig, updateConfig } from './config';
+import * as utils from './utils';
 export { utils, getConfig, updateConfig };
 
 export const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
@@ -22,22 +21,24 @@ const { $, createElem, generateId, distance, clamp, range2percentage, snap, coun
  * Class that supports event listeners.
  */
 export class EventSupport {
+	listeners: { [key: string]: Function[] };
+
 	constructor() {
 		this.listeners = {};
 	}
 
-	on(event, callback) {
-		this.listeners[event] = this.listeners[event] || [];
+	on(event: string, callback: Function) {
+		if (!this.listeners[event]) this.listeners[event] = [];
 		this.listeners[event].push(callback);
 	}
 
-	off(event, callback) {
+	off(event: string, callback: Function) {
 		if (this.listeners[event]) {
 			this.listeners[event] = this.listeners[event].filter(cb => cb !== callback);
 		}
 	}
 
-	trigger(event, ...args) {
+	trigger(event: string, ...args: any[]) {
 		if (this.listeners[event]) {
 			this.listeners[event].forEach(callback => callback(...args));
 		}
@@ -46,12 +47,13 @@ export class EventSupport {
 
 
 /**
- * The base export class for all elements in CheatGUI.
+ * The base class for all elements in CheatGUI.
  * @public
  * @extends EventSupport
  */
 export class GUIElement extends EventSupport {
-  view;
+  view: View;
+	ref: HTMLElement | null;
 
 	constructor() {
 		super();
@@ -64,29 +66,29 @@ export class GUIElement extends EventSupport {
 	}
 
 	/**
-	 * Add one or more export classes to an element.
-	 * @param {string} export classes
+	 * Add one or more classes to an element.
+	 * @param {string} classes
 	 * @returns {GUIElement}
 	 */
-	addClass(...classes) {
-		this.ref.classList.add(...classes);
+	addClass(...classes: string[]): this {
+		this.ref?.classList.add(...classes);
 		return this;
 	}
 
 	/**
-	 * Remove one or more export classes from an element.
-	 * @param {string} export classes
+	 * Remove one or more classes from an element.
+	 * @param {string} classes
 	 * @returns {GUIElement}
 	 */
-	removeClass(...classes) {
-		this.ref.classList.remove(...classes);
+	removeClass(...classes: string[]): this {
+		this.ref?.classList.remove(...classes);
 		return this;
 	}
 
 	/**
 	 * @returns {HTMLElement|null}
 	 */
-	getRef() {
+	getRef(): HTMLElement | null {
 		return this.ref;
 	}
 
@@ -95,15 +97,18 @@ export class GUIElement extends EventSupport {
 	 */
 	destroy() {
 		if (typeof this.view !== 'undefined') this.view.destroy();
-		this.ref.remove();
+		this.ref?.remove();
 	}
 }
 
 /**
- * A export class that stores interface elements and displays them on a web page.
+ * A class that stores interface elements and displays them on a web page.
  * @public
  */
 export class View {
+	ref: HTMLElement | null;
+	children: GUIElement[];
+
 	constructor() {
 		this.ref = null;
 		this.children = [];
@@ -114,7 +119,7 @@ export class View {
 	 * @param {HTMLElement} target
 	 * @returns {View}
 	 */
-	mount(target) {
+	mount(target: HTMLElement): this {
 		this.ref = $(target);
 		return this;
 	}
@@ -124,7 +129,8 @@ export class View {
 	 * @param {string} value
 	 * @returns {View}
 	 */
-	setContent(value) {
+	setContent(value: string): this {
+		if (!this.ref) return this;
 		this.ref.innerHTML = value;
 		return this;
 	}
@@ -134,7 +140,8 @@ export class View {
 	 * @param {string} value
 	 * @returns {View}
 	 */
-	setText(value) {
+	setText(value: string): this {
+		if (!this.ref) return this;
 		this.ref.textContent = value;
 		return this;
 	}
@@ -144,7 +151,8 @@ export class View {
 	 * @param {GUIElement} widget - The widget to append.
 	 * @returns {View}
 	 */
-	append(widget) {
+	append(widget: GUIElement): this {
+		if (!this.ref) return this;
 		this.ref.appendChild(widget.getRef());
 		this.children.push(widget);
 		return this;
@@ -162,25 +170,28 @@ export class View {
 	 * Recursively returns a JSON representation of all values in the view.
 	 * @returns {Object}
 	 */
-	getConfig() {
-		function processView(view) {
-			const res = {
+	getConfig(): object {
+		function processView(view: View) {
+			const res: { type: string; value: any[] } = {
 				type: 'root',
 				value: []
 			};
 
 			for (let i = 0; i < view.children.length; i++) {
-				const child = view.children[i];
+				const child: GUIElement = view.children[i];
 				const type = utils.getWidgetName(child);
-				const el = { type };
+				const el: { type: string; value: any } = { type, value: null };
 
 				if (['input', 'number-input', 'switch', 'slider', 'select'].includes(type)) {
+					// @ts-expect-error
 					el.value = child.getValue();
 				} else if (type === 'tree') {
 					el.value = processView(child.view).value;
 				} else if (type === 'has-view') {
 					el.value = processView(child.view).value;
+					// @ts-expect-error
 				} else if (typeof child.getValue === 'function')
+					// @ts-expect-error
 					el.value = child.getValue();
 
 				res.value[i] = el;
@@ -196,8 +207,8 @@ export class View {
 	 * Recursively loads the values of all child elements from the object.
 	 * @param {Object} config
 	 */
-	loadConfig(config) {
-		function processView(view, item) {
+	loadConfig(config: object) {
+		function processView(view: View, item: any) {
 			const items = item.value;
 			const widgets = view.children;
 			let offset = 0;
@@ -213,7 +224,7 @@ export class View {
 						continue;
 					} else if (items.length < widgets.length) {
 						if (items[i] === utils.getWidgetName(widgets[i + offset + 1])) {
-							console.warn(`Assuming that ${widgets[i + offset - 1]} field has been added`);
+							console.warn(`Assuming that ${utils.getWidgetName(widgets[i + offset - 1])} field has been added`);
 						}
 						offset++;
 					} else if (items.length > widgets.length) {
@@ -228,6 +239,7 @@ export class View {
 					}
 				}
 				if (['input', 'number-input', 'switch', 'slider', 'dropdown'].includes(items[i].type))
+					// @ts-expect-error
 					widgets[i + offset].setValue(items[i].value);
 				else if (items[i].type === 'tree' || items[i].type === 'has-view')
 					widgets[i + offset].view.loadConfig(items[i]);
@@ -239,13 +251,27 @@ export class View {
 }
 
 /**
- * This export class represents a window with
+ * This class represents a window with
  * various settings and the ability to
  * add child elements.
  * @public
  * @extends GUIElement
  */
 export class Window extends GUIElement {
+	ref: HTMLElement;
+	headerRef: HTMLElement;
+	titleRef: HTMLElement;
+	arrowRef: HTMLElement;
+	contentRef: HTMLElement;
+	resizeRef: HTMLElement;
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	collapsed: boolean;
+	isDragging: boolean;
+	isResizing: boolean;
+
 	/**
 	 * Creates a new window element.
 	 * @param {Object} options - The options for the window
@@ -273,7 +299,7 @@ export class Window extends GUIElement {
 		draggable = true,
 		dragThreshold = isMobile ? 10 : 3,
 		resizable = true
-	}) {
+	}: { x?: number; y?: number; width?: number; height?: number; title?: string; expanded?: boolean; collapsible?: boolean; collapseThreshold?: number; draggable?: boolean; dragThreshold?: number; resizable?: boolean; }) {
 		super();
 		// Create window element and set its properties
 		this.ref = createElem('div');
@@ -356,7 +382,7 @@ export class Window extends GUIElement {
 	 * @param {string} html - The HTML to set as the title
 	 * @returns {Window}
 	 */
-	setTitle(html) {
+	setTitle(html: string): this {
 		this.titleRef.innerHTML = html;
 		return this;
 	}
@@ -368,7 +394,7 @@ export class Window extends GUIElement {
 	 * update in the view.
 	 * @returns {Window}
 	 */
-	setContent(value) {
+	setContent(value: string): this {
 		this.view.setContent(value);
 		return this;
 	}
@@ -379,7 +405,7 @@ export class Window extends GUIElement {
 	 * to set for a particular view. It is the text that you want to display or update in the view.
 	 * @returns {Window}
 	 */
-	setText(value) {
+	setText(value: string): this {
 		this.view.setText(value);
 		return this;
 	}
@@ -389,7 +415,7 @@ export class Window extends GUIElement {
 	 * @param {GUIElement} widget - The widget to append.
 	 * @returns {Window}
 	 */
-	append(widget) {
+	append(widget: GUIElement): this {
 		this.view.append(widget);
 		return this;
 	}
@@ -400,7 +426,7 @@ export class Window extends GUIElement {
 	 * @param {number} y - The y coordinate of the window.
 	 * @returns {Window}
 	 */
-	move(x, y) {
+	move(x: number, y: number): this {
 		this.ref.style.left = `${x}px`;
 		this.ref.style.top = `${y}px`;
 		this.x = x;
@@ -413,7 +439,7 @@ export class Window extends GUIElement {
 	 * @param {number} width
 	 * @returns {Window}
 	 */
-	setWidth(width) {
+	setWidth(width: number): this {
 		width = Math.max(width, config.minWindowWidth);
 		this.width = width;
 		this.ref.style.width = `${width}px`;
@@ -425,7 +451,7 @@ export class Window extends GUIElement {
 	 * @param {number} height
 	 * @returns {Window}
 	 */
-	setHeight(height) {
+	setHeight(height: number): this {
 		height = Math.max(height, config.minWindowHeight);
 		this.height = height;
 		this.contentRef.style.height = `${height}px`;
@@ -438,7 +464,7 @@ export class Window extends GUIElement {
 	 * @param {number} height - The new height of the window
 	 * @returns {Window}
 	 */
-	resize(width, height) {
+	resize(width: number, height: number): this {
 		this.setWidth(width);
 		this.setHeight(height);
 		return this;
@@ -448,7 +474,7 @@ export class Window extends GUIElement {
 	 * The `collapse` function collapses the window.
 	 * @returns {Window}
 	 */
-	collapse() {
+	collapse(): this {
 		this.collapsed = true;
 		this.ref.classList.add('collapsed');
 		this.arrowRef.innerHTML = config.symbols.collapsed;
@@ -459,7 +485,7 @@ export class Window extends GUIElement {
 	 * The `expand` function expands the window.
 	 * @returns {Window}
 	 */
-	expand() {
+	expand(): this {
 		this.collapsed = false;
 		this.ref.classList.remove('collapsed');
 		this.arrowRef.innerHTML = config.symbols.expanded;
@@ -470,7 +496,7 @@ export class Window extends GUIElement {
 	 * The `toggle` function toggles the window between collapsed and expanded.
 	 * @returns {Window}
 	 */
-	toggle() {
+	toggle(): this {
 		if (this.collapsed) {
 			this.expand();
 		} else {
@@ -483,7 +509,7 @@ export class Window extends GUIElement {
 	 * The `hide` function hides the window.
 	 * @returns {Window}
 	 */
-	hide() {
+	hide(): this {
 		this.ref.style.display = 'none';
 		return this;
 	}
@@ -492,7 +518,7 @@ export class Window extends GUIElement {
 	 * The `show` function shows the window.
 	 * @returns {Window}
 	 */
-	show() {
+	show(): this {
 		this.ref.style.display = 'block';
 		return this;
 	}
@@ -507,11 +533,11 @@ export class Window extends GUIElement {
 
 	/**
 	 * The `sendToTop` function sends the window to the top of the window stack.
-	 * @returns {Window}
+	 * @returns {this}
 	 */
-	sendToTop() {
+	sendToTop(): this {
 		if (this.ref.classList.contains('active')) return this;
-		[...document.getElementsByClassName('cgui-window')].forEach(win => win.classList.remove('active'));
+		Array.from(document.getElementsByClassName('cgui-window')).forEach(win => win.classList.remove('active'));
 		this.ref.classList.add('active');
 		return this;
 	}
@@ -522,9 +548,8 @@ export class Window extends GUIElement {
 		});
 	}
 
-	initToggleOnClick(threshold) {
-		let isClick = false,
-			startX, startY;
+	initToggleOnClick(threshold: number) {
+		let isClick = false, startX: number, startY: number;
 		this.headerRef.addEventListener('pointerdown', e => {
 			isClick = true;
 			startX = e.clientX;
@@ -539,16 +564,15 @@ export class Window extends GUIElement {
 		});
 	}
 
-	initDraggable(threshold) {
-		let startX, startY, offsetX, offsetY,
-			isMouseDown = false;
+	initDraggable(threshold: number) {
+		let startX: number, startY: number, offsetX: number, offsetY: number, isMouseDown = false;
 
 		const startDragging = () => {
 			this.isDragging = true;
 			this.ref.classList.add('cgui-dragging');
 		}
 
-		const onMouseDown = (e) => {
+		const onMouseDown = (e: any) => {
 			e.preventDefault();
 			e = e.touches ? e.touches[0] : e;
 			isMouseDown = true;
@@ -558,7 +582,7 @@ export class Window extends GUIElement {
 			offsetY = e.clientY - this.ref.offsetTop;
 		};
 
-		const onMouseMove = (e) => {
+		const onMouseMove = (e: any) => {
 			e = e.touches ? e.touches[0] : e;
 			if (!this.isDragging) {
 				if (isMouseDown && distance(startX, startY, e.clientX, e.clientY) > threshold &&
@@ -587,9 +611,9 @@ export class Window extends GUIElement {
 	}
 
 	initResize() {
-		let sx, sy, dx, dy, iw, ih;
+		let sx: number, sy: number, dx: number, dy: number, iw: number, ih: number;
 
-		const onMouseDown = (e) => {
+		const onMouseDown = (e: any) => {
 			if (this.collapsed) return;
 			e.preventDefault();
 			e.stopPropagation();
@@ -599,7 +623,7 @@ export class Window extends GUIElement {
 			this.addClass('cgui-resizing');
 		};
 
-		const onMouseMove = (e) => {
+		const onMouseMove = (e: any) => {
 			if (this.isResizing) {
 				e = e.touches ? e.touches[0] : e;
 				dx = e.clientX - sx;
@@ -629,7 +653,7 @@ export class Window extends GUIElement {
 	 * The `getRef` function returns the reference to the window element.
 	 * @returns {HTMLElement}
 	 */
-	getRef() {
+	getRef(): HTMLElement {
 		return this.ref;
 	}
 
@@ -644,7 +668,7 @@ export class Window extends GUIElement {
 	 * The `getConfig` function returns a JSON representation of all values in the window.
 	 * @returns {Object}
 	 */
-	getConfig() {
+	getConfig(): object {
 		return this.view.getConfig();
 	}
 
@@ -653,23 +677,26 @@ export class Window extends GUIElement {
 	 * @param {Object} config - The JSON configuration.
 	 * @returns {Window}
 	 */
-	loadConfig(config) {
+	loadConfig(config: object): this {
 		this.view.loadConfig(config);
 		return this;
 	}
 }
 
 /**
- * A export class that represents a user interface widget.
+ * A class that represents a user interface widget.
  * @public
  * @extends GUIElement
  */
 export class Widget extends GUIElement {
+	ref: HTMLElement;
+	value: any;
+	
 	/**
 	 * Create a new widget and initialize it.
 	 * @param {string} [elementType='div'] - The HTML element type.
 	 */
-	constructor(elementType = 'div') {
+	constructor(elementType: string = 'div') {
 		super();
 		this.ref = createElem(elementType);
 		this._init();
@@ -682,7 +709,7 @@ export class Widget extends GUIElement {
 	 * @param {string} value - The value to set the content to.
 	 * @returns {Widget}
 	 */
-	setContent(value) {
+	setContent(value: string): this {
 		this.ref.innerHTML = value;
 		return this;
 	}
@@ -692,7 +719,7 @@ export class Widget extends GUIElement {
 	 * @param {string} value - The value to set the text to.
 	 * @returns {Widget}
 	 */
-	setText(value) {
+	setText(value: string): this {
 		this.ref.textContent = value;
 		return this;
 	}
@@ -702,12 +729,12 @@ export class Widget extends GUIElement {
 	 * @param {Function} f - The function to call when the widget is clicked.
 	 * @returns {Widget}
 	 */
-	onClick(f) {
+	onClick(f: Function): this {
 		this.on('click', f);
 		return this;
 	}
 
-	bind(obj, prop) {
+	bind(obj: object, prop: string) {
 		throw new SyntaxError("The `click` event cannot be bound. Use `onClick()` instead.");
 	}
 }
@@ -716,25 +743,15 @@ export class Widget extends GUIElement {
  * Widget with value
  * @public
  */
-export class ValueWidget extends Widget {
-	setValue(value) {
-		this.ref.value = value;
-	}
-
-	changeValue() {
-		this.setValue(this.ref.value);
-		this.trigger('change');
-		return this;
-	}
-
-	getValue() {
-		return this.ref.value;
-	}
+interface ValueWidget extends Widget {
+	value: any;
+	getValue(): any;
+	setValue(value: any): ValueWidget;
 }
 
 
 /**
- * A export class that represents a text widget.
+ * A class that represents a text widget.
  * @public
  */
 export class Text extends Widget {
@@ -742,7 +759,7 @@ export class Text extends Widget {
 	 * Create a new text widget and initialize it.
 	 * @param {string} [text=''] - The text to display.
 	 */
-	constructor(text = '') {
+	constructor(text: string = '') {
 		super('div');
 		this.addClass('cgui-text');
 		this.setText(text);
@@ -750,7 +767,7 @@ export class Text extends Widget {
 }
 
 /**
- * A export class that represents a button widget.
+ * A class that represents a button widget.
  * @public
  * @extends Widget
  */
@@ -760,7 +777,7 @@ export class Button extends Widget {
 	 * @param {string} [text=''] - Button text.
 	 * @param {Function} [callback=null] - The function to call when the button is clicked.
 	 */
-	constructor(text = '', callback = null) {
+	constructor(text: string = '', callback: Function = null) {
 		super('button');
 		this.addClass('cgui-btn');
 		this.setText(text);
@@ -769,18 +786,22 @@ export class Button extends Widget {
 }
 
 /**
- * A export class that represents an input field widget.
+ * A class that represents an input field widget.
  * @public
- * @extends ValueWidget
+ * @ extends Widget implements ValueWidget
  */
-export class Input extends ValueWidget {
+export class Input extends Widget implements ValueWidget {
+	ref: HTMLDivElement;
+	inputRef: HTMLInputElement;
+	labelRef: HTMLDivElement;
+
 	/**
 	 * Create a new input field widget and initialize it.
 	 * @param {string} [label=''] - The label text.
 	 * @param {string} [val=''] - The initial value.
 	 * @param {Function} [callback=null] - The function to call when the input is changed.
 	 */
-	constructor(label = '', val = '', callback = null) {
+	constructor(label: string = '', val: string = '', callback: Function = null) {
 		super('div');
 
 		this.addClass('cgui-input-wrapper');
@@ -809,7 +830,7 @@ export class Input extends ValueWidget {
 	 * @param {string} label - The new label text.
 	 * @returns {Input}
 	 */
-	setLabel(label) {
+	setLabel(label: string): this {
 		this.labelRef.innerHTML = label;
 		return this;
 	}
@@ -819,8 +840,8 @@ export class Input extends ValueWidget {
 	 * @param {Function} f - The function to call when the input is changed.
 	 * @returns {Input}
 	 */
-	onInput(f) {
-		this.on('input', e => f(e, this.getValue()));
+	onInput(f: Function): this {
+		this.on('input', (e: any) => f(e, this.getValue()));
 		return this;
 	}
 
@@ -830,8 +851,8 @@ export class Input extends ValueWidget {
 	 * @param {string} prop - The property to bind.
 	 * @returns {Input}
 	 */
-	bind(obj, prop) {
-		this.onInput((_, val) => obj[prop] = val);
+	bind(obj: any, prop: string): this {
+		this.onInput((_: any, val: any) => obj[prop] = val);
 		return this;
 	}
 
@@ -840,7 +861,7 @@ export class Input extends ValueWidget {
 	 * @param {string} value 
 	 * @returns {Input}
 	 */
-	setValue(value) {
+	setValue(value: string): this {
 		this.inputRef.value = value;
 		return this;
 	}
@@ -849,25 +870,29 @@ export class Input extends ValueWidget {
 	 * Get the value of the input field.
 	 * @returns {string} - The value of the input field.
 	 */
-	getValue() {
+	getValue(): string {
 		return this.inputRef.value;
 	}
 }
 
 /**
- * A export class that represents an input field
+ * A class that represents an input field
  * where only numbers can be entered.
  * @public
- * @extends ValueWidget
+ * @ extends Widget implements ValueWidget
  */
-export class NumberInput extends ValueWidget {
+export class NumberInput  extends Widget implements ValueWidget {
+	ref: HTMLDivElement;
+	inputRef: HTMLInputElement;
+	labelRef: HTMLDivElement;
+
 	/**
 	 * Create a new number input field and initialize it.
 	 * @param {string} [label=''] - The label text.
 	 * @param {number} [value=0] - The initial value.
 	 * @param {Function} [callback=null] - The function to call when the input is changed.
 	 */
-	constructor(label = '', value = 0, callback = null) {
+	constructor(label: string = '', value: number = 0, callback: Function = null) {
 		super('div');
 
 		this.addClass('cgui-input-wrapper');
@@ -881,7 +906,7 @@ export class NumberInput extends ValueWidget {
 		this.labelRef.classList.add('cgui-input-label');
 		this.ref.appendChild(this.labelRef);
 
-		this.setValue(value);
+		this.setValue(value.toString());
 		this.setLabel(label);
 
 		this.inputRef.addEventListener('input', () => {
@@ -897,7 +922,7 @@ export class NumberInput extends ValueWidget {
 	 * @param {string} label - The new label text.
 	 * @returns {NumberInput}
 	 */
-	setLabel(label) {
+	setLabel(label: string): this {
 		this.labelRef.innerHTML = label;
 		return this;
 	}
@@ -907,8 +932,8 @@ export class NumberInput extends ValueWidget {
 	 * @param {Function} f - The function to call when the input is changed.
 	 * @returns {NumberInput}
 	 */
-	onInput(f) {
-		this.on('input', e => f(e, this.getValue()));
+	onInput(f: Function): this {
+		this.on('input', (e: any) => f(e, this.getValue()));
 		return this;
 	}
 
@@ -918,8 +943,8 @@ export class NumberInput extends ValueWidget {
 	 * @param {string} prop - The property to bind.
 	 * @returns {NumberInput}
 	 */
-	bind(obj, prop) {
-		this.onInput((_, val) => obj[prop] = val);
+	bind(obj: any, prop: string): this {
+		this.onInput((_: any, val: any) => obj[prop] = val);
 		return this;
 	}
 
@@ -928,8 +953,8 @@ export class NumberInput extends ValueWidget {
 	 * @param {string} value 
 	 * @returns {NumberInput}
 	 */
-	setValue(value) {
-		this.inputRef.value = this.parse(value);
+	setValue(value: string): this {
+		this.inputRef.value = this.parse(value).toString();
 		return this;
 	}
 
@@ -937,22 +962,31 @@ export class NumberInput extends ValueWidget {
 	 * Get the value of the input field.
 	 * @returns {string} - The value of the input field.
 	 */
-	getValue() {
+	getValue(): number {
 		return this.parse(this.inputRef.value);
 	}
 
-	parse() {
-		const p = parseFloat(this.inputRef.value);
+	parse(value: string) {
+		const p = parseFloat(value);
 		return isNaN(p) ? 0 : (p || 0);
 	}
 }
 
 /**
- * A export class representing a slider where you can select a value from a specific range.
+ * A class representing a slider where you can select a value from a specific range.
  * @public
- * @extends ValueWidget
+ * @ extends Widget implements ValueWidget
  */
-export class Slider extends ValueWidget {
+export class Slider  extends Widget implements ValueWidget {
+	ref: HTMLDivElement;
+	sliderRef: HTMLDivElement;
+	thumbRef: HTMLDivElement;
+	labelRef: HTMLDivElement;
+	min: number;
+	max: number;
+	step: number;
+	accuracy: number;
+
 	/**
 	 * Create a new slider and initialize it.
 	 * @param {Object} options - The options for the slider
@@ -970,7 +1004,7 @@ export class Slider extends ValueWidget {
 		max = 100,
 		step = 1,
 		callback = null
-	}) {
+	}: { label?: string; value?: number; min?: number; max?: number; step?: number; callback?: null; }) {
 		super('div');
 
 		this.addClass('cgui-slider-wrapper');
@@ -1004,7 +1038,7 @@ export class Slider extends ValueWidget {
 	 * @param {string} text - The new label text.
 	 * @returns {Slider}
 	 */
-	setLabel(text) {
+	setLabel(text: string): this {
 		this.labelRef.innerHTML = text;
 		return this;
 	}
@@ -1014,8 +1048,8 @@ export class Slider extends ValueWidget {
 	 * @param {Function} f - The function to call when the slider is changed.
 	 * @returns {Slider}
 	 */
-	onChange(f) {
-		this.on('change', e => f(e, this.getValue()));
+	onChange(f: Function): this {
+		this.on('change', (e: any) => f(e, this.getValue()));
 		return this;
 	}
 
@@ -1025,8 +1059,8 @@ export class Slider extends ValueWidget {
 	 * @param {string} prop - The property to bind.
 	 * @returns {Slider}
 	 */
-	bind(obj, prop) {
-		this.onChange((_, val) => obj[prop] = val);
+	bind(obj: any, prop: string): this {
+		this.onChange((_: any, val: any) => obj[prop] = val);
 		return this;
 	}
 
@@ -1035,7 +1069,7 @@ export class Slider extends ValueWidget {
 	 * @param {number} min - The new minimum value.
 	 * @returns {Slider}
 	 */
-	setMin(min) {
+	setMin(min: number): this {
 		this.min = min;
 		return this;
 	}
@@ -1045,7 +1079,7 @@ export class Slider extends ValueWidget {
 	 * @param {number} max - The new maximum value.
 	 * @returns {Slider}
 	 */
-	setMax(max) {
+	setMax(max: number): this {
 		this.max = max;
 		return this;
 	}
@@ -1055,7 +1089,7 @@ export class Slider extends ValueWidget {
 	 * @param {number} step - The new step size.
 	 * @returns {Slider}
 	 */
-	setStep(step) {
+	setStep(step: number): this {
 		this.step = step;
 		this.accuracy = countDigitsAfterDecimal(step);
 		return this;
@@ -1065,20 +1099,20 @@ export class Slider extends ValueWidget {
 	 * Set the value of the slider.
 	 * @param {number} value - The new value.
 	 */
-	setValue(value) {
+	setValue(value: number) {
 		value = parseFloat(clamp(snap(value, this.step), this.min, this.max).toFixed(this.accuracy));
 		this.value = value;
 		const displayValue = 100 / (this.max - this.min) * (value - this.min);
 		this.thumbRef.style.marginLeft = displayValue + '%';
 		this.thumbRef.style.transform = `translateX(-${displayValue}%)`;
-		this.thumbRef.textContent = value;
+		this.thumbRef.textContent = value.toString();
 		return this;
 	}
 
 
 	initSlider() {
 		let isDragging = false;
-		const onMouseDown = e => {
+		const onMouseDown = (e: any) => {
 			isDragging = true;
 			updateSlider(e);
 			document.addEventListener('mousemove', updateSlider);
@@ -1091,7 +1125,7 @@ export class Slider extends ValueWidget {
 			document.removeEventListener('mousemove', updateSlider);
 			document.removeEventListener('touchmove', updateSlider);
 		};
-		const updateSlider = e => {
+		const updateSlider = (e: any) => {
 			if (!isDragging) return;
 			e.preventDefault();
 			e = e.touches ? e.touches[0] : e;
@@ -1116,27 +1150,33 @@ export class Slider extends ValueWidget {
 	 * Get the current value of the slider.
 	 * @returns {number}
 	 */
-	getValue() {
+	getValue(): number {
 		return this.value;
 	}
 }
 
 /**
- * A export class that represents a switch that can be turned on and off.
+ * A class that represents a switch that can be turned on and off.
  * @public
- * @extends ValueWidget
+ * @ extends Widget implements ValueWidget
  */
-export class Switch extends ValueWidget {
+export class Switch  extends Widget implements ValueWidget {
+	ref: HTMLLabelElement;
+	inputRef: HTMLInputElement;
+	sliderRef: HTMLSpanElement;
+	labelRef: HTMLSpanElement;
+	id: string;
+
 	/**
 	 * Create a new switch.
 	 * @param {string} [label=''] - The label text.
 	 * @param {boolean} [checked=false] - Whether the switch is initially checked.
-	 * @param {function} [callback=null] - The callback function to call when the switch is changed.
+	 * @param {Function} [callback=null] - The callback function to call when the switch is changed.
 	 */
-	constructor(label = '', checked = false, callback = null) {
+	constructor(label: string = '', checked: boolean = false, callback: Function = null) {
 		super('label');
 		const id = this.id = generateId(16);
-		this.ref.for = id;
+		this.ref.htmlFor = id;
 		this.addClass('cgui-switch');
 		this.inputRef = createElem('input');
 		this.inputRef.type = 'checkbox';
@@ -1148,7 +1188,6 @@ export class Switch extends ValueWidget {
 		this.ref.appendChild(this.sliderRef);
 		this.labelRef = createElem('span');
 		this.labelRef.className = 'cgui-switch-label';
-		this.labelRef.for = id;
 		this.ref.appendChild(this.labelRef);
 		this.ref.tabIndex = 0;
 		this.setLabel(label);
@@ -1166,19 +1205,19 @@ export class Switch extends ValueWidget {
 	 * @param {Function} func - The callback function to call when the switch is changed.
 	 * @returns {Switch}
 	 */
-	onChange(func) {
-		this.on('change', e => func(e, this.inputRef.checked));
+	onChange(func: Function): this {
+		this.on('change', (e: any) => func(e, this.inputRef.checked));
 		return this;
 	}
 
 	/**
 	 * Bind a property to the switch.
-	 * @param {Object} obj - The object to bind the property to.
+	 * @param {object} obj - The object to bind the property to.
 	 * @param {string} prop - The property to bind.
 	 * @returns {Switch}
 	 */
-	bind(obj, prop) {
-		this.onChange((_, val) => obj[prop] = val);
+	bind(obj: any, prop: string): this {
+		this.onChange((_: any, val: any) => obj[prop] = val);
 		return this;
 	}
 
@@ -1186,7 +1225,7 @@ export class Switch extends ValueWidget {
 	 * Get whether the switch is checked.
 	 * @returns {boolean}
 	 */
-	isChecked() {
+	isChecked(): boolean {
 		return this.inputRef.checked;
 	}
 
@@ -1194,7 +1233,7 @@ export class Switch extends ValueWidget {
 	 * Get whether the switch is checked.
 	 * @returns {boolean}
 	 */
-	getValue() {
+	getValue(): boolean {
 		return this.isChecked();
 	}
 
@@ -1203,7 +1242,7 @@ export class Switch extends ValueWidget {
 	 * @param {boolean} val
 	 * @returns {Switch}
 	 */
-	setValue(val) {
+	setValue(val: boolean): this {
 		this.inputRef.checked = val;
 		return this;
 	}
@@ -1213,18 +1252,23 @@ export class Switch extends ValueWidget {
 	 * @param {string} label
 	 * @returns {Switch}
 	 */
-	setLabel(label) {
+	setLabel(label: string): this {
 		this.labelRef.innerHTML = label;
 		return this;
 	}
 }
 
 /**
- * A export class that represents a menu for selecting one of several values.
+ * A class that represents a menu for selecting one of several values.
  * @public
- * @extends ValueWidget
+ * @ extends Widget implements ValueWidget
  */
-export class Dropdown extends ValueWidget {
+export class Dropdown  extends Widget implements ValueWidget {
+	ref: HTMLLabelElement;
+	selRef: HTMLSelectElement;
+	labelRef: HTMLSpanElement;
+	id: string;
+
 	/**
 	 * Create a new dropdown.
 	 * 
@@ -1234,13 +1278,13 @@ export class Dropdown extends ValueWidget {
 	 * @param {string} [label=''] - The label text.
 	 * @param {Object} [values={}] - The values to display in the dropdown.
 	 * @param {string} [value=null] - The initial value of the dropdown.
-	 * @param {function} [callback=null] - The callback function to call when the value
+	 * @param {Function} [callback=null] - The callback function to call when the value
 	 * is changed.
 	 */
-	constructor(label = '', values = {}, value = null, callback = null) {
+	constructor(label: string = '', values: object = {}, value: string = null, callback: Function = null) {
 		super('label');
 		const id = this.id = generateId(16);
-		this.ref.for = id;
+		this.ref.htmlFor = id;
 		this.addClass('cgui-input-wrapper');
 		this.selRef = createElem('select');
 		this.selRef.id = id;
@@ -1255,7 +1299,6 @@ export class Dropdown extends ValueWidget {
 		}
 		this.labelRef = createElem('span');
 		this.labelRef.className = 'cgui-input-label';
-		this.labelRef.for = id;
 		this.ref.appendChild(this.labelRef);
 		this.ref.tabIndex = 0;
 		this.setLabel(label);
@@ -1268,19 +1311,19 @@ export class Dropdown extends ValueWidget {
 	 * @param {Function} func - The callback function to call when the value is changed.
 	 * @returns {Dropdown}
 	 */
-	onChange(func) {
+	onChange(func: Function): this {
 		this.selRef.addEventListener('change', e => func(e, this.getValue()));
 		return this;
 	}
 
 	/**
 	 * Bind a property to the dropdown.
-	 * @param {Object} obj - The object to bind the property to.
+	 * @param {object} obj - The object to bind the property to.
 	 * @param {string} prop - The property to bind.
 	 * @returns {Dropdown}
 	 */
-	bind(obj, prop) {
-		this.onChange((_, val) => obj[prop] = val);
+	bind(obj: any, prop: string): this {
+		this.onChange((_: any, val: any) => obj[prop] = val);
 		return this;
 	}
 
@@ -1288,7 +1331,7 @@ export class Dropdown extends ValueWidget {
 	 * Get the value of the dropdown.
 	 * @returns {string}
 	 */
-	getValue() {
+	getValue(): string {
 		return this.selRef.options[this.selRef.selectedIndex].value;
 	}
 
@@ -1297,7 +1340,7 @@ export class Dropdown extends ValueWidget {
 	 * @param {string} val
 	 * @returns {Dropdown}
 	 */
-	setValue(val) {
+	setValue(val: string): this {
 		this.selRef.value = val;
 		return this;
 	}
@@ -1307,7 +1350,7 @@ export class Dropdown extends ValueWidget {
 	 * @param {string} label
 	 * @returns {Dropdown}
 	 */
-	setLabel(label) {
+	setLabel(label: string): this {
 		this.labelRef.innerHTML = label;
 		return this;
 	}
@@ -1319,13 +1362,19 @@ export class Dropdown extends ValueWidget {
  * @extends Widget
  */
 export class Tree extends Widget {
+	ref: HTMLDivElement;
+	headerRef: HTMLDivElement;
+	titleRef: HTMLSpanElement;
+	arrowRef: HTMLSpanElement;
+	contentRef: HTMLDivElement;
+
 	/**
 	 * Create a new tree that can be expanded and collapsed. You can add children to the tree
 	 * with the `addChild` method so that they appear in the tree.
 	 * @param {string} [title=''] - The title of the tree.
 	 * @param {boolean} [expanded=false] - Whether the tree is expanded.
 	 */
-	constructor(title = '', expanded = false) {
+	constructor(title: string = '', expanded: boolean = false) {
 		super('div');
 		this.addClass('cgui-tree');
 
@@ -1376,7 +1425,7 @@ export class Tree extends Widget {
 	 * @param {string} html
 	 * @returns {Tree}
 	 */
-	setTitle(html) {
+	setTitle(html: string): this {
 		this.titleRef.innerHTML = html;
 		return this;
 	}
@@ -1386,7 +1435,7 @@ export class Tree extends Widget {
 	 * @param {string} html
 	 * @returns {Tree}
 	 */
-	setContent(html) {
+	setContent(html: string): this {
 		this.view.setContent(html);
 		return this;
 	}
@@ -1395,7 +1444,7 @@ export class Tree extends Widget {
 	 * Collapse the tree.
 	 * @returns {Tree}
 	 */
-	collapse() {
+	collapse(): this {
 		this.ref.classList.add('collapsed');
 		this.arrowRef.innerHTML = config.symbols.collapsed;
 		return this;
@@ -1405,7 +1454,7 @@ export class Tree extends Widget {
 	 * Expand the tree.
 	 * @returns {Tree}
 	 */
-	expand() {
+	expand(): this {
 		this.ref.classList.remove('collapsed');
 		this.arrowRef.innerHTML = config.symbols.expanded;
 		return this;
@@ -1415,7 +1464,7 @@ export class Tree extends Widget {
 	 * Toggle the tree between collapsed and expanded.
 	 * @returns {Tree}
 	 */
-	toggle() {
+	toggle(): this {
 		this.ref.classList.toggle('collapsed');
 		if (this.ref.classList.contains('collapsed')) {
 			this.arrowRef.innerHTML = config.symbols.collapsed;
@@ -1430,7 +1479,7 @@ export class Tree extends Widget {
 	 * @param {Widget} widget
 	 * @returns {Tree}
 	 */
-	append(widget) {
+	append(widget: Widget): this {
 		this.view.append(widget);
 		return this;
 	}
@@ -1445,24 +1494,22 @@ export class Tree extends Widget {
 	 * The `getConfig` function returns a JSON representation of all values in the tree.
 	 * @returns {Object}
 	 */
-	getConfig() {
+	getConfig(): object {
 		return this.view.getConfig();
 	}
 
 	/**
 	 * The `loadConfig` function loads a JSON object into the tree.
 	 */
-	loadConfig(config) {
+	loadConfig(config: object) {
 		this.view.loadConfig(config);
 		return this;
 	}
 }
 
 /**
- * Just a container where you can put
- * child elements. They will not differ
- * in any way from the ones outside. Can
- * be used as a column in a row.
+ * Just a container where you can put child elements. They will not differ
+ * in any way from the ones outside. Can be used as a column in a row.
  * @public
  * @extends Widget
  */
@@ -1477,7 +1524,7 @@ export class Box extends Widget {
 	 * @param {string} html
 	 * @returns {Box}
 	 */
-	setContent(html) {
+	setContent(html: string): this {
 		this.view.setContent(html);
 		return this;
 	}
@@ -1487,7 +1534,7 @@ export class Box extends Widget {
 	 * @param {Widget} widget
 	 * @returns {Box}
 	 */
-	append(widget) {
+	append(widget: Widget): this {
 		this.view.append(widget);
 		return this;
 	}
@@ -1508,7 +1555,7 @@ export class Row extends Box {
 /**
  * This function opens a pop-up modal window where the user can select one item from the data.
  * @param {string} title - The title displayed in the selection window.
- * @param {String[]} items - The items that will be available for the user to select.
+ * @param {string[]} items - The items that will be available for the user to select.
  * @param {boolean} closable - Adds one item to the end to close the menu, returning an index of -1.
  * @returns {Promise} A promise that will resolve with the index of the selected item.
  * @async
@@ -1518,7 +1565,11 @@ export function openPopupMenu({
 	title,
 	items,
 	closable = true
-}) {
+}: {
+	title: string,
+	items: string[],
+	closable?: boolean
+}): Promise<any> {
 	return new Promise(resolve => {
 		let divWrapper = createElem('div');
 		let divPopup = createElem('div');

@@ -11,12 +11,12 @@ export const config = {
 	}
 };
 
-export function updateConfig(newConfig) {
-	function updateNestedConfig(config, newConfig) {
+export function updateConfig(newConfig: object) {
+	function updateNestedConfig(config: any, newConfig: object) {
 		for (const [key, value] of Object.entries(newConfig)) {
-			if (typeof value === 'object' && typeof config[key] === 'object') {
-				updateNestedConfig(config[key], value);
-			} else if (config[key] !== undefined) {
+			if (typeof value === 'object' && typeof config[key as keyof object] === 'object') {
+				updateNestedConfig(config[key as keyof object], value);
+			} else if (config[key as keyof object] !== undefined) {
 				config[key] = value;
 			}
 		}

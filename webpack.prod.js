@@ -6,7 +6,6 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = merge(common, {
 	mode: 'production',
-	devtool: 'source-map',
 	plugins: [
 		new webpack.BannerPlugin({
 			banner: 'CheatGUI | https://github.com/Cat-125/CheatGUI',

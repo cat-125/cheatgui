@@ -16,16 +16,18 @@ import {
 	Tree,
 	Box,
 	Row
-} from './cheatgui.js';
+} from './cheatgui';
+
+export type WidgetName = 'text' | 'button' | 'input' | 'number-input' | 'switch' | 'slider' | 'dropdown' | 'tree' | 'row' | 'container' | 'has-view' | 'widget' | 'gui-element' | 'unknown';
 
 /**
  * Shortcut for `parent.querySelector(selector)`.
  * @param {any} selector - CSS selector
  * @param {any} [parent=document] - Parent element
- * @returns {HTMLElement | null}
+ * @returns {any}
  * @public
  */
-export function $(selector, parent = document) {
+export function $(selector: string | Element | Document, parent: Element | Document = document): any {
 	if (typeof selector !== 'string') return selector;
 	return $(parent).querySelector(selector);
 }
@@ -36,7 +38,7 @@ export function $(selector, parent = document) {
  * @returns {any}
  * @public
  */
-export function createElem(type) {
+export function createElem(type: string): any {
 	return document.createElement(type);
 }
 
@@ -49,7 +51,7 @@ export function createElem(type) {
  * @returns {number}
  * @public
  */
-export function distance(x1, y1, x2, y2) {
+export function distance(x1: number, y1: number, x2: number, y2: number): number {
 	const a = x1 - x2;
 	const b = y1 - y2;
 	return Math.sqrt(a * a + b * b);
@@ -62,7 +64,7 @@ export function distance(x1, y1, x2, y2) {
  * @returns {string}
  * @public
  */
-export function generateId(length, _chars = '') {
+export function generateId(length: number, _chars: string = ''): string {
 	const chars = _chars || 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 	let result = '';
 	for (let i = 0; i < length; i++) {
@@ -79,7 +81,7 @@ export function generateId(length, _chars = '') {
  * @returns {number}
  * @public
  */
-export function clamp(val, min, max) {
+export function clamp(val: number, min: number, max: number): number {
 	return Math.max(min, Math.min(val, max));
 }
 
@@ -91,7 +93,7 @@ export function clamp(val, min, max) {
  * @returns {number}
  * @public
  */
-export function range2percentage(val, min, max) {
+export function range2percentage(val: number, min: number, max: number): number {
 	return 100 / (max - min) * val;
 }
 
@@ -102,7 +104,7 @@ export function range2percentage(val, min, max) {
  * @returns {number}
  * @public
  */
-export function snap(value, step) {
+export function snap(value: number, step: number): number {
 	if (step === 0) {
 		throw new Error("Step cannot be zero");
 	}
@@ -126,7 +128,7 @@ export function snap(value, step) {
  * @deprecated use getNumberOfDigitsAfterPeriod instead
  * @public
  */
-export function getNumberOfDigitsAfterPeriod(number) {
+export function getNumberOfDigitsAfterPeriod(number: number): number {
 	let stringNumber = number.toString();
 	let parts = stringNumber.split(".");
 
@@ -142,7 +144,7 @@ export function getNumberOfDigitsAfterPeriod(number) {
  * @returns {number}
  * @public
  */
-export function countDigitsAfterDecimal(number) {
+export function countDigitsAfterDecimal(number: number): number {
 	const numberString = number.toString();
 	const indexOfDecimal = numberString.indexOf('.');
 
@@ -156,7 +158,7 @@ export function countDigitsAfterDecimal(number) {
  * @returns {string}
  * @public
  */
-export function getWidgetName(widget) {
+export function getWidgetName(widget: GUIElement): WidgetName {
 	if (typeof widget == 'string' || widget instanceof Text) {
 		return 'text';
 	} else if (widget instanceof Button) {
@@ -193,7 +195,7 @@ export function getWidgetName(widget) {
  * @param {Widget} widget
  * @public
  */
-export function appendToBody(widget) {
+export function appendToBody(widget: Widget) {
 	document.body.appendChild(widget.getRef());
 }
 
@@ -202,7 +204,7 @@ export function appendToBody(widget) {
  * @param {string} css
  * @public
  */
-export function includeCSS(css) {
+export function includeCSS(css: string) {
 	const head = document.head;
 	const style = createElem('style');
 	style.setAttribute('type', 'text/css');
@@ -215,8 +217,8 @@ export function includeCSS(css) {
  * @param {string} url
  * @public
  */
-export function includeCSSLink(url) {
-	const link = createElem('link');
+export function includeCSSLink(url: string) {
+	const link: HTMLLinkElement = createElem('link');
 	link.rel = 'stylesheet';
 	link.href = url;
 	document.head.appendChild(link);
@@ -227,7 +229,7 @@ export function includeCSSLink(url) {
  * @param {string} url
  * @public
  */
-export function includeJS(url) {
+export function includeJS(url: string) {
 	const script = createElem('script');
 	script.src = url;
 	document.body.appendChild(script);
@@ -238,7 +240,7 @@ export function includeJS(url) {
  * @param {string} url
  * @public
  */
-export function loadTheme(url) {
+export function loadTheme(url: string) {
 	const link = $(`link#cgui-theme`, document.head) ?? createElem('link');
 	link.id = 'cgui-theme'
 	link.rel = 'stylesheet';
