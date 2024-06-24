@@ -16,9 +16,11 @@ import {
 	Tree,
 	Box,
 	Row
-} from './cheatgui';
+} from './widgets';
 
 export type WidgetName = 'text' | 'button' | 'input' | 'number-input' | 'switch' | 'slider' | 'dropdown' | 'tree' | 'row' | 'container' | 'has-view' | 'widget' | 'gui-element' | 'unknown';
+
+export const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
 
 /**
  * Shortcut for `parent.querySelector(selector)`.
