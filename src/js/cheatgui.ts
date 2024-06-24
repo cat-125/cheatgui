@@ -274,7 +274,7 @@ export class Window extends GUIElement {
 
 	/**
 	 * Creates a new window element.
-	 * @param {Object} options - The options for the window
+	 * @param {object} options - The options for the window
 	 * @param {number} [options.x=0] - The x position of the window
 	 * @param {number} [options.y=0] - The y position of the window
 	 * @param {number} [options.width=100] - The width of the window
@@ -1261,7 +1261,7 @@ export class Switch  extends Widget implements ValueWidget {
 /**
  * A class that represents a menu for selecting one of several values.
  * @public
- * @ extends Widget implements ValueWidget
+ * @extends Widget
  */
 export class Dropdown  extends Widget implements ValueWidget {
 	ref: HTMLLabelElement;
@@ -1554,9 +1554,10 @@ export class Row extends Box {
 
 /**
  * This function opens a pop-up modal window where the user can select one item from the data.
- * @param {string} title - The title displayed in the selection window.
- * @param {string[]} items - The items that will be available for the user to select.
- * @param {boolean} closable - Adds one item to the end to close the menu, returning an index of -1.
+ * @param {object} options - Options
+ * @param {string} [options.title] - The title displayed in the selection window.
+ * @param {string[]} [options.items] - The items that will be available for the user to select.
+ * @param {boolean} [options.closable=true] - Adds one item to the end to close the menu, returning an index of -1.
  * @returns {Promise} A promise that will resolve with the index of the selected item.
  * @async
  * @public
@@ -1568,7 +1569,7 @@ export function openPopupMenu({
 }: {
 	title: string,
 	items: string[],
-	closable?: boolean
+	closable: boolean
 }): Promise<any> {
 	return new Promise(resolve => {
 		let divWrapper = createElem('div');
