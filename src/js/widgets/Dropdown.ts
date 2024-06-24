@@ -29,10 +29,10 @@ export default class Dropdown extends Widget implements ValueWidget {
 		super('label');
 		const id = this.id = generateId(16);
 		this.ref.htmlFor = id;
-		this.addClass('cgui-input-wrapper');
+		this.addClass('cgui-dropdown-wrapper');
 		this.selRef = createElem('select');
 		this.selRef.id = id;
-		this.selRef.classList.add('cgui-input');
+		this.selRef.classList.add('cgui-dropdown');
 		this.ref.appendChild(this.selRef);
 		for (const [k, v] of Object.entries(values)) {
 			const opt = createElem('option');
@@ -42,7 +42,7 @@ export default class Dropdown extends Widget implements ValueWidget {
 			this.selRef.appendChild(opt);
 		}
 		this.labelRef = createElem('span');
-		this.labelRef.className = 'cgui-input-label';
+		this.labelRef.className = 'cgui-dropdown-label';
 		this.ref.appendChild(this.labelRef);
 		this.ref.tabIndex = 0;
 		this.setLabel(label);
