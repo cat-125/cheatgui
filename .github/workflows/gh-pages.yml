@@ -9,7 +9,7 @@ on:
       - 'themes/**'
       - 'index.html'
       - 'README.md'
-      - 'jsdoc.json'
+      - 'typedoc.json'
       - '.github/workflows/gh-pages.yml'
 
 jobs:
@@ -24,13 +24,12 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install JSDoc and theme
+      - name: Install TypeDoc and theme
         run: |
-          npm i -g jsdoc
-          npm i clean-jsdoc-theme --save-dev
+          npm i typedoc --save-dev
 
       - name: Generate JSDoc documentation
-        run: jsdoc -c jsdoc.json
+        run: npx typedoc --options typedoc.json
       
       - name: Build
         run: npm run build
