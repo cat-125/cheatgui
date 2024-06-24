@@ -43,6 +43,14 @@ SOFTWARE.
 	<script>
 		const isMobile = cheatgui.isMobile;
 
+		class Code extends cheatgui.Widget {
+			constructor(text = '') {
+				super('pre');
+				this.addClass('cgui-text');
+				this.setText(text);
+			}
+		}
+
 		(new cheatgui.Window({ x: isMobile ? 25 : 50, y: isMobile ? 25 : 50, width: 300, height: 200, title: "Window", expanded: !isMobile }))
 			.setContent("Window example");
 
@@ -122,10 +130,10 @@ SOFTWARE.
 		{
 			win.append(cfgTree);
 
-			const cfgText = new cheatgui.Text();
+			const cfgText = new Code();
 			cfgTree.append(cfgText);
 			cfgTree.append(new cheatgui.Button('View current', () => {
-				cfgText.setText(JSON.stringify(win.getConfig()));
+				cfgText.setText(JSON.stringify(win.getConfig(), null, 4));
 			}));
 			cfgTree.append(new cheatgui.Button('View saved', () => {
 				cfgText.setText(localStorage.getItem('cgui-demo-cfg'));
@@ -178,7 +186,7 @@ SOFTWARE.
 		{
 			win.append(configTree);
 
-			const info = new cheatgui.Text('Current config: ' + JSON.stringify(cheatgui.getConfig()));
+			const info = new Code(JSON.stringify(cheatgui.getConfig(), null, 4));
 			configTree.append(info);
 
 			const input = new cheatgui.Input('Config');
@@ -190,7 +198,7 @@ SOFTWARE.
 			btn.onClick(() => {
 				try {
 					cheatgui.updateConfig(JSON.parse(input.getText()));
-					info.setText(JSON.stringify(cheatgui.getConfig()));
+					info.setText(JSON.stringify(cheatgui.getConfig(), null, 4));
 					input.setText('');
 				} catch (e) {
 					console.log(e);
@@ -228,7 +236,7 @@ SOFTWARE.
 					closable: false
 				}).then(id => {
 					cheatgui.updateConfig(presets[id].value);
-					info.setText(JSON.stringify(cheatgui.getConfig()));
+					info.setText(JSON.stringify(cheatgui.getConfig(), null, 4));
 				});
 			});
 		}
