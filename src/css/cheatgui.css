@@ -225,6 +225,10 @@
 	box-sizing: border-box;
 }
 
+.cgui-slider:active {
+	cursor: none;
+}
+
 .cgui-slider-thumb {
 	background: #fffc;
 	outline: none;
@@ -244,7 +248,7 @@
 	font-size: 14px;
 	padding: 0 4px;
 	user-select: none;
-}	
+}
 
 .cgui-slider-label {
 	display: inline-block;
