@@ -7,7 +7,7 @@
  * @see https://github.com/Cat-125/CheatGUI
  */
 
-import '../css/cheatgui.css';
+import '../css/cheatgui.scss';
 
 import { config, getConfig, updateConfig } from './config';
 import * as utils from './utils';
