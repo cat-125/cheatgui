@@ -202,11 +202,11 @@ export function appendToBody(widget: Widget) {
 }
 
 /**
- * Include a CSS code
+ * Add a CSS code
  * @param {string} css
  * @public
  */
-export function includeCSS(css: string) {
+export function addCSS(css: string) {
 	const head = document.head;
 	const style = createElem('style');
 	style.setAttribute('type', 'text/css');
@@ -219,7 +219,7 @@ export function includeCSS(css: string) {
  * @param {string} url
  * @public
  */
-export function includeCSSLink(url: string) {
+export function addCSSLink(url: string) {
 	const link: HTMLLinkElement = createElem('link');
 	link.rel = 'stylesheet';
 	link.href = url;
@@ -231,7 +231,7 @@ export function includeCSSLink(url: string) {
  * @param {string} url
  * @public
  */
-export function includeJS(url: string) {
+export function loadScript(url: string) {
 	const script = createElem('script');
 	script.src = url;
 	document.body.appendChild(script);
