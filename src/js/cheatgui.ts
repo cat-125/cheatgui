@@ -11,8 +11,7 @@ import '../css/cheatgui.scss';
 
 import { config, getConfig, updateConfig } from './config';
 import * as utils from './utils';
-import { activeWindow } from './widgets/Window';
-export { utils, getConfig, updateConfig };
+
 
 export {
 	GUIElement,
@@ -33,6 +32,8 @@ export {
 } from './widgets';
 
 export { activeWindow } from './widgets/Window';
+export { utils, getConfig, updateConfig };
+export const version = '0.13.0';
 
 
 const { createElem } = utils;
