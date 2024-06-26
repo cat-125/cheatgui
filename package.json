@@ -3,7 +3,7 @@
   "version": "0.13.1",
   "description": "Effortless library for building window-based interfaces.",
   "scripts": {
-    "start": "webpack --watch --config webpack.dev.js",
+    "dev": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
   "repository": {
