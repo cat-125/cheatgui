@@ -127,7 +127,7 @@ export function snap(value: number, step: number): number {
  * Get the number of digits after the decimal point
  * @param {number} number
  * @returns {number}
- * @deprecated use getNumberOfDigitsAfterPeriod instead
+ * @deprecated use countDigitsAfterDecimal() instead
  * @public
  */
 export function getNumberOfDigitsAfterPeriod(number: number): number {
