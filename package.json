@@ -4,12 +4,20 @@
   "description": "Effortless library for building window-based interfaces.",
   "scripts": {
     "dev": "webpack --watch --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+		"prepare": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cat-125/cheatgui.git"
   },
+  "files": [
+    "src",
+		"dist",
+    "themes",
+    "LICENSE",
+    "package.json"
+  ],
   "keywords": [
     "gui"
   ],

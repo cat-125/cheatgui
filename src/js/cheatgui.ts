@@ -3,7 +3,6 @@
  * 
  * @module
  * @author Cat-125
- * @license MIT
  * @see https://github.com/Cat-125/CheatGUI
  */
 

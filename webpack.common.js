@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
 	entry: './src/js/cheatgui.ts',
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.css', '.scss'],
   },
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -40,7 +40,7 @@ module.exports = {
 			{
         test: /\.s[ac]ss$/i,
         use: [
-          "style-loader",
+					MiniCssExtractPlugin.loader,
           "css-loader",
           "sass-loader",
         ],
