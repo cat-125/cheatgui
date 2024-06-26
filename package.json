@@ -1,6 +1,6 @@
 {
   "name": "cheatgui",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Effortless library for building window-based interfaces.",
   "scripts": {
     "start": "webpack --watch --config webpack.dev.js",

@@ -1,0 +1,17 @@
+.vscode
+.idea
+build
+dist
+docs
+node_modules
+.github
+CONTRIBUTING.md
+index.html
+babel.config.json
+tsconfig.json
+typedoc.json
+webpack.common.js
+webpack.dev.js
+webpack.prod.js
+.gitignore
+package-lock.json

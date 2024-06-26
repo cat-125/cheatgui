@@ -80,7 +80,7 @@ SOFTWARE.
 
 		const win = new cheatgui.Window({ x: isMobile ? 25 : 400, y: isMobile ? 100 : 50, width: isMobile ? 350 : 500, height: 400, title: "CheatGUI Demo" });
 
-		const versionText = new cheatgui.Text('CheatGUI v0.13.0');
+		const versionText = new cheatgui.Text('CheatGUI v' + cheatgui.version);
 		win.append(versionText);
 
 		const aboutTree = new cheatgui.Tree("About", true);
