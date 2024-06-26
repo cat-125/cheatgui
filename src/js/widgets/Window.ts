@@ -1,7 +1,10 @@
 import GUIElement from "./GUIElement";
 import View from "./View";
 import { config } from "../config";
-import { isMobile, createElem, generateId, distance } from "../utils";
+import { isMobile, createElem, generateId } from "../utils";
+import { initActivationOnClick, initToggleOnClick, initDraggable, initResize } from "../wintools";
+
+export let activeWindow: Window | null = null;
 
 /**
  * This class represents a window with
@@ -27,6 +30,7 @@ export default class Window extends GUIElement {
 
 	/**
 	 * Creates a new window element.
+	 * 
 	 * @param {object} options - The options for the window
 	 * @param {number} [options.x=0] - The x position of the window
 	 * @param {number} [options.y=0] - The y position of the window
@@ -63,6 +67,7 @@ export default class Window extends GUIElement {
 
 		// Create header element and set its properties
 		this.headerRef = createElem('div');
+		this.headerRef.tabIndex = 0;
 		this.headerRef.classList.add('cgui-window-header');
 
 		// Create title element and set its properties
@@ -124,10 +129,14 @@ export default class Window extends GUIElement {
 
 		// Initialize draggable, toggle, and activation functionality
 		this.isDragging = this.isResizing = false;
-		if (draggable) this.initDraggable(dragThreshold);
-		if (resizable) this.initResize();
-		if (collapsible) this.initToggleOnClick(collapseThreshold);
-		this.initActivationOnClick();
+		if (draggable) initDraggable(this, dragThreshold);
+		if (resizable) initResize(this);
+		if (collapsible) initToggleOnClick(this, collapseThreshold);
+		initActivationOnClick(this);
+	}
+
+	get isFocused(): boolean {
+		return this === activeWindow;
 	}
 
 	/**
@@ -285,121 +294,15 @@ export default class Window extends GUIElement {
 	}
 
 	/**
-	 * The `sendToTop` function sends the window to the top of the window stack.
+	 * The `focus` function sends the window to the top of the window stack and adds `active` class.
 	 * @returns {this}
 	 */
-	sendToTop(): this {
-		if (this.ref.classList.contains('active')) return this;
+	focus(): this {
+		if (this.isFocused) return this;
 		Array.from(document.getElementsByClassName('cgui-window')).forEach(win => win.classList.remove('active'));
 		this.ref.classList.add('active');
+		activeWindow = this;
 		return this;
-	}
-
-	initActivationOnClick() {
-		this.ref.addEventListener('pointerdown', () => {
-			this.sendToTop();
-		});
-	}
-
-	initToggleOnClick(threshold: number) {
-		let isClick = false, startX: number, startY: number;
-		this.headerRef.addEventListener('pointerdown', e => {
-			isClick = true;
-			startX = e.clientX;
-			startY = e.clientY;
-		});
-		document.addEventListener('pointermove', e => {
-			if (distance(startX, startY, e.clientX, e.clientY) > threshold)
-				isClick = false;
-		});
-		this.headerRef.addEventListener('pointerup', () => {
-			if (isClick) this.toggle();
-		});
-	}
-
-	initDraggable(threshold: number) {
-		let startX: number, startY: number, offsetX: number, offsetY: number, isMouseDown = false;
-
-		const startDragging = () => {
-			this.isDragging = true;
-			this.ref.classList.add('cgui-dragging');
-		}
-
-		const onMouseDown = (e: any) => {
-			e.preventDefault();
-			e = e.touches ? e.touches[0] : e;
-			isMouseDown = true;
-			startX = e.clientX;
-			startY = e.clientY;
-			offsetX = e.clientX - this.ref.offsetLeft;
-			offsetY = e.clientY - this.ref.offsetTop;
-		};
-
-		const onMouseMove = (e: any) => {
-			e = e.touches ? e.touches[0] : e;
-			if (!this.isDragging) {
-				if (isMouseDown && distance(startX, startY, e.clientX, e.clientY) > threshold &&
-					!this.isResizing) {
-					startDragging();
-				}
-				else return;
-			}
-			this.move(e.clientX - offsetX, e.clientY - offsetY);
-		};
-
-		const onMouseUp = () => {
-			this.isDragging = isMouseDown = false;
-			if (this.ref.classList.contains('cgui-dragging'))
-				this.ref.classList.remove('cgui-dragging');
-		};
-
-		this.headerRef.addEventListener('mousedown', onMouseDown);
-		this.headerRef.addEventListener('touchstart', onMouseDown);
-
-		document.addEventListener('mousemove', onMouseMove);
-		document.addEventListener('touchmove', onMouseMove);
-
-		document.addEventListener('mouseup', onMouseUp);
-		document.addEventListener('touchend', onMouseUp);
-	}
-
-	initResize() {
-		let sx: number, sy: number, dx: number, dy: number, iw: number, ih: number;
-
-		const onMouseDown = (e: any) => {
-			if (this.collapsed) return;
-			e.preventDefault();
-			e.stopPropagation();
-			e = e.touches ? e.touches[0] : e;
-			this.isResizing = true;
-			[sx, sy, iw, ih] = [e.clientX, e.clientY, this.width, this.height];
-			this.addClass('cgui-resizing');
-		};
-
-		const onMouseMove = (e: any) => {
-			if (this.isResizing) {
-				e = e.touches ? e.touches[0] : e;
-				dx = e.clientX - sx;
-				dy = e.clientY - sy;
-				const newWidth = iw + dx;
-				const newHeight = ih + dy;
-				this.setWidth(newWidth);
-				this.setHeight(newHeight);
-			}
-		};
-
-		const onMouseUp = () => {
-			this.isResizing = false;
-			this.removeClass('cgui-resizing');
-		};
-
-		this.resizeRef.addEventListener('mousedown', onMouseDown);
-		document.addEventListener('mousemove', onMouseMove);
-		document.addEventListener('mouseup', onMouseUp);
-
-		this.resizeRef.addEventListener('touchstart', onMouseDown);
-		document.addEventListener('touchmove', onMouseMove);
-		document.addEventListener('touchend', onMouseUp);
 	}
 
 	/**

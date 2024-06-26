@@ -29,6 +29,7 @@ export default class Dropdown extends Widget implements ValueWidget {
 		super('label');
 		const id = this.id = generateId(16);
 		this.ref.htmlFor = id;
+		this.ref.tabIndex = -1;
 		this.addClass('cgui-dropdown-wrapper');
 		this.selRef = createElem('select');
 		this.selRef.id = id;
@@ -44,8 +45,14 @@ export default class Dropdown extends Widget implements ValueWidget {
 		this.labelRef = createElem('span');
 		this.labelRef.className = 'cgui-dropdown-label';
 		this.ref.appendChild(this.labelRef);
-		this.ref.tabIndex = 0;
 		this.setLabel(label);
+
+		this.ref.addEventListener('keydown', (e: KeyboardEvent) => {
+			if (e.code === 'Space') {
+				e.preventDefault();
+				this.selRef.focus();
+			}
+		})
 
 		if (callback) this.onChange(callback);
 	}
@@ -85,7 +92,7 @@ export default class Dropdown extends Widget implements ValueWidget {
 	 * @returns {Dropdown}
 	 */
 	setValue(val: string): this {
-		this.selRef.value = val;
+		this.selRef.selectedIndex = Array.from(this.selRef.options).findIndex(o => o.value === val);
 		return this;
 	}
 

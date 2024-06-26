@@ -39,6 +39,14 @@ export default class Switch extends Widget implements ValueWidget {
 		this.ref.tabIndex = 0;
 		this.setLabel(label);
 
+		this.ref.addEventListener('keydown', (e: KeyboardEvent) => {
+			if (e.code === 'Space') {
+				e.preventDefault();
+				this.inputRef.click();
+				this.ref.focus();
+			}
+		})
+
 		this.inputRef.addEventListener('change', () => {
 			this.trigger('change', this.getValue());
 			this.trigger('input', this.getValue());

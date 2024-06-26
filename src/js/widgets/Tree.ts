@@ -135,6 +135,12 @@ export default class Tree extends Widget {
 		this.headerRef.addEventListener('click', () => {
 			this.toggle();
 		});
+		this.headerRef.addEventListener('keydown', (e) => {
+			if (e.code == 'Space' || e.code == 'Enter') {
+				e.preventDefault();
+				this.toggle();
+			}
+		});
 	}
 
 	/**

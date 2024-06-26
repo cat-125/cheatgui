@@ -36,10 +36,34 @@ SOFTWARE.
 			background: #353535;
 			color: #fff;
 		}
+
+		kbd {
+			font-family: monospace;
+			background: #222;
+			color: #fff;
+			padding: 0.2em 0.4em;
+			border-radius: 0.2em;
+			margin: 0.2em;
+			font-size: 1em;
+			display: inline-flex;
+		}
 	</style>
 </head>
 
 <body>
+	<div style="display: none;" id="demo-about-text">
+		This is a demo window created with CheatGUI. It showcases most of the widgets and features available in CheatGUI.
+		You can also browse the source code of CheatGUI to understand how the widgets are implemented.
+
+		<h3>Keyboard Navigation</h3>
+
+		<kbd>Tab</kbd> - Switch between widgets. <br>
+		<kbd>Space</kbd> or <kbd>Enter</kbd> - Interact with the currently focused widget. <br>
+		<kbd>Arrow Keys</kbd> on a slider - Adjust the value of the slider by <code>step</code>. <br>
+		<kbd>Control</kbd> + <kbd>Arrow Keys</kbd> on a slider - Adjust the value of the slider by <code>step * 10</code>. <br>
+		<kbd>Arrow Keys</kbd> on a window - Change the position of the window by 10 pixels. <br>
+		<kbd>Shift</kbd> + <kbd>Arrow Keys</kbd> on a window - Resize the window by 10 pixels.
+	</div>
 	<script>
 		const isMobile = cheatgui.isMobile;
 
@@ -61,7 +85,7 @@ SOFTWARE.
 
 		const aboutTree = new cheatgui.Tree("About", true);
 		win.append(aboutTree);
-		aboutTree.setContent("This demo demonstrates many features of the CheatGUI library. You can interact with all widgets below.");
+		aboutTree.setContent(document.getElementById('demo-about-text').innerHTML);
 
 
 		const widgetsTree = new cheatgui.Tree("Widgets");

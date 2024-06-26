@@ -36,6 +36,7 @@ export default class Slider extends Widget implements ValueWidget {
 
 		this.sliderRef = createElem('div');
 		this.sliderRef.classList.add('cgui-slider');
+		this.sliderRef.tabIndex = 0;
 		this.ref.appendChild(this.sliderRef);
 
 		this.thumbRef = createElem('div');
@@ -54,6 +55,30 @@ export default class Slider extends Widget implements ValueWidget {
 		this.setLabel(label);
 
 		this.initSlider();
+
+		this.sliderRef.addEventListener('keydown', (e: KeyboardEvent) => {
+			if (e.ctrlKey) {
+				if (e.code == "ArrowLeft") {
+					this.setValue(this.value - this.step * 10);
+					this.trigger('change', this.getValue());
+				} else if (e.code == "ArrowRight") {
+					this.setValue(this.value + this.step * 10);
+					this.trigger('change', this.getValue());
+				}
+			} else {
+				if (e.code == "ArrowLeft") {
+					this.setValue(this.value - this.step);
+					this.trigger('change', this.getValue());
+				} else if (e.code == "ArrowRight") {
+					this.setValue(this.value + this.step);
+					this.trigger('change', this.getValue());
+				}
+			}
+		});
+
+		this.sliderRef.addEventListener('mouseup', (e: MouseEvent) => {
+			this.sliderRef.focus();
+		})
 
 		if (callback) this.onChange(callback);
 	}

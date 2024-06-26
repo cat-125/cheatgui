@@ -25,6 +25,7 @@ export default class Input extends Widget implements ValueWidget {
 
 		this.inputRef = createElem('input');
 		this.inputRef.classList.add('cgui-input');
+		this.inputRef.tabIndex = 0;
 		this.ref.appendChild(this.inputRef);
 
 		this.labelRef = createElem('div');

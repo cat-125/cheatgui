@@ -14,6 +14,7 @@ export default class Button extends Widget {
 	constructor(text: string = '', callback: Function = null) {
 		super('button');
 		this.addClass('cgui-btn');
+		this.ref.tabIndex = 0;
 		this.setText(text);
 		if (callback) this.onClick(callback);
 	}
