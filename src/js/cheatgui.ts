@@ -33,7 +33,7 @@ export {
 export { activeWindow } from './widgets/Window';
 export { utils, getConfig, updateConfig };
 
-export const version = '0.13.1';
+export const version = '0.14.0';
 
 
 const { createElem } = utils;
