@@ -10,3 +10,5 @@ docs
 node_modules
 # Python cache
 __pycache__
+# Package-lock.json
+package-lock.json
