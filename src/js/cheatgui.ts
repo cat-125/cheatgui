@@ -8,9 +8,7 @@
 
 import '../css/cheatgui.scss';
 
-import { config, getConfig, updateConfig } from './config';
-import * as utils from './utils';
-
+export const version = '0.14.0';
 
 export {
 	GUIElement,
@@ -31,13 +29,16 @@ export {
 } from './widgets';
 
 export { activeWindow } from './widgets/Window';
-export { utils, getConfig, updateConfig };
 
-export const version = '0.14.0';
+export { getConfig, updateConfig } from './config';
 
 
+import * as utils from './utils';
+export { utils };
+
+
+import { config } from './config';
 const { createElem } = utils;
-
 
 /**
  * This function opens a pop-up modal window where the user can select one item from the data.
