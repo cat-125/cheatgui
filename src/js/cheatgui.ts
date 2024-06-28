@@ -8,8 +8,10 @@
 
 import '../css/cheatgui.scss';
 
+// Version
 export const version = '0.14.0';
 
+// GUI elements
 export {
 	GUIElement,
 	View,
@@ -30,13 +32,20 @@ export {
 
 export { activeWindow } from './widgets/Window';
 
+// Configuration
 export { getConfig, updateConfig } from './config';
 
+// Notifications
+import Notification from './notifications/Notification';
+import createNotification from './notifications/createNotification';
+export { Notification, createNotification };
 
+// Utils
 import * as utils from './utils';
 export { utils };
 
 
+// Popup menu
 import { config } from './config';
 const { createElem } = utils;
 

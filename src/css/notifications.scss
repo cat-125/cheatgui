@@ -1,0 +1,36 @@
+.cgui-notification-container {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	width: 400px;
+	height: auto;
+	display: block;
+	z-index: 100000;
+	padding: 0;
+}
+
+.cgui-notification {
+	position: relative;
+	height: auto;
+	padding: 0;
+	margin: 8px 0 0 0;
+	display: block;
+	background: transparent;
+	border-radius: 8px;
+	border: 1px solid #444;
+	overflow: hidden;
+}
+
+.cgui-notification-title {
+	padding: 8px 12px;
+	margin: 0;
+	border-bottom: 1px solid #444;
+	background: #111e;
+	font-weight: bold;
+}
+
+.cgui-notification-content {
+	padding: 8px;
+	margin: 0;
+	background: #000e;
+}

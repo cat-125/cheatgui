@@ -100,38 +100,143 @@ SOFTWARE.
 			// Button
 
 			const btn = new cheatgui.Button('Button');
+			btn.onClick(() => {
+				cheatgui.createNotification({
+					message: 'Button clicked!',
+					timeout: 2000
+				})
+			});
 			widgetsTree.append(btn);
 
 			// Input
 
+			let inputNotification, inputNotification2;
+
 			const input = new cheatgui.Input('Input');
+			input.onInput(value => {
+				if (inputNotification && !inputNotification.closed) {
+					inputNotification
+						.updateMessage(`Input changed to "${value}"`)
+						.restartTimeout();
+				} else {
+					inputNotification = cheatgui.createNotification({
+						title: 'Input changed',
+						message: `Input changed to "${value}"`,
+						timeout: 2000
+					});
+				}
+			});
 			widgetsTree.append(input);
 
 			const input2 = new cheatgui.NumberInput('Number');
+			input2.onInput(value => {
+				if (inputNotification2 && !inputNotification2.closed) {
+					inputNotification2
+						.updateMessage(`Number changed to "${value}"`)
+						.restartTimeout();
+				} else {
+					inputNotification2 = cheatgui.createNotification({
+						title: 'Number changed',
+						message: `Number changed to "${value}"`,
+						timeout: 2000
+					});
+				}
+			});
 			widgetsTree.append(input2);
 
 			// Slider
 
+			let sliderNotification, sliderNotification2, sliderNotification3;
+
 			const slider = new cheatgui.Slider({ label: 'Slider' });
+			slider.onChange(value => {
+				if (sliderNotification && !sliderNotification.closed) {
+					sliderNotification
+						.updateMessage(`Slider changed to "${value}"`)
+						.restartTimeout();
+				} else {
+					sliderNotification = cheatgui.createNotification({
+						title: 'Slider changed',
+						message: `Slider changed to "${value}"`,
+						timeout: 2000
+					});
+				}
+			});
 			widgetsTree.append(slider);
 
 			const slider1 = new cheatgui.Slider({ label: 'Float', max: 1, step: 0.01, value: 0.5 });
+			slider1.onChange(value => {
+				if (sliderNotification2 && !sliderNotification2.closed) {
+					sliderNotification2
+						.updateMessage(`Slider changed to "${value}"`)
+						.restartTimeout();
+				} else {
+					sliderNotification2 = cheatgui.createNotification({
+						title: 'Slider changed',
+						message: `Slider changed to "${value}"`,
+						timeout: 2000
+					});
+				}
+			});
 			widgetsTree.append(slider1);
 
 			const slider2 = new cheatgui.Slider({ label: 'Shifted', min: 500, max: 2000, value: 1000 });
+			slider2.onChange(value => {
+				if (sliderNotification3 && !sliderNotification3.closed) {
+					sliderNotification3
+						.updateMessage(`Slider changed to "${value}"`)
+						.restartTimeout();
+				} else {
+					sliderNotification3 = cheatgui.createNotification({
+						title: 'Slider changed',
+						message: `Slider changed to "${value}"`,
+						timeout: 2000
+					});
+				}
+			});
 			widgetsTree.append(slider2);
 
 			// Switch
 
+			let swNotification;
+
 			const sw1tch = new cheatgui.Switch('Switch');
+			sw1tch.onChange(value => {
+				if (swNotification && !swNotification.closed) {
+					swNotification
+						.updateMessage(`Switch changed to "${value}"`)
+						.restartTimeout();
+				} else {
+					swNotification = cheatgui.createNotification({
+						title: 'Switch changed',
+						message: `Switch changed to "${value}"`,
+						timeout: 2000
+					});
+				}
+			});
 			widgetsTree.append(sw1tch);
 
 			// Dropdown
+
+			let ddNotification;
 
 			const dd = new cheatgui.Dropdown('Dropdown', {
 				'Value 1': '1',
 				'Value 2': '2',
 				'Value 3': '3'
+			});
+			dd.onChange(value => {
+				if (ddNotification && !ddNotification.closed) {
+					ddNotification
+						.updateMessage(`Dropdown changed to "${value}"`)
+						.restartTimeout();
+				} else {
+					ddNotification = cheatgui.createNotification({
+						title: 'Dropdown changed',
+						message: `Dropdown changed to "${value}"`,
+						timeout: 2000
+					});
+				}
 			});
 			widgetsTree.append(dd);
 		}
