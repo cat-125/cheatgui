@@ -59,7 +59,7 @@ export default class Input extends Widget implements ValueWidget {
 	 * @returns {Input}
 	 */
 	onInput(f: Function): this {
-		this.on('input', (e: any) => f(e, this.getValue()));
+		this.on('input', f);
 		return this;
 	}
 

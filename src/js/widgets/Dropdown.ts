@@ -47,12 +47,9 @@ export default class Dropdown extends Widget implements ValueWidget {
 		this.ref.appendChild(this.labelRef);
 		this.setLabel(label);
 
-		this.ref.addEventListener('keydown', (e: KeyboardEvent) => {
-			if (e.code === 'Space') {
-				e.preventDefault();
-				this.selRef.focus();
-			}
-		})
+		this.selRef.addEventListener('change', e => {
+			this.trigger('change', this.getValue());
+		});
 
 		if (callback) this.onChange(callback);
 	}
@@ -63,7 +60,7 @@ export default class Dropdown extends Widget implements ValueWidget {
 	 * @returns {Dropdown}
 	 */
 	onChange(func: Function): this {
-		this.selRef.addEventListener('change', e => func(e, this.getValue()));
+		this.on('change', func);
 		return this;
 	}
 

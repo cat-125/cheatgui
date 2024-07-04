@@ -61,7 +61,7 @@ export default class NumberInput extends Widget implements ValueWidget {
 	 * @returns {NumberInput}
 	 */
 	onInput(f: Function): this {
-		this.on('input', (e: any) => f(e, this.getValue()));
+		this.on('input', f);
 		return this;
 	}
 

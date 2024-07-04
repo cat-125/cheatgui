@@ -171,7 +171,7 @@ export default class Slider extends Widget implements ValueWidget {
 		const onMouseUp = () => {
 			if (!isDragging) return;
 			isDragging = false;
-			this.trigger('change');
+			this.trigger('change', this.getValue());
 			document.removeEventListener('mousemove', updateSlider);
 			document.removeEventListener('touchmove', updateSlider);
 		};

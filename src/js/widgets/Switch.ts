@@ -61,7 +61,7 @@ export default class Switch extends Widget implements ValueWidget {
 	 * @returns {Switch}
 	 */
 	onChange(func: Function): this {
-		this.on('change', (e: any) => func(e, this.inputRef.checked));
+		this.on('change', func);
 		return this;
 	}
 
