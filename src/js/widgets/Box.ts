@@ -1,5 +1,5 @@
-import Widget from "./Widget";
-import View from "./View";
+import Widget from './Widget';
+import View from './View';
 
 /**
  * Just a container where you can put child elements. They will not differ
@@ -10,7 +10,7 @@ import View from "./View";
 export default class Box extends Widget {
 	constructor() {
 		super('div');
-		this.view = (new View).mount(this.ref);
+		this.view = new View().mount(this.ref);
 	}
 
 	/**

@@ -7,7 +7,7 @@ import EventSupport from '../EventSupport';
  * @extends EventSupport
  */
 export default class GUIElement extends EventSupport {
-  view: View;
+	view: View;
 	ref: HTMLElement | null;
 
 	constructor() {

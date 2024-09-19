@@ -11,15 +11,16 @@ export function initActivationOnClick(win: Window) {
 }
 
 export function initToggleOnClick(win: Window, threshold: number) {
-	let isClick = false, startX: number, startY: number;
-	win.headerRef.addEventListener('pointerdown', e => {
+	let isClick = false,
+		startX: number,
+		startY: number;
+	win.headerRef.addEventListener('pointerdown', (e) => {
 		isClick = true;
 		startX = e.clientX;
 		startY = e.clientY;
 	});
-	document.addEventListener('pointermove', e => {
-		if (distance(startX, startY, e.clientX, e.clientY) > threshold)
-			isClick = false;
+	document.addEventListener('pointermove', (e) => {
+		if (distance(startX, startY, e.clientX, e.clientY) > threshold) isClick = false;
 	});
 	win.headerRef.addEventListener('pointerup', () => {
 		if (isClick) win.toggle();
@@ -31,12 +32,16 @@ export function initToggleOnClick(win: Window, threshold: number) {
 }
 
 export function initDraggable(win: Window, threshold: number) {
-	let startX: number, startY: number, offsetX: number, offsetY: number, isMouseDown = false;
+	let startX: number,
+		startY: number,
+		offsetX: number,
+		offsetY: number,
+		isMouseDown = false;
 
 	const startDragging = () => {
 		win.isDragging = true;
 		win.ref.classList.add('cgui-dragging');
-	}
+	};
 
 	const onMouseDown = (e: any) => {
 		e.preventDefault();
@@ -51,19 +56,16 @@ export function initDraggable(win: Window, threshold: number) {
 	const onMouseMove = (e: any) => {
 		e = e.touches ? e.touches[0] : e;
 		if (!win.isDragging) {
-			if (isMouseDown && distance(startX, startY, e.clientX, e.clientY) > threshold &&
-				!win.isResizing) {
+			if (isMouseDown && distance(startX, startY, e.clientX, e.clientY) > threshold && !win.isResizing) {
 				startDragging();
-			}
-			else return;
+			} else return;
 		}
 		win.move(e.clientX - offsetX, e.clientY - offsetY);
 	};
 
 	const onMouseUp = () => {
 		win.isDragging = isMouseDown = false;
-		if (win.ref.classList.contains('cgui-dragging'))
-			win.ref.classList.remove('cgui-dragging');
+		if (win.ref.classList.contains('cgui-dragging')) win.ref.classList.remove('cgui-dragging');
 	};
 
 	win.headerRef.addEventListener('mousedown', onMouseDown);

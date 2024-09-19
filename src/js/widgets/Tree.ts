@@ -9,7 +9,7 @@ import { createElem, generateId } from '../utils';
  * @extends Widget
  */
 export default class Tree extends Widget {
-	ref: HTMLDivElement;
+	declare ref: HTMLDivElement;
 	headerRef: HTMLDivElement;
 	titleRef: HTMLSpanElement;
 	arrowRef: HTMLSpanElement;

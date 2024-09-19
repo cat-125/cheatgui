@@ -18,7 +18,21 @@ import {
 	Row
 } from './widgets';
 
-export type WidgetName = 'text' | 'button' | 'input' | 'number-input' | 'switch' | 'slider' | 'dropdown' | 'tree' | 'row' | 'container' | 'has-view' | 'widget' | 'gui-element' | 'unknown';
+export type WidgetName =
+	| 'text'
+	| 'button'
+	| 'input'
+	| 'number-input'
+	| 'switch'
+	| 'slider'
+	| 'dropdown'
+	| 'tree'
+	| 'row'
+	| 'container'
+	| 'has-view'
+	| 'widget'
+	| 'gui-element'
+	| 'unknown';
 
 export const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
 
@@ -36,7 +50,7 @@ export function $(selector: string | Element | Document, parent: Element | Docum
 
 /**
  * Create an HTML element
- * @param {string} type - HTML element 
+ * @param {string} type - HTML element
  * @returns {any}
  * @public
  */
@@ -96,7 +110,7 @@ export function clamp(val: number, min: number, max: number): number {
  * @public
  */
 export function range2percentage(val: number, min: number, max: number): number {
-	return 100 / (max - min) * val;
+	return (100 / (max - min)) * val;
 }
 
 /**
@@ -108,7 +122,7 @@ export function range2percentage(val: number, min: number, max: number): number 
  */
 export function snap(value: number, step: number): number {
 	if (step === 0) {
-		throw new Error("Step cannot be zero");
+		throw new Error('Step cannot be zero');
 	}
 
 	const remainder = value % step;
@@ -132,7 +146,7 @@ export function snap(value: number, step: number): number {
  */
 export function getNumberOfDigitsAfterPeriod(number: number): number {
 	let stringNumber = number.toString();
-	let parts = stringNumber.split(".");
+	let parts = stringNumber.split('.');
 
 	if (parts.length > 1) {
 		return parts[1].length;
@@ -164,7 +178,7 @@ export function getWidgetName(widget: GUIElement): WidgetName {
 	if (typeof widget == 'string' || widget instanceof Text) {
 		return 'text';
 	} else if (widget instanceof Button) {
-		return 'button'
+		return 'button';
 	} else if (widget instanceof Input) {
 		return 'input';
 	} else if (widget instanceof NumberInput) {
@@ -184,7 +198,7 @@ export function getWidgetName(widget: GUIElement): WidgetName {
 	} else if (typeof widget.view !== 'undefined') {
 		return 'has-view';
 	} else if (widget instanceof Widget) {
-		return 'widget'
+		return 'widget';
 	} else if (widget instanceof GUIElement) {
 		return 'gui-element';
 	} else {
@@ -244,7 +258,7 @@ export function loadScript(url: string) {
  */
 export function loadTheme(url: string) {
 	const link = $(`link#cgui-theme`, document.head) ?? createElem('link');
-	link.id = 'cgui-theme'
+	link.id = 'cgui-theme';
 	link.rel = 'stylesheet';
 	link.href = url;
 	document.head.appendChild(link);

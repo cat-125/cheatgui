@@ -1,6 +1,6 @@
-import Widget from "./Widget";
-import ValueWidget from "./ValueWidget";
-import { createElem, countDigitsAfterDecimal, clamp, snap, range2percentage } from "../utils";
+import Widget from './Widget';
+import ValueWidget from './ValueWidget';
+import { createElem, countDigitsAfterDecimal, clamp, snap, range2percentage } from '../utils';
 
 /**
  * A class representing a slider where you can select a value from a specific range.
@@ -8,7 +8,7 @@ import { createElem, countDigitsAfterDecimal, clamp, snap, range2percentage } fr
  * @ extends Widget implements ValueWidget
  */
 export default class Slider extends Widget implements ValueWidget {
-	ref: HTMLDivElement;
+	declare ref: HTMLDivElement;
 	sliderRef: HTMLDivElement;
 	thumbRef: HTMLDivElement;
 	labelRef: HTMLDivElement;
@@ -28,8 +28,20 @@ export default class Slider extends Widget implements ValueWidget {
 	 * @param {null} [options.callback=null] - The function to call when the slider is changed
 	 */
 	constructor({
-		label = '', value = 0, min = 0, max = 100, step = 1, callback = null
-	}: { label?: string; value?: number; min?: number; max?: number; step?: number; callback?: null; }) {
+		label = '',
+		value = 0,
+		min = 0,
+		max = 100,
+		step = 1,
+		callback = null
+	}: {
+		label?: string;
+		value?: number;
+		min?: number;
+		max?: number;
+		step?: number;
+		callback?: null;
+	}) {
 		super('div');
 
 		this.addClass('cgui-slider-wrapper');
@@ -58,27 +70,25 @@ export default class Slider extends Widget implements ValueWidget {
 
 		this.sliderRef.addEventListener('keydown', (e: KeyboardEvent) => {
 			if (e.ctrlKey) {
-				if (e.code == "ArrowLeft") {
+				if (e.code == 'ArrowLeft') {
 					this.setValue(this.value - this.step * 10);
 					this.trigger('change', this.getValue());
-				} else if (e.code == "ArrowRight") {
+				} else if (e.code == 'ArrowRight') {
 					this.setValue(this.value + this.step * 10);
 					this.trigger('change', this.getValue());
 				}
-			} else {
-				if (e.code == "ArrowLeft") {
-					this.setValue(this.value - this.step);
-					this.trigger('change', this.getValue());
-				} else if (e.code == "ArrowRight") {
-					this.setValue(this.value + this.step);
-					this.trigger('change', this.getValue());
-				}
+			} else if (e.code == 'ArrowLeft') {
+				this.setValue(this.value - this.step);
+				this.trigger('change', this.getValue());
+			} else if (e.code == 'ArrowRight') {
+				this.setValue(this.value + this.step);
+				this.trigger('change', this.getValue());
 			}
 		});
 
 		this.sliderRef.addEventListener('mouseup', (e: MouseEvent) => {
 			this.sliderRef.focus();
-		})
+		});
 
 		if (callback) this.onChange(callback);
 	}
@@ -110,7 +120,7 @@ export default class Slider extends Widget implements ValueWidget {
 	 * @returns {Slider}
 	 */
 	bind(obj: any, prop: string): this {
-		this.onChange((_: any, val: any) => obj[prop] = val);
+		this.onChange((_: any, val: any) => (obj[prop] = val));
 		return this;
 	}
 
@@ -152,13 +162,12 @@ export default class Slider extends Widget implements ValueWidget {
 	setValue(value: number) {
 		value = parseFloat(clamp(snap(value, this.step), this.min, this.max).toFixed(this.accuracy));
 		this.value = value;
-		const displayValue = 100 / (this.max - this.min) * (value - this.min);
+		const displayValue = (100 / (this.max - this.min)) * (value - this.min);
 		this.thumbRef.style.marginLeft = displayValue + '%';
 		this.thumbRef.style.transform = `translateX(-${displayValue}%)`;
 		this.thumbRef.textContent = value.toString();
 		return this;
 	}
-
 
 	initSlider() {
 		let isDragging = false;
@@ -182,13 +191,20 @@ export default class Slider extends Widget implements ValueWidget {
 			const bb = this.sliderRef.getBoundingClientRect();
 			const style1 = getComputedStyle(this.sliderRef);
 			const style2 = getComputedStyle(this.thumbRef);
-			this.setValue(range2percentage(
-				(e.clientX - bb.left - (parseFloat(getComputedStyle(this.thumbRef).getPropertyValue('width')) / 1.6)),
-				bb.left + parseFloat(style1.getPropertyValue('padding-left')) +
-				parseInt(style2.getPropertyValue('width')) / 2,
-				bb.right - parseFloat(style1.getPropertyValue('padding-right')) -
-				parseInt(style2.getPropertyValue('width')) / 2
-			) / 100 * (this.max - this.min) + this.min);
+			this.setValue(
+				(range2percentage(
+					e.clientX - bb.left - parseFloat(getComputedStyle(this.thumbRef).getPropertyValue('width')) / 1.6,
+					bb.left +
+						parseFloat(style1.getPropertyValue('padding-left')) +
+						parseInt(style2.getPropertyValue('width')) / 2,
+					bb.right -
+						parseFloat(style1.getPropertyValue('padding-right')) -
+						parseInt(style2.getPropertyValue('width')) / 2
+				) /
+					100) *
+					(this.max - this.min) +
+					this.min
+			);
 		};
 		this.sliderRef.addEventListener('mousedown', onMouseDown);
 		document.addEventListener('mouseup', onMouseUp);

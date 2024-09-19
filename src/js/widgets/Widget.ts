@@ -1,5 +1,5 @@
-import GUIElement from "./GUIElement";
-import { createElem } from "../utils";
+import GUIElement from './GUIElement';
+import { createElem } from '../utils';
 
 /**
  * A class that represents a user interface widget.
@@ -7,9 +7,9 @@ import { createElem } from "../utils";
  * @extends GUIElement
  */
 export default class Widget extends GUIElement {
-	ref: HTMLElement;
+	declare ref: HTMLElement;
 	value: any;
-	
+
 	/**
 	 * Create a new widget and initialize it.
 	 * @param {string} [elementType='div'] - The HTML element type.
@@ -53,6 +53,6 @@ export default class Widget extends GUIElement {
 	}
 
 	bind(obj: object, prop: string) {
-		throw new SyntaxError("The `click` event cannot be bound. Use `onClick()` instead.");
+		throw new SyntaxError('The `click` event cannot be bound. Use `onClick()` instead.');
 	}
 }

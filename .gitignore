@@ -8,7 +8,6 @@ dist
 docs
 # Node.js
 node_modules
-# Python cache
-__pycache__
-# Package-lock.json
+# npm/yarn
 package-lock.json
+yarn.lock

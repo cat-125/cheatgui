@@ -1,6 +1,6 @@
 /**
  * CheatGUI
- * 
+ *
  * @module
  * @author Cat-125
  * @see https://github.com/Cat-125/CheatGUI
@@ -30,8 +30,6 @@ export {
 	Row
 } from './widgets';
 
-export { activeWindow } from './widgets/Window';
-
 // Configuration
 export { getConfig, updateConfig } from './config';
 
@@ -43,7 +41,6 @@ export { Notification, createNotification };
 // Utils
 import * as utils from './utils';
 export { utils };
-
 
 // Popup menu
 import { config } from './config';
@@ -64,11 +61,11 @@ export function openPopupMenu({
 	items,
 	closable = true
 }: {
-	title: string,
-	items: string[],
-	closable: boolean
+	title: string;
+	items: string[];
+	closable: boolean;
 }): Promise<any> {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		let divWrapper = createElem('div');
 		let divPopup = createElem('div');
 		let divTitle = createElem('div');

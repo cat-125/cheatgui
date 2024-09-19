@@ -1,6 +1,6 @@
-import Widget from "./Widget";
-import ValueWidget from "./ValueWidget";
-import { createElem, generateId } from "../utils";
+import Widget from './Widget';
+import ValueWidget from './ValueWidget';
+import { createElem, generateId } from '../utils';
 
 /**
  * A class that represents a switch that can be turned on and off.
@@ -8,7 +8,7 @@ import { createElem, generateId } from "../utils";
  * @ extends Widget implements ValueWidget
  */
 export default class Switch extends Widget implements ValueWidget {
-	ref: HTMLLabelElement;
+	declare ref: HTMLLabelElement;
 	inputRef: HTMLInputElement;
 	sliderRef: HTMLSpanElement;
 	labelRef: HTMLSpanElement;
@@ -22,7 +22,7 @@ export default class Switch extends Widget implements ValueWidget {
 	 */
 	constructor(label: string = '', checked: boolean = false, callback: Function = null) {
 		super('label');
-		const id = this.id = generateId(16);
+		const id = (this.id = generateId(16));
 		this.ref.htmlFor = id;
 		this.addClass('cgui-switch');
 		this.inputRef = createElem('input');
@@ -45,7 +45,7 @@ export default class Switch extends Widget implements ValueWidget {
 				this.inputRef.click();
 				this.ref.focus();
 			}
-		})
+		});
 
 		this.inputRef.addEventListener('change', () => {
 			this.trigger('change', this.getValue());
@@ -72,7 +72,7 @@ export default class Switch extends Widget implements ValueWidget {
 	 * @returns {Switch}
 	 */
 	bind(obj: any, prop: string): this {
-		this.onChange((_: any, val: any) => obj[prop] = val);
+		this.onChange((_: any, val: any) => (obj[prop] = val));
 		return this;
 	}
 

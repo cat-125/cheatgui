@@ -1,5 +1,5 @@
-import { createElem } from "../utils";
-import { GUIElement } from "../widgets";
+import { createElem } from '../utils';
+import { GUIElement } from '../widgets';
 
 const notificationContainer = createElem('div');
 notificationContainer.className = 'cgui-notification-container';
@@ -19,12 +19,12 @@ export default class Notification extends GUIElement {
 
 	constructor({
 		title = null,
-		message = "",
+		message = '',
 		timeout = 3000
 	}: {
-		title?: string,
-		message?: string,
-		timeout?: number | false
+		title?: string;
+		message?: string;
+		timeout?: number | false;
 	} = {}) {
 		super();
 		this.title = title;
@@ -51,9 +51,10 @@ export default class Notification extends GUIElement {
 		notificationContainer.appendChild(this.ref);
 		this.addClass('cgui-fadein');
 
-		if (timeout) this.timeoutId = setTimeout(() => {
-			this.close();
-		}, timeout);
+		if (timeout)
+			this.timeoutId = setTimeout(() => {
+				this.close();
+			}, timeout);
 	}
 
 	updateTitle(): this {

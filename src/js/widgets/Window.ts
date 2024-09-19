@@ -1,10 +1,10 @@
-import GUIElement from "./GUIElement";
-import View from "./View";
-import { config } from "../config";
-import { isMobile, createElem, generateId } from "../utils";
-import { initActivationOnClick, initToggleOnClick, initDraggable, initResize } from "../wintools";
+import GUIElement from './GUIElement';
+import View from './View';
+import { config } from '../config';
+import { isMobile, createElem, generateId } from '../utils';
+import { initActivationOnClick, initToggleOnClick, initDraggable, initResize } from '../wintools';
 
-export let activeWindow: Window | null = null;
+let activeWindow: Window | null = null;
 
 /**
  * This class represents a window with
@@ -14,7 +14,7 @@ export let activeWindow: Window | null = null;
  * @extends GUIElement
  */
 export default class Window extends GUIElement {
-	ref: HTMLElement;
+	declare ref: HTMLElement;
 	headerRef: HTMLElement;
 	titleRef: HTMLElement;
 	arrowRef: HTMLElement;
@@ -30,7 +30,7 @@ export default class Window extends GUIElement {
 
 	/**
 	 * Creates a new window element.
-	 * 
+	 *
 	 * @param {object} options - The options for the window
 	 * @param {number} [options.x=0] - The x position of the window
 	 * @param {number} [options.y=0] - The y position of the window
@@ -56,7 +56,19 @@ export default class Window extends GUIElement {
 		draggable = true,
 		dragThreshold = isMobile ? 10 : 3,
 		resizable = true
-	}: { x?: number; y?: number; width?: number; height?: number; title?: string; expanded?: boolean; collapsible?: boolean; collapseThreshold?: number; draggable?: boolean; dragThreshold?: number; resizable?: boolean; }) {
+	}: {
+		x?: number;
+		y?: number;
+		width?: number;
+		height?: number;
+		title?: string;
+		expanded?: boolean;
+		collapsible?: boolean;
+		collapseThreshold?: number;
+		draggable?: boolean;
+		dragThreshold?: number;
+		resizable?: boolean;
+	}) {
 		super();
 		// Create window element and set its properties
 		this.ref = createElem('div');
@@ -299,7 +311,7 @@ export default class Window extends GUIElement {
 	 */
 	focus(): this {
 		if (this.isFocused) return this;
-		Array.from(document.getElementsByClassName('cgui-window')).forEach(win => win.classList.remove('active'));
+		Array.from(document.getElementsByClassName('cgui-window')).forEach((win) => win.classList.remove('active'));
 		this.ref.classList.add('active');
 		activeWindow = this;
 		return this;

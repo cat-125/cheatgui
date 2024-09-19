@@ -1,6 +1,6 @@
-import Widget from "./Widget";
-import ValueWidget from "./ValueWidget";
-import { createElem, generateId } from "../utils";
+import Widget from './Widget';
+import ValueWidget from './ValueWidget';
+import { createElem, generateId } from '../utils';
 
 /**
  * A class that represents a menu for selecting one of several values.
@@ -8,7 +8,7 @@ import { createElem, generateId } from "../utils";
  * @extends Widget
  */
 export default class Dropdown extends Widget implements ValueWidget {
-	ref: HTMLLabelElement;
+	declare ref: HTMLLabelElement;
 	selRef: HTMLSelectElement;
 	labelRef: HTMLSpanElement;
 	id: string;
@@ -27,7 +27,7 @@ export default class Dropdown extends Widget implements ValueWidget {
 	 */
 	constructor(label: string = '', values: object = {}, value: string = null, callback: Function = null) {
 		super('label');
-		const id = this.id = generateId(16);
+		const id = (this.id = generateId(16));
 		this.ref.htmlFor = id;
 		this.ref.tabIndex = -1;
 		this.addClass('cgui-dropdown-wrapper');
@@ -47,7 +47,7 @@ export default class Dropdown extends Widget implements ValueWidget {
 		this.ref.appendChild(this.labelRef);
 		this.setLabel(label);
 
-		this.selRef.addEventListener('change', e => {
+		this.selRef.addEventListener('change', (e) => {
 			this.trigger('change', this.getValue());
 		});
 
@@ -71,7 +71,7 @@ export default class Dropdown extends Widget implements ValueWidget {
 	 * @returns {Dropdown}
 	 */
 	bind(obj: any, prop: string): this {
-		this.onChange((_: any, val: any) => obj[prop] = val);
+		this.onChange((_: any, val: any) => (obj[prop] = val));
 		return this;
 	}
 
@@ -89,7 +89,7 @@ export default class Dropdown extends Widget implements ValueWidget {
 	 * @returns {Dropdown}
 	 */
 	setValue(val: string): this {
-		this.selRef.selectedIndex = Array.from(this.selRef.options).findIndex(o => o.value === val);
+		this.selRef.selectedIndex = Array.from(this.selRef.options).findIndex((o) => o.value === val);
 		return this;
 	}
 

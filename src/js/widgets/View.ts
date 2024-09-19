@@ -1,5 +1,5 @@
-import GUIElement from "./GUIElement";
-import { $, getWidgetName } from '../utils'
+import GUIElement from './GUIElement';
+import { $, getWidgetName } from '../utils';
 
 /**
  * A class that stores interface elements and displays them on a web page.
@@ -62,7 +62,7 @@ export default class View {
 	 * Destroy the view and all its children.
 	 */
 	destroy() {
-		this.children.forEach(c => c.destroy());
+		this.children.forEach((c) => c.destroy());
 		this.ref = null;
 	}
 
@@ -116,11 +116,13 @@ export default class View {
 			for (let i = 0; i < items.length; i++) {
 				if (items[i].type !== getWidgetName(widgets[i + offset])) {
 					if (!warned) {
-						console.warn(`Configuration mismatch! Trying to merge automatically... (${items[i].type}#${i} != ${getWidgetName(widgets[i + offset])}#${i + offset} with offset ${offset})`);
+						console.warn(
+							`Configuration mismatch! Trying to merge automatically... (${items[i].type}#${i} != ${getWidgetName(widgets[i + offset])}#${i + offset} with offset ${offset})`
+						);
 						warned = true;
 					}
 					if (items.length === widgets.length) {
-						console.warn(`Skipping field "${items[i].type}"`)
+						console.warn(`Skipping field "${items[i].type}"`);
 						continue;
 					} else if (items.length < widgets.length) {
 						if (items[i] === getWidgetName(widgets[i + offset + 1])) {
@@ -134,7 +136,7 @@ export default class View {
 						offset--;
 						continue;
 					} else {
-						console.warn('Unable to merge automatically; skipping')
+						console.warn('Unable to merge automatically; skipping');
 						return;
 					}
 				}

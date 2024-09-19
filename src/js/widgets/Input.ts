@@ -1,6 +1,6 @@
-import Widget from "./Widget";
-import ValueWidget from "./ValueWidget";
-import { createElem } from "../utils";
+import Widget from './Widget';
+import ValueWidget from './ValueWidget';
+import { createElem } from '../utils';
 
 /**
  * A class that represents an input field widget.
@@ -8,7 +8,7 @@ import { createElem } from "../utils";
  * @ extends Widget implements ValueWidget
  */
 export default class Input extends Widget implements ValueWidget {
-	ref: HTMLDivElement;
+	declare ref: HTMLDivElement;
 	inputRef: HTMLInputElement;
 	labelRef: HTMLDivElement;
 
@@ -70,13 +70,13 @@ export default class Input extends Widget implements ValueWidget {
 	 * @returns {Input}
 	 */
 	bind(obj: any, prop: string): this {
-		this.onInput((_: any, val: any) => obj[prop] = val);
+		this.onInput((_: any, val: any) => (obj[prop] = val));
 		return this;
 	}
 
 	/**
 	 * Set the value of the input field.
-	 * @param {string} value 
+	 * @param {string} value
 	 * @returns {Input}
 	 */
 	setValue(value: string): this {

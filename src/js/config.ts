@@ -7,7 +7,7 @@ export const config = {
 	minWindowWidth: 150,
 	minWindowHeight: 100,
 	language: {
-		'close': 'Close'
+		close: 'Close'
 	}
 };
 
