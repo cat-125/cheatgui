@@ -53,7 +53,6 @@ const { createElem } = utils;
  * @param {string[]} [options.items] - The items that will be available for the user to select.
  * @param {boolean} [options.closable=true] - Adds one item to the end to close the menu, returning an index of -1.
  * @returns {Promise} A promise that will resolve with the index of the selected item.
- * @async
  * @public
  */
 export function openPopupMenu({

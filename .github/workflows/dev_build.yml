@@ -18,10 +18,11 @@ jobs:
         with:
           node-version: '20'
 
-      - run: npm install
+      - name: Install Yarn
+        run: npm install -g yarn
 
-      - name: Build
-        run: npm run build
+      - name: Install Dependencies Build
+        run: yarn
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
