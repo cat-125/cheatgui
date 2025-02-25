@@ -138,7 +138,7 @@ You can download and use themes from the [`themes/` folder](themes/) or create y
 ## Future plans
 
 - [x] Ability to save & load configurations
-- [ ] Shorter way to add widgets
+- [x] Shorter way to add widgets
 - [ ] Color input
 - [ ] Tabs
 - [ ] Vertical tabs

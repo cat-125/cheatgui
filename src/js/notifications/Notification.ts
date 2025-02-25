@@ -9,27 +9,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 export default class Notification extends GUIElement {
 	title: string | null;
-	message: string;
-	timeout: number | false;
+	text: string;
+	duration: number | false;
 	timeoutId: any;
 	closed: boolean;
 
 	titleRef: HTMLDivElement | null;
 	contentRef: HTMLDivElement;
+	closeBtn: HTMLDivElement | null;
 
 	constructor({
 		title = null,
-		message = '',
-		timeout = 3000
+		text = '',
+		duration = 5000,
+		closable = true
 	}: {
 		title?: string;
-		message?: string;
-		timeout?: number | false;
+		text?: string;
+		duration?: number | false;
+		closable?: boolean;
 	} = {}) {
 		super();
 		this.title = title;
-		this.message = message;
-		this.timeout = timeout;
+		this.text = text;
+		this.duration = duration;
 		this.closed = false;
 
 		this.ref = createElem('div');
@@ -45,16 +48,25 @@ export default class Notification extends GUIElement {
 
 		this.contentRef = createElem('div');
 		this.contentRef.className = 'cgui-notification-content';
-		this.contentRef.innerHTML = message;
+		this.contentRef.innerHTML = text;
 		this.ref.appendChild(this.contentRef);
 
-		notificationContainer.appendChild(this.ref);
-		this.addClass('cgui-fadein');
+		if (closable) {
+			this.closeBtn = createElem('div');
+			this.closeBtn.className = 'cgui-notification-close';
+			this.closeBtn.innerHTML = '&times;';
+			this.ref.appendChild(this.closeBtn);
+			this.closeBtn.addEventListener('click', () => {
+				this.close();
+			});
+		}
 
-		if (timeout)
+		notificationContainer.appendChild(this.ref);
+
+		if (duration)
 			this.timeoutId = setTimeout(() => {
 				this.close();
-			}, timeout);
+			}, duration);
 	}
 
 	updateTitle(): this {
@@ -76,10 +88,10 @@ export default class Notification extends GUIElement {
 	restartTimeout(): this {
 		if (this.closed) throw new Error('The notification has already been closed.');
 		if (this.timeoutId) clearTimeout(this.timeoutId);
-		if (this.timeout) {
+		if (this.duration) {
 			this.timeoutId = setTimeout(() => {
 				this.close();
-			}, this.timeout);
+			}, this.duration);
 			this.trigger('timeout-restart');
 		} else {
 			throw new Error('The notification timeout must be defined to use this function.');
@@ -88,7 +100,7 @@ export default class Notification extends GUIElement {
 	}
 
 	close() {
-		if (this.closed) throw new Error('The notification has already been closed.');
+		if (this.closed) return;
 		this.addClass('cgui-fadeout');
 		this.trigger('fadeout');
 		this.closed = true;

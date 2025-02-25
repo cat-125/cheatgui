@@ -1,6 +1,6 @@
 import Widget from './Widget';
 import ValueWidget from './ValueWidget';
-import { createElem, countDigitsAfterDecimal, clamp, snap, range2percentage } from '../utils';
+import { createElem, countDigitsAfterDecimal, clamp, snap, unlerp } from '../utils';
 
 /**
  * A class representing a slider where you can select a value from a specific range.
@@ -192,7 +192,7 @@ export default class Slider extends Widget implements ValueWidget {
 			const style1 = getComputedStyle(this.sliderRef);
 			const style2 = getComputedStyle(this.thumbRef);
 			this.setValue(
-				(range2percentage(
+				(unlerp(
 					e.clientX - bb.left - parseFloat(getComputedStyle(this.thumbRef).getPropertyValue('width')) / 1.6,
 					bb.left +
 						parseFloat(style1.getPropertyValue('padding-left')) +

@@ -42,6 +42,10 @@ export { Notification, createNotification };
 import * as utils from './utils';
 export { utils };
 
+// Shortcuts
+import * as functions from './functions';
+export { functions };
+
 // Popup menu
 import { config } from './config';
 const { createElem } = utils;

@@ -1,36 +1,69 @@
+@keyframes cgui-notification-slide {
+	0% {
+		transform: translateX(100%);
+	}
+
+	100% {
+		transform: none;
+	}
+}
+
 .cgui-notification-container {
 	position: absolute;
-	bottom: 10px;
-	right: 10px;
-	width: 400px;
+	bottom: 0;
+	right: 0;
+	padding: 0 10px 10px 0;
+	width: 410px;
 	height: auto;
 	display: block;
 	z-index: 100000;
-	padding: 0;
+	overflow: hidden;
 }
 
 .cgui-notification {
 	position: relative;
 	height: auto;
-	padding: 0;
+	padding: 16px;
 	margin: 8px 0 0 0;
 	display: block;
-	background: transparent;
-	border-radius: 8px;
-	border: 1px solid #444;
+	background: #000000ee;
+	border-radius: 16px;
+	border: none;
 	overflow: hidden;
+	animation: cgui-notification-slide 0.3s;
+	animation-timing-function: cubic-bezier(0, 0, 0, 1);
 }
 
 .cgui-notification-title {
-	padding: 8px 12px;
+	padding: 0 0 6px 0;
 	margin: 0;
-	border-bottom: 1px solid #444;
-	background: #111e;
+	background: #111111ee;
 	font-weight: bold;
+	font-size: 1.1em;
 }
 
 .cgui-notification-content {
-	padding: 8px;
+	padding: 0;
 	margin: 0;
-	background: #000e;
+	color: #ffffffaa;
+}
+
+.cgui-notification-close {
+	position: absolute;
+	top: 10px;
+	right: 11px;
+	width: 25px;
+	height: 25px;
+	text-align: center;
+	vertical-align: top;
+	font-size: 20px;
+	cursor: pointer;
+	user-select: none;
+	border-radius: 50%;
+	transition: 0.15s ease;
+}
+
+.cgui-notification-close:active {
+	background-color: #333;
+	scale: 0.9;
 }

@@ -3,20 +3,18 @@
  * @module
  */
 
-import {
-	GUIElement,
-	Widget,
-	Text,
-	Button,
-	Input,
-	NumberInput,
-	Slider,
-	Switch,
-	Dropdown,
-	Tree,
-	Box,
-	Row
-} from './widgets';
+import GUIElement from './widgets/GUIElement';
+import Widget from './widgets/Widget';
+import Text from './widgets/Text';
+import Button from './widgets/Button';
+import Input from './widgets/Input';
+import NumberInput from './widgets/NumberInput';
+import Slider from './widgets/Slider';
+import Switch from './widgets/Switch';
+import Dropdown from './widgets/Dropdown';
+import Tree from './widgets/Tree';
+import Box from './widgets/Box';
+import Row from './widgets/Row';
 
 export type WidgetName =
 	| 'text'
@@ -109,7 +107,7 @@ export function clamp(val: number, min: number, max: number): number {
  * @returns {number}
  * @public
  */
-export function range2percentage(val: number, min: number, max: number): number {
+export function unlerp(val: number, min: number, max: number): number {
 	return (100 / (max - min)) * val;
 }
 

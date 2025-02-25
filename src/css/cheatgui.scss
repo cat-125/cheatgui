@@ -3,7 +3,9 @@
 	&:focus-visible {
 		outline: 1px solid #aaa;
 		outline-offset: 5px;
-		transition: outline 0, outline-offset 0;
+		transition:
+			outline 0,
+			outline-offset 0;
 	}
 }
 
@@ -11,7 +13,7 @@
 
 .cgui {
 	-webkit-tap-highlight-color: transparent;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-family: 'SF Pro', Arial, Helvetica, sans-serif;
 }
 
 /* Widgets */
@@ -37,7 +39,7 @@
 	margin: 0;
 	border-radius: 8px;
 	backdrop-filter: none;
-	transition: box-shadow .2s;
+	transition: box-shadow 0.2s;
 	z-index: 99998;
 	border: 1px solid #444;
 	overflow: hidden;
@@ -104,16 +106,16 @@
 	height: auto !important;
 }
 
-.cgui-window.collapsed>.cgui-window-header {
+.cgui-window.collapsed > .cgui-window-header {
 	border-bottom: none;
 	border-radius: 8px;
 }
 
-.cgui-window.collapsed>.cgui-window-content {
+.cgui-window.collapsed > .cgui-window-content {
 	display: none;
 }
 
-.cgui-window.collapsed>.cgui-window-resize {
+.cgui-window.collapsed > .cgui-window-resize {
 	display: none;
 }
 
@@ -129,7 +131,7 @@
 	box-shadow: 0 0 24px 0 #0008;
 }
 
-.cgui-window.cgui-dragging>.cgui-window-header {
+.cgui-window.cgui-dragging > .cgui-window-header {
 	cursor: move !important;
 }
 
@@ -169,7 +171,7 @@
 	width: 100%;
 	border-radius: 8px;
 	display: block;
-	transition: .1s;
+	transition: 0.1s;
 	user-select: none;
 	cursor: pointer;
 }
@@ -203,7 +205,7 @@
 	width: 60%;
 	border-radius: 8px;
 	display: inline-block;
-	transition: .1s;
+	transition: 0.1s;
 	user-select: none;
 	cursor: text;
 	border: 1px solid #444;
@@ -240,7 +242,7 @@
 	color: #fff;
 	width: 60%;
 	border-radius: 16px;
-	transition: .1s;
+	transition: 0.1s;
 	border: 1px solid #444;
 	max-width: 100%;
 	height: 32px;
@@ -264,7 +266,9 @@
 	height: 24px;
 	border-radius: 16px;
 	display: inline-flex;
-	transition: all .1s, margin-left 0s;
+	transition:
+		all 0.1s,
+		margin-left 0s;
 	border: none;
 	margin-left: 0%;
 	text-align: center;
@@ -319,7 +323,7 @@
 
 .cgui-switch-slider::before {
 	position: absolute;
-	content: "";
+	content: '';
 	height: 20px;
 	width: 20px;
 	left: 2px;
@@ -329,20 +333,20 @@
 	transition: transform 0.2s;
 }
 
-.cgui-switch:hover>.cgui-switch-slider::before {
+.cgui-switch:hover > .cgui-switch-slider::before {
 	background-color: #fff;
 }
 
-.cgui-switch>input:checked+.cgui-switch-slider {
+.cgui-switch > input:checked + .cgui-switch-slider {
 	background-color: #fffc;
 }
 
-.cgui-switch>input:checked+.cgui-switch-slider::before {
+.cgui-switch > input:checked + .cgui-switch-slider::before {
 	background-color: #333e;
 	transform: translateX(10px);
 }
 
-.cgui-switch:hover>input:checked+.cgui-switch-slider::before {
+.cgui-switch:hover > input:checked + .cgui-switch-slider::before {
 	background-color: #333e;
 }
 
@@ -364,7 +368,7 @@
 	width: 60%;
 	border-radius: 8px;
 	display: inline-block;
-	transition: .1s;
+	transition: 0.1s;
 	user-select: none;
 	cursor: pointer;
 	border: 1px solid #444;
@@ -393,7 +397,7 @@
 	width: 100%;
 }
 
-.cgui-tree>.cgui-tree-header {
+.cgui-tree > .cgui-tree-header {
 	@include cgui-focus();
 	background: #3338;
 	padding: 4px;
@@ -405,38 +409,38 @@
 	border: 1px solid #444c;
 	box-shadow: none;
 	cursor: pointer;
-	transition: background-color .3s;
+	transition: background-color 0.3s;
 	border-radius: 8px;
 	font-size: 0.9em;
 }
 
-.cgui-tree>.cgui-tree-header>.cgui-tree-title {
+.cgui-tree > .cgui-tree-header > .cgui-tree-title {
 	padding: 0;
 	margin: 0;
 	font-weight: normal;
 }
 
-.cgui-tree>.cgui-tree-header>.cgui-tree-arrow {
+.cgui-tree > .cgui-tree-header > .cgui-tree-arrow {
 	padding: 0;
 	margin: 0;
 	margin-left: auto;
 	margin-top: -2px;
 }
 
-.cgui-tree>.cgui-tree-content {
+.cgui-tree > .cgui-tree-content {
 	margin: 0;
 	padding: 10px;
 	margin-left: 5px;
 	border-left: 1px solid #555;
 }
 
-.cgui-tree.collapsed>.cgui-tree-content {
+.cgui-tree.collapsed > .cgui-tree-content {
 	display: none;
 }
 
-.cgui-tree>.cgui-tree-header:hover {
+.cgui-tree > .cgui-tree-header:hover {
 	background-color: #fff2;
-	transition: background-color .15s;
+	transition: background-color 0.15s;
 }
 
 /* Row */
@@ -500,7 +504,7 @@
 	outline: none;
 	font-size: 1em;
 	user-select: none;
-	transition: background-color .2s;
+	transition: background-color 0.2s;
 	cursor: pointer;
 	border-radius: 5px;
 	width: calc(100% - 10px);
@@ -550,5 +554,5 @@
 }
 
 .cgui-fadein {
-	animation: cgui-fadein .15s;
+	animation: cgui-fadein 0.15s;
 }
