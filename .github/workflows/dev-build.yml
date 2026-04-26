@@ -1,4 +1,4 @@
-name: Dev Build
+name: Dev build
 
 on:
   push:
@@ -16,15 +16,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@main
         with:
-          node-version: '20'
+          node-version: '25'
 
-      - name: Install Yarn
+      - name: Install yarn
         run: npm install -g yarn
 
-      - name: Install Dependencies Build
+      - name: Install dependencies and build
         run: yarn
 
-      - name: Upload Artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: cheatgui-dev-b${{ github.run_number }}

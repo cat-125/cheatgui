@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title></title>
-	<script src="dist/cheatgui.min.js"></script>
+	<script src="dist/cheatgui.min.iife.js"></script>
 	<link rel="stylesheet" href="dist/cheatgui.min.css">
 	<style>
 		body {
@@ -46,7 +46,7 @@
 	<script>
 		const isMobile = cheatgui.isMobile;
 
-		const c = cheatgui.functions
+		const c = cheatgui.functions;
 
 		class Code extends cheatgui.Widget {
 			constructor(text = '') {
@@ -82,7 +82,7 @@
 				cheatgui.createNotification({
 					text: 'Button clicked!',
 					duration: 2000
-				})
+				});
 			}));
 
 			// Input

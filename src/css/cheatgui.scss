@@ -1,3 +1,5 @@
+@use './notifications';
+
 /* Mixins */
 @mixin cgui-focus {
 	&:focus-visible {
@@ -26,8 +28,6 @@
 }
 
 /* Notification */
-
-@import './notifications.scss';
 
 /* Window */
 

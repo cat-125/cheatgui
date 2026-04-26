@@ -2,7 +2,7 @@ import GUIElement from './widgets/GUIElement';
 import View from './widgets/View';
 import Window from './widgets/Window';
 import Widget from './widgets/Widget';
-import ValueWidget from './widgets/ValueWidget';
+import type ValueWidget from './widgets/ValueWidget';
 import Text from './widgets/Text';
 import Button from './widgets/Button';
 import Input from './widgets/Input';
@@ -19,7 +19,6 @@ export {
 	View,
 	Window,
 	Widget,
-	ValueWidget,
 	Text,
 	Button,
 	Input,
@@ -31,3 +30,5 @@ export {
 	Box,
 	Row
 };
+
+export type { ValueWidget };

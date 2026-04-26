@@ -17,7 +17,6 @@ export {
 	View,
 	Window,
 	Widget,
-	ValueWidget,
 	Text,
 	Button,
 	Input,
@@ -29,6 +28,8 @@ export {
 	Box,
 	Row
 } from './widgets';
+
+export type { ValueWidget } from './widgets';
 
 // Configuration
 export { getConfig, updateConfig } from './config';
