@@ -6,71 +6,144 @@
 import { Widget, Window, Text, Button, Input, NumberInput, Slider, Switch, Dropdown, Tree, Box, Row } from './widgets';
 import { isMobile } from './utils';
 
+/**
+ * Create a text widget
+ * @param text - The text content
+ */
 export function text(text: string): Text {
 	return new Text(text);
 }
 
-export function button(text: string, callback: () => void): Button {
-	return new Button(text, callback);
+/**
+ * Create a button widget
+ * @param options - Button options
+ * @param options.label - Button label
+ * @param options.onClick - Click callback
+ */
+export function button(options: { label: string; onClick?: () => void }): Button {
+	const btn = new Button(options.label);
+	if (options.onClick) btn.onClick(options.onClick);
+	return btn;
 }
 
-export function input(label: string, value: string, callback: (value: string) => void): Input {
-	return new Input(label, value, callback);
+/**
+ * Create an input widget
+ * @param options - Input options
+ * @param options.label - Input label
+ * @param options.value - Initial value
+ * @param options.onChange - Change callback
+ */
+export function input(options: { label: string; value?: string; onChange?: (value: string) => void }): Input {
+	const inp = new Input(options.label, options.value || '');
+	if (options.onChange) inp.onChange(options.onChange);
+	return inp;
 }
 
-export function numberInput(label: string, value: number, callback: (value: number) => void): NumberInput {
-	return new NumberInput(label, value, callback);
+/**
+ * Create a number input widget
+ * @param options - NumberInput options
+ * @param options.label - Input label
+ * @param options.value - Initial value
+ * @param options.onChange - Change callback
+ */
+export function numberInput(options: { label: string; value?: number; onChange?: (value: number) => void }): NumberInput {
+	const inp = new NumberInput(options.label, options.value || 0);
+	if (options.onChange) inp.onChange(options.onChange);
+	return inp;
 }
 
+/**
+ * Create a slider widget
+ * @param options - Slider options
+ */
 export function slider({
 	label = '',
 	value = 0,
 	min = 0,
 	max = 100,
 	step = 1,
-	callback = null
+	onChange = null
 }: {
 	label?: string;
 	value?: number;
 	min?: number;
 	max?: number;
 	step?: number;
-	callback?: null;
+	onChange?: ((value: number) => void) | null;
 }): Slider {
-	return new Slider({ label, value, min, max, step, callback });
+	const sl = new Slider({ label, value, min, max, step });
+	if (onChange) sl.onChange(onChange);
+	return sl;
 }
 
-export function toggle(label: string, value: boolean, callback: (value: boolean) => void): Switch {
-	return new Switch(label, value, callback);
+/**
+ * Create a switch widget
+ * @param options - Switch options
+ * @param options.label - Switch label
+ * @param options.value - Initial value
+ * @param options.onChange - Change callback
+ */
+export function toggle(options: { label: string; value?: boolean; onChange?: (value: boolean) => void }): Switch {
+	const sw = new Switch(options.label, options.value || false);
+	if (options.onChange) sw.onChange(options.onChange);
+	return sw;
 }
 
-export function dropdown(
-	label: string,
-	values: { string: string },
-	value: string,
-	callback: (value: string) => void
-): Dropdown {
-	return new Dropdown(label, values, value, callback);
+/**
+ * Create a dropdown widget
+ * @param options - Dropdown options
+ * @param options.label - Dropdown label
+ * @param options.values - Key-value pairs for dropdown options
+ * @param options.value - Initial selected value
+ * @param options.onChange - Change callback
+ */
+export function dropdown(options: {
+	label: string;
+	values: { [key: string]: string };
+	value?: string;
+	onChange?: (value: string) => void;
+}): Dropdown {
+	const dd = new Dropdown(options.label, options.values, options.value || '');
+	if (options.onChange) dd.onChange(options.onChange);
+	return dd;
 }
 
+/**
+ * Create a tree widget
+ * @param title - Tree title
+ * @param elements - Child elements
+ * @param expanded - Whether the tree is expanded
+ */
 export function tree(title: string, elements: Widget[], expanded: boolean = false): Tree {
 	const tree = new Tree(title, expanded);
 	for (const element of elements) tree.append(element);
 	return tree;
 }
 
+/**
+ * Create a box widget
+ * @param elements - Child elements
+ */
 export function box(elements: Widget[]): Box {
 	const box = new Box();
 	for (const element of elements) box.append(element);
 	return box;
 }
 
+/**
+ * Create a row widget
+ * @param elements - Child elements
+ */
 export function row(elements: Widget[]): Row {
 	const row = new Row();
 	for (const element of elements) row.append(element);
 	return row;
 }
 
+/**
+ * Create a window
+ * @param options - Window options
+ */
 export function buildWindow({
 	x = 100,
 	y = 100,

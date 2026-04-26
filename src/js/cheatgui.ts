@@ -37,7 +37,8 @@ export { getConfig, updateConfig } from './config';
 // Notifications
 import Notification from './notifications/Notification';
 import createNotification from './notifications/createNotification';
-export { Notification, createNotification };
+import notify from './notifications/notify';
+export { Notification, createNotification, notify };
 
 // Utils
 import * as utils from './utils';

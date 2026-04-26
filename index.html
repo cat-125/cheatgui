@@ -1,75 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
-	<script src="dist/cheatgui.min.iife.js"></script>
-	<link rel="stylesheet" href="dist/cheatgui.min.css">
-	<style>
-		body {
-			font-family: Arial, Helvetica, sans-serif;
-			background: transparent;
-			color: #fff;
-		}
-
-		kbd {
-			font-family: monospace;
-			background: #222;
-			color: #fff;
-			padding: 0.2em 0.4em;
-			border-radius: 0.2em;
-			margin: 0.2em;
-			font-size: 1em;
-			display: inline-flex;
-		}
-	</style>
-</head>
-
-<body>
-	<div style="display: none;" id="demo-about-text">
-		This is a demo window created with CheatGUI. It showcases most of the widgets and features available in
-		CheatGUI.
-		You can also browse the source code of CheatGUI to understand how the widgets are implemented.
-
-		<h3>Keyboard Navigation</h3>
-
-		<kbd>Tab</kbd> - Switch between widgets. <br>
-		<kbd>Space</kbd> or <kbd>Enter</kbd> - Interact with the currently focused widget. <br>
-		<kbd>Arrow Keys</kbd> on a slider - Adjust the value of the slider by <code>step</code>. <br>
-		<kbd>Control</kbd> + <kbd>Arrow Keys</kbd> on a slider - Adjust the value of the slider by
-		<code>step * 10</code>. <br>
-		<kbd>Arrow Keys</kbd> on a window - Change the position of the window by 10 pixels. <br>
-		<kbd>Shift</kbd> + <kbd>Arrow Keys</kbd> on a window - Resize the window by 10 pixels.
-	</div>
-	<script>
-		const isMobile = cheatgui.isMobile;
-
-		const c = cheatgui.functions;
-
-		class Code extends cheatgui.Widget {
-			constructor(text = '') {
-				super('pre');
-				this.addClass('cgui-text');
-				this.setText(text);
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>CheatGUI demo</title>
+		<style>
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				background: transparent;
+				color: #fff;
 			}
-		}
 
-		(new cheatgui.Window({ x: isMobile ? 25 : 50, y: isMobile ? 25 : 50, width: 300, height: 200, title: "Window", expanded: !isMobile }))
-			.setContent("Window example");
+			kbd {
+				font-family: monospace;
+				background: #222;
+				color: #fff;
+				padding: 0.2em 0.4em;
+				border-radius: 0.2em;
+				margin: 0.2em;
+				font-size: 1em;
+				display: inline-flex;
+			}
+		</style>
+	</head>
 
-		const win = new cheatgui.Window({ x: isMobile ? 25 : 400, y: isMobile ? 100 : 50, width: isMobile ? 350 : 500, height: 400, title: "CheatGUI Demo" });
+	<body>
+		<div style="display: none" id="demo-about-text">
+			This is a demo window created with CheatGUI. It showcases most of the widgets and features available in CheatGUI.
+			You can also browse the source code of CheatGUI to understand how the widgets are implemented.
 
-		const versionText = c.text('CheatGUI v' + cheatgui.version);
-		win.append(versionText);
+			<h3>Keyboard Navigation</h3>
 
-		const aboutTree = new cheatgui.Tree("About", true);
-		win.append(aboutTree);
-		aboutTree.setContent(document.getElementById('demo-about-text').innerHTML);
+			<kbd>Tab</kbd> - Switch between widgets. <br />
+			<kbd>Space</kbd> or <kbd>Enter</kbd> - Interact with the currently focused widget. <br />
+			<kbd>Arrow Keys</kbd> on a slider - Adjust the value of the slider by <code>step</code>. <br />
+			<kbd>Control</kbd> + <kbd>Arrow Keys</kbd> on a slider - Adjust the value of the slider by <code>step * 10</code>.
+			<br />
+			<kbd>Arrow Keys</kbd> on a window - Change the position of the window by 10 pixels. <br />
+			<kbd>Shift</kbd> + <kbd>Arrow Keys</kbd> on a window - Resize the window by 10 pixels.
+		</div>
+		<script type="module">
+			import {
+				functions as c,
+				Widget,
+				Window,
+				notify,
+				utils,
+				getConfig,
+				updateConfig,
+				version
+			} from './src/js/cheatgui.ts';
 
-		const widgetsTree = new cheatgui.Tree("Widgets");
-		{
+			const isMobile = utils.isMobile;
+
+			class Code extends Widget {
+				constructor(text = '') {
+					super('pre');
+					this.addClass('cgui-text');
+					this.setText(text);
+				}
+			}
+
+			c.buildWindow({
+				x: isMobile ? 25 : 50,
+				y: isMobile ? 25 : 50,
+				width: 300,
+				height: 200,
+				title: 'Window',
+				expanded: !isMobile
+			}).setContent('Window example');
+
+			const win = c.buildWindow({
+				x: isMobile ? 25 : 400,
+				y: isMobile ? 100 : 50,
+				width: isMobile ? 350 : 500,
+				height: 400,
+				title: 'CheatGUI Demo'
+			});
+
+			const versionText = c.text('CheatGUI v' + version);
+			win.append(versionText);
+
+			const aboutTree = c.tree('About', [], true);
+			win.append(aboutTree);
+			aboutTree.setContent(document.getElementById('demo-about-text').innerHTML);
+
+			const widgetsTree = c.tree('Widgets', []);
 			win.append(widgetsTree);
 
 			// Text
@@ -78,39 +94,39 @@
 
 			// Button
 
-			widgetsTree.append(c.button('Button', () => {
-				cheatgui.createNotification({
-					text: 'Button clicked!',
-					duration: 2000
-				});
-			}));
+			widgetsTree.append(
+				c.button({
+					label: 'Button',
+					onClick: () => {
+						createNotification({
+							text: 'Button clicked!',
+							duration: 2000
+						});
+					}
+				})
+			);
 
 			// Input
 
-			let inputNotification, inputNotification2;
+			widgetsTree.append(
+				c.input({
+					label: 'Input',
+					onChange: (value) => {
+						notify({
+							id: 'input-notif',
+							title: 'Input changed',
+							text: `Input changed to "${value}"`,
+							duration: 2000
+						});
+					}
+				})
+			);
 
-			widgetsTree.append(c.input('Input', '', value => {
-				if (inputNotification && !inputNotification.closed) {
-					inputNotification
-						.updateMessage(`Input changed to "${value}"`)
-						.restartTimeout();
-				} else {
-					inputNotification = cheatgui.createNotification({
-						title: 'Input changed',
-						text: `Input changed to "${value}"`,
-						duration: 2000
-					});
-				}
-			}));
-
-			const input2 = new cheatgui.NumberInput('Number');
-			input2.onInput(value => {
-				if (inputNotification2 && !inputNotification2.closed) {
-					inputNotification2
-						.updateMessage(`Number changed to "${value}"`)
-						.restartTimeout();
-				} else {
-					inputNotification2 = cheatgui.createNotification({
+			const input2 = c.numberInput({
+				label: 'Number',
+				onChange: (value) => {
+					notify({
+						id: 'number-notif',
 						title: 'Number changed',
 						text: `Number changed to "${value}"`,
 						duration: 2000
@@ -121,16 +137,11 @@
 
 			// Slider
 
-			let sliderNotification, sliderNotification2, sliderNotification3;
-
-			const slider = new cheatgui.Slider({ label: 'Slider' });
-			slider.onChange(value => {
-				if (sliderNotification && !sliderNotification.closed) {
-					sliderNotification
-						.updateMessage(`Slider changed to "${value}"`)
-						.restartTimeout();
-				} else {
-					sliderNotification = cheatgui.createNotification({
+			const slider = c.slider({
+				label: 'Slider',
+				onChange: (value) => {
+					notify({
+						id: 'slider-notif',
 						title: 'Slider changed',
 						text: `Slider changed to "${value}"`,
 						duration: 2000
@@ -139,14 +150,14 @@
 			});
 			widgetsTree.append(slider);
 
-			const slider1 = new cheatgui.Slider({ label: 'Float', max: 1, step: 0.01, value: 0.5 });
-			slider1.onChange(value => {
-				if (sliderNotification2 && !sliderNotification2.closed) {
-					sliderNotification2
-						.updateMessage(`Slider changed to "${value}"`)
-						.restartTimeout();
-				} else {
-					sliderNotification2 = cheatgui.createNotification({
+			const slider1 = c.slider({
+				label: 'Float',
+				max: 1,
+				step: 0.01,
+				value: 0.5,
+				onChange: (value) => {
+					notify({
+						id: 'slider1-notif',
 						title: 'Slider changed',
 						text: `Slider changed to "${value}"`,
 						duration: 2000
@@ -155,14 +166,14 @@
 			});
 			widgetsTree.append(slider1);
 
-			const slider2 = new cheatgui.Slider({ label: 'Shifted', min: 500, max: 2000, value: 1000 });
-			slider2.onChange(value => {
-				if (sliderNotification3 && !sliderNotification3.closed) {
-					sliderNotification3
-						.updateMessage(`Slider changed to "${value}"`)
-						.restartTimeout();
-				} else {
-					sliderNotification3 = cheatgui.createNotification({
+			const slider2 = c.slider({
+				label: 'Shifted',
+				min: 500,
+				max: 2000,
+				value: 1000,
+				onChange: (value) => {
+					notify({
+						id: 'slider2-notif',
 						title: 'Slider changed',
 						text: `Slider changed to "${value}"`,
 						duration: 2000
@@ -173,40 +184,31 @@
 
 			// Switch
 
-			let swNotification;
-
-			const sw1tch = new cheatgui.Switch('Switch');
-			sw1tch.onChange(value => {
-				if (swNotification && !swNotification.closed) {
-					swNotification
-						.updateMessage(`Switch changed to "${value}"`)
-						.restartTimeout();
-				} else {
-					swNotification = cheatgui.createNotification({
+			const sw = c.toggle({
+				label: 'Switch',
+				onChange: (value) => {
+					notify({
+						id: 'switch-notif',
 						title: 'Switch changed',
 						text: `Switch changed to "${value}"`,
 						duration: 2000
 					});
 				}
 			});
-			widgetsTree.append(sw1tch);
+			widgetsTree.append(sw);
 
 			// Dropdown
 
-			let ddNotification;
-
-			const dd = new cheatgui.Dropdown('Dropdown', {
-				'Value 1': '1',
-				'Value 2': '2',
-				'Value 3': '3'
-			});
-			dd.onChange(value => {
-				if (ddNotification && !ddNotification.closed) {
-					ddNotification
-						.updateMessage(`Dropdown changed to "${value}"`)
-						.restartTimeout();
-				} else {
-					ddNotification = cheatgui.createNotification({
+			const dd = c.dropdown({
+				label: 'Dropdown',
+				values: {
+					'Value 1': '1',
+					'Value 2': '2',
+					'Value 3': '3'
+				},
+				onChange: (value) => {
+					notify({
+						id: 'dropdown-notif',
 						title: 'Dropdown changed',
 						text: `Dropdown changed to "${value}"`,
 						duration: 2000
@@ -214,56 +216,49 @@
 				}
 			});
 			widgetsTree.append(dd);
-		}
 
-		win.append(c.tree('Layout', [
-			c.row([
-				c.text('1'),
-				c.text('2'),
-				c.button('3'),
-				c.toggle('4')
-			])
-		]));
+			win.append(
+				c.tree('Layout', [c.row([c.text('1'), c.text('2'), c.button({ label: '3' }), c.toggle({ label: '4' })])])
+			);
 
-		const cfgText = new Code();
-		win.append(c.tree('Window configuration', [
-			cfgText,
-			c.button('View current', () => {
-				cfgText.setText(JSON.stringify(win.getConfig(), null, 4));
-			}),
-			c.button('View saved', () => {
-				cfgText.setText(localStorage.getItem('cgui-demo-cfg'));
-			}),
-			c.button('Save', () => {
-				localStorage.setItem('cgui-demo-cfg', JSON.stringify(win.getConfig()));
-			}),
-			c.button('Load', () => {
-				win.loadConfig(JSON.parse(localStorage.getItem('cgui-demo-cfg')));
-			}),
-			c.button('Remove', () => {
-				localStorage.removeItem('cgui-demo-cfg');
-			})
-		]));
+			const cfgText = new Code();
+			win.append(
+				c.tree('Window configuration', [
+					cfgText,
+					c.button('View current', () => {
+						cfgText.setText(JSON.stringify(win.getConfig(), null, 4));
+					}),
+					c.button('View saved', () => {
+						cfgText.setText(localStorage.getItem('cgui-demo-cfg'));
+					}),
+					c.button('Save', () => {
+						localStorage.setItem('cgui-demo-cfg', JSON.stringify(win.getConfig()));
+					}),
+					c.button('Load', () => {
+						win.loadConfig(JSON.parse(localStorage.getItem('cgui-demo-cfg')));
+					}),
+					c.button('Remove', () => {
+						localStorage.removeItem('cgui-demo-cfg');
+					})
+				])
+			);
 
-
-
-		const winTree = new cheatgui.Tree("Window manager");
-		{
+			const winTree = c.tree('Window manager', []);
 			win.append(winTree);
 
-			const titleInput = c.input('Title');
+			const titleInput = c.input({ label: 'Title' });
 			winTree.append(titleInput);
-			const resizableSwitch = c.toggle('Resizable', true);
+			const resizableSwitch = c.toggle({ label: 'Resizable', value: true, onChange: (val) => {} });
 			winTree.append(resizableSwitch);
-			const draggableSwitch = c.toggle('Draggable', true);
+			const draggableSwitch = c.toggle({ label: 'Draggable', value: true });
 			winTree.append(draggableSwitch);
-			const collapsibleSwitch = c.toggle('Collapsible', true);
+			const collapsibleSwitch = c.toggle({ label: 'Collapsible', value: true });
 			winTree.append(collapsibleSwitch);
-			const createBtn = c.button('Create');
+			const createBtn = c.button({ label: 'Create' });
 			winTree.append(createBtn);
 
 			createBtn.onClick(() => {
-				const newWin = new cheatgui.Window({
+				const newWin = c.buildWindow({
 					x: win.x + 50,
 					y: win.y,
 					width: 150,
@@ -273,85 +268,83 @@
 					draggable: draggableSwitch.isChecked(),
 					resizable: resizableSwitch.isChecked()
 				});
-				const delBtn = new cheatgui.Button('Destroy');
+				const delBtn = c.button({ label: 'Destroy', onClick: () => newWin.destroy() });
 				newWin.append(delBtn);
-				delBtn.onClick(() => newWin.destroy());
 				newWin.sendToTop();
 			});
-		}
 
-		const presets = [
-			{
-				name: 'default',
-				value: {
-					symbols: {
-						expanded: '▼',
-						collapsed: '◀'
+			const presets = [
+				{
+					name: 'default',
+					value: {
+						symbols: {
+							expanded: '▼',
+							collapsed: '◀'
+						}
+					}
+				},
+				{
+					name: '+ / -',
+					value: {
+						symbols: {
+							expanded: '+',
+							collapsed: '-'
+						}
 					}
 				}
-			},
-			{
-				name: '+ / -',
-				value: {
-					symbols: {
-						expanded: '+',
-						collapsed: '-'
+			];
+
+			const info = new Code(JSON.stringify(getConfig(), null, 4));
+			const input = c.input({ label: 'Config' });
+
+			win.append(
+				c.tree('Global config', [
+					info,
+					input,
+					c.button('Apply', () => {
+						try {
+							updateConfig(JSON.parse(input.getText()));
+							info.setText(JSON.stringify(getConfig(), null, 4));
+							input.setText('');
+						} catch (e) {
+							console.log(e);
+						}
+					}),
+					c.button('Browse presets', () => {
+						openPopupMenu({
+							title: 'Select preset',
+							items: presets.map((preset) => preset.name),
+							closable: false
+						}).then((id) => {
+							updateConfig(presets[id].value);
+							info.setText(JSON.stringify(getConfig(), null, 4));
+						});
+					})
+				])
+			);
+
+			c.tree('Popup menus', [
+				c.text('Click button'),
+				c.button('Open Popup menu', () => {
+					const els = [];
+					for (let i = 0; i < 15; i++) {
+						els.push('Element ' + i);
 					}
-				}
-			}
-		];
+					openPopupMenu({
+						title: 'Popup Menu',
+						items: els
+					}).then((n) => text.setText('Selected index: ' + n));
+				})
+			]);
 
-		const info = new Code(JSON.stringify(cheatgui.getConfig(), null, 4));
-		const input = new cheatgui.Input('Config');
-
-		win.append(c.tree("Global config", [
-			info, input,
-			c.button('Apply', () => {
-				try {
-					cheatgui.updateConfig(JSON.parse(input.getText()));
-					info.setText(JSON.stringify(cheatgui.getConfig(), null, 4));
-					input.setText('');
-				} catch (e) {
-					console.log(e);
-				}
-			}),
-			c.button('Browse presets', () => {
-				cheatgui.openPopupMenu({
-					title: 'Select preset',
-					items: presets.map(preset => preset.name),
-					closable: false
-				}).then(id => {
-					cheatgui.updateConfig(presets[id].value);
-					info.setText(JSON.stringify(cheatgui.getConfig(), null, 4));
-				});
-			})
-		]));
-
-		c.tree("Popup menus", [
-			c.text('Click button'),
-			c.button('Open Popup menu', () => {
-				const els = [];
-				for (let i = 0; i < 15; i++) {
-					els.push('Element ' + i);
-				}
-				cheatgui.openPopupMenu({
-					title: "Popup Menu",
-					items: els
-				}).then(n =>
-					text.setText('Selected index: ' + n)
-				);
-			})
-		]);
-
-		const stylingTree = new cheatgui.Tree("Themes");
-		const themes = ['default', 'imgui', 'windows', 'pink', 'modern'];
-		themes.forEach(theme => {
-			const btn = c.button(theme);
-			btn.onClick(() => cheatgui.utils.loadTheme(`themes/${theme}.css`));
-			stylingTree.append(btn);
-		});
-		win.append(stylingTree);
-	</script>
-</body>
-
+			const stylingTree = c.tree('Themes', []);
+			const themes = ['default', 'imgui', 'windows', 'pink', 'modern'];
+			themes.forEach((theme) => {
+				const btn = c.button(theme);
+				btn.onClick(() => utils.loadTheme(`themes/${theme}.css`));
+				stylingTree.append(btn);
+			});
+			win.append(stylingTree);
+		</script>
+	</body>
 </html>

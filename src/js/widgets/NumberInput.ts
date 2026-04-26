@@ -38,11 +38,12 @@ export default class NumberInput extends Widget implements ValueWidget {
 		this.setLabel(label);
 
 		this.inputRef.addEventListener('input', () => {
-			this.trigger('change', this.getValue());
-			this.trigger('input', this.getValue());
+			const value = this.getValue();
+			this.trigger('change', value);
+			this.trigger('input', value);
 		});
 
-		if (callback) this.onInput(callback);
+		if (callback) this.onChange(callback);
 	}
 
 	/**
@@ -56,13 +57,23 @@ export default class NumberInput extends Widget implements ValueWidget {
 	}
 
 	/**
-	 * Add an input event listener to the input field.
+	 * Add a change event listener to the input field.
 	 * @param {Function} f - The function to call when the input is changed.
 	 * @returns {NumberInput}
 	 */
-	onInput(f: Function): this {
-		this.on('input', f);
+	onChange(f: Function): this {
+		this.on('change', f);
 		return this;
+	}
+
+	/**
+	 * Add an input event listener to the input field.
+	 * @param {Function} f - The function to call when the input is changed.
+	 * @returns {NumberInput}
+	 * @deprecated Use onChange instead
+	 */
+	onInput(f: Function): this {
+		return this.onChange(f);
 	}
 
 	/**
