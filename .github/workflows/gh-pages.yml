@@ -27,14 +27,11 @@ jobs:
       - name: Install Yarn
         run: npm install -g yarn
       
-      - name: Install Dependencies Build
+      - name: Install dependencies and build
         run: yarn
 
       - name: Generate JSDoc documentation
         run: yarn typedoc --options typedoc.json
-      
-      - name: Build
-        run: yarn build
       
       - name: Add demo
         run: |
