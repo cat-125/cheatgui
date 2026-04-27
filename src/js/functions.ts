@@ -3,7 +3,7 @@
  * @module
  */
 
-import { Widget, Window, Text, Button, Input, NumberInput, Slider, Switch, Dropdown, Tree, Box, Row } from './widgets';
+import { Widget, Window, Text, Button, Input, NumberInput, Slider, Toggle, Dropdown, Tree, Box, Row } from './widgets';
 import { isMobile } from './utils';
 
 /**
@@ -80,14 +80,14 @@ export function slider({
 }
 
 /**
- * Create a switch widget
- * @param options - Switch options
- * @param options.label - Switch label
+ * Create a toggle widget
+ * @param options - Toggle options
+ * @param options.label - Toggle label
  * @param options.value - Initial value
  * @param options.onChange - Change callback
  */
-export function toggle(options: { label: string; value?: boolean; onChange?: (value: boolean) => void }): Switch {
-	const sw = new Switch(options.label, options.value || false);
+export function toggle(options: { label: string; value?: boolean; onChange?: (value: boolean) => void }): Toggle {
+	const sw = new Toggle(options.label, options.value || false);
 	if (options.onChange) sw.onChange(options.onChange);
 	return sw;
 }

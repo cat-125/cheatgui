@@ -10,7 +10,7 @@ import Button from './widgets/Button';
 import Input from './widgets/Input';
 import NumberInput from './widgets/NumberInput';
 import Slider from './widgets/Slider';
-import Switch from './widgets/Switch';
+import Toggle from './widgets/Toggle';
 import Dropdown from './widgets/Dropdown';
 import Tree from './widgets/Tree';
 import Box from './widgets/Box';
@@ -21,7 +21,7 @@ export type WidgetName =
 	| 'button'
 	| 'input'
 	| 'number-input'
-	| 'switch'
+	| 'toggle'
 	| 'slider'
 	| 'dropdown'
 	| 'tree'
@@ -181,8 +181,8 @@ export function getWidgetName(widget: GUIElement): WidgetName {
 		return 'input';
 	} else if (widget instanceof NumberInput) {
 		return 'number-input';
-	} else if (widget instanceof Switch) {
-		return 'switch';
+	} else if (widget instanceof Toggle) {
+		return 'toggle';
 	} else if (widget instanceof Slider) {
 		return 'slider';
 	} else if (widget instanceof Dropdown) {

@@ -163,13 +163,13 @@
 	background: #4296FAFF;
 }
 
-/* Switch */
+/* Toggle */
 
-.cgui-switch {
+.cgui-toggle {
 	cursor: default;
 }
 
-.cgui-switch-slider {
+.cgui-toggle-slider {
 	margin-right: 8px;
 	width: 24px;
 	height: 24px;
@@ -180,7 +180,7 @@
 	border: none;
 }
 
-.cgui-switch-slider::before {
+.cgui-toggle-slider::before {
 	width: 14px;
 	height: 14px;
 	background-color: transparent;
@@ -190,29 +190,29 @@
 	display: none;
 }
 
-.cgui-switch:hover>.cgui-switch-slider::before {
+.cgui-toggle:hover>.cgui-toggle-slider::before {
 	background-color: transparent;
 }
 
-.cgui-switch:hover>.cgui-switch-slider {
+.cgui-toggle:hover>.cgui-toggle-slider {
 	background: #4296FA66;
 }
 
-.cgui-switch>input:checked+.cgui-switch-slider {
+.cgui-toggle>input:checked+.cgui-toggle-slider {
 	background-color: #294A7A8A;
 }
 
-.cgui-switch:hover>input:checked+.cgui-switch-slider {
+.cgui-toggle:hover>input:checked+.cgui-toggle-slider {
 	background-color: #4296FA66;
 }
 
-.cgui-switch>input:checked+.cgui-switch-slider::before {
+.cgui-toggle>input:checked+.cgui-toggle-slider::before {
 	background-color: #4296FAFF;
 	transform: none;
 	display: block;
 }
 
-.cgui-switch:hover>input:checked+.cgui-switch-slider::before {
+.cgui-toggle:hover>input:checked+.cgui-toggle-slider::before {
 	background-color: #4296FAFF;
 }
 

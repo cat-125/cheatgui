@@ -22,7 +22,7 @@ export {
 	Input,
 	NumberInput,
 	Slider,
-	Switch,
+	Toggle,
 	Dropdown,
 	Tree,
 	Box,

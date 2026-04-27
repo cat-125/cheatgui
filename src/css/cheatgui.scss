@@ -311,9 +311,9 @@
 	color: #999;
 }
 
-/* Switch */
+/* Toggle */
 
-.cgui-switch {
+.cgui-toggle {
 	@include cgui-focus();
 	position: relative;
 	display: flex;
@@ -324,11 +324,11 @@
 	height: 16px;
 }
 
-.cgui-switch input {
+.cgui-toggle input {
 	display: none;
 }
 
-.cgui-switch-slider {
+.cgui-toggle-slider {
 	width: 14px;
 	height: 14px;
 	position: relative;
@@ -343,7 +343,7 @@
 	border: 1px solid #333;
 }
 
-.cgui-switch-slider::before {
+.cgui-toggle-slider::before {
 	position: absolute;
 	content: '';
 	height: 10px;
@@ -356,15 +356,15 @@
 	transition: background-color 0.1s;
 }
 
-.cgui-switch:hover > .cgui-switch-slider {
+.cgui-toggle:hover > .cgui-toggle-slider {
 	border-color: #555;
 }
 
-.cgui-switch > input:checked + .cgui-switch-slider::before {
+.cgui-toggle > input:checked + .cgui-toggle-slider::before {
 	display: block;
 }
 
-.cgui-switch:hover > input:checked + .cgui-switch-slider::before {
+.cgui-toggle:hover > input:checked + .cgui-toggle-slider::before {
 	background-color: #ccc;
 }
 

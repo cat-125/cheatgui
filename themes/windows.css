@@ -179,23 +179,23 @@
 	color: #000 !important;
 }
 
-/* Switch */
+/* Toggle */
 
-.cgui-switch-slider {
+.cgui-toggle-slider {
   background: transparent;
   border-color: #000;
   transition: .15s;
 }
 
-.cgui-switch:hover>.cgui-switch-slider {
+.cgui-toggle:hover>.cgui-toggle-slider {
   border-color: #3b93ff;
 }
 
-.cgui-switch:active>.cgui-switch-slider {
+.cgui-toggle:active>.cgui-toggle-slider {
   background: #e6f2ff;
 }
 
-.cgui-switch-slider::before {
+.cgui-toggle-slider::before {
   top: -2px;
   left: 1px;
 	background-color: #0000 !important;
@@ -204,15 +204,15 @@
 	font-family: bold;
 }
 
-.cgui-switch:hover>.cgui-switch-slider::before {
+.cgui-toggle:hover>.cgui-toggle-slider::before {
   color: #3b93ff !important;
 }
 
-.cgui-switch > input:checked + .cgui-switch-slider::before {
+.cgui-toggle > input:checked + .cgui-toggle-slider::before {
 	content: '✔';
 }
 
-.cgui-switch > input:checked + .cgui-switch-slider::before {
+.cgui-toggle > input:checked + .cgui-toggle-slider::before {
 	content: '✔';
 }
 

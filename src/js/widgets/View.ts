@@ -84,7 +84,7 @@ export default class View {
 				const type = getWidgetName(child);
 				const el: { type: string; value: any } = { type, value: null };
 
-				if (['input', 'number-input', 'switch', 'slider', 'select'].includes(type)) {
+				if (['input', 'number-input', 'toggle', 'slider', 'select'].includes(type)) {
 					// @ts-expect-error
 					el.value = child.getValue();
 				} else if (type === 'tree') {
@@ -142,7 +142,7 @@ export default class View {
 						return;
 					}
 				}
-				if (['input', 'number-input', 'switch', 'slider', 'dropdown'].includes(items[i].type))
+				if (['input', 'number-input', 'toggle', 'slider', 'dropdown'].includes(items[i].type))
 					// @ts-expect-error
 					widgets[i + offset].setValue(items[i].value);
 				else if (items[i].type === 'tree' || items[i].type === 'has-view')

@@ -8,7 +8,7 @@ import Button from './widgets/Button';
 import Input from './widgets/Input';
 import NumberInput from './widgets/NumberInput';
 import Slider from './widgets/Slider';
-import Switch from './widgets/Switch';
+import Toggle from './widgets/Toggle';
 import Dropdown from './widgets/Dropdown';
 import Tree from './widgets/Tree';
 import Box from './widgets/Box';
@@ -24,7 +24,7 @@ export {
 	Input,
 	NumberInput,
 	Slider,
-	Switch,
+	Toggle,
 	Dropdown,
 	Tree,
 	Box,

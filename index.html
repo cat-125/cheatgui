@@ -22,7 +22,6 @@
 				display: inline-flex;
 			}
 		</style>
-		<!-- demo-css-inject -->
 	</head>
 
 	<body>
@@ -184,20 +183,20 @@
 			});
 			widgetsTree.append(slider2);
 
-			// Switch
+			// Toggle
 
-			const sw = c.toggle({
-				label: 'Switch',
+			const toggle = c.toggle({
+				label: 'Toggle',
 				onChange: (value) => {
 					notify({
-						id: 'switch-notif',
-						title: 'Switch changed',
-						text: `Switch changed to "${value}"`,
+						id: 'toggle-notif',
+						title: 'Toggle changed',
+						text: `Toggle changed to "${value}"`,
 						duration: 2000
 					});
 				}
 			});
-			widgetsTree.append(sw);
+			widgetsTree.append(toggle);
 
 			// Dropdown
 

@@ -1,13 +1,13 @@
 import Widget from './Widget';
-import ValueWidget from './ValueWidget';
+import type ValueWidget from './ValueWidget';
 import { createElem, generateId } from '../utils';
 
 /**
- * A class that represents a switch that can be turned on and off.
+ * A class that represents a toggle that can be turned on and off.
  * @public
  * @ extends Widget implements ValueWidget
  */
-export default class Switch extends Widget implements ValueWidget {
+export default class Toggle extends Widget implements ValueWidget {
 	declare ref: HTMLLabelElement;
 	inputRef: HTMLInputElement;
 	sliderRef: HTMLSpanElement;
@@ -15,26 +15,26 @@ export default class Switch extends Widget implements ValueWidget {
 	id: string;
 
 	/**
-	 * Create a new switch.
+	 * Create a new toggle.
 	 * @param {string} [label=''] - The label text.
-	 * @param {boolean} [checked=false] - Whether the switch is initially checked.
-	 * @param {Function} [callback=null] - The callback function to call when the switch is changed.
+	 * @param {boolean} [checked=false] - Whether the toggle is initially checked.
+	 * @param {Function} [callback=null] - The callback function to call when the toggle is changed.
 	 */
 	constructor(label: string = '', checked: boolean = false, callback: Function | null = null) {
 		super('label');
 		const id = (this.id = generateId(16));
 		this.ref.htmlFor = id;
-		this.addClass('cgui-switch');
+		this.addClass('cgui-toggle');
 		this.inputRef = createElem('input');
 		this.inputRef.type = 'checkbox';
 		this.inputRef.id = id;
 		this.ref.appendChild(this.inputRef);
 		this.inputRef.checked = checked;
 		this.sliderRef = createElem('span');
-		this.sliderRef.className = 'cgui-switch-slider';
+		this.sliderRef.className = 'cgui-toggle-slider';
 		this.ref.appendChild(this.sliderRef);
 		this.labelRef = createElem('span');
-		this.labelRef.className = 'cgui-switch-label';
+		this.labelRef.className = 'cgui-toggle-label';
 		this.ref.appendChild(this.labelRef);
 		this.ref.tabIndex = 0;
 		this.setLabel(label);
@@ -56,9 +56,9 @@ export default class Switch extends Widget implements ValueWidget {
 	}
 
 	/**
-	 * Set the callback function to call when the switch is changed.
-	 * @param {Function} func - The callback function to call when the switch is changed.
-	 * @returns {Switch}
+	 * Set the callback function to call when the toggle is changed.
+	 * @param {Function} func - The callback function to call when the toggle is changed.
+	 * @returns {Toggle}
 	 */
 	onChange(func: Function): this {
 		this.on('change', func);
@@ -66,10 +66,10 @@ export default class Switch extends Widget implements ValueWidget {
 	}
 
 	/**
-	 * Bind a property to the switch.
+	 * Bind a property to the toggle.
 	 * @param {object} obj - The object to bind the property to.
 	 * @param {string} prop - The property to bind.
-	 * @returns {Switch}
+	 * @returns {Toggle}
 	 */
 	bind(obj: any, prop: string): this {
 		this.onChange((_: any, val: any) => (obj[prop] = val));
@@ -77,7 +77,7 @@ export default class Switch extends Widget implements ValueWidget {
 	}
 
 	/**
-	 * Get whether the switch is checked.
+	 * Get whether the toggle is checked.
 	 * @returns {boolean}
 	 */
 	isChecked(): boolean {
@@ -85,7 +85,7 @@ export default class Switch extends Widget implements ValueWidget {
 	}
 
 	/**
-	 * Get whether the switch is checked.
+	 * Get whether the toggle is checked.
 	 * @returns {boolean}
 	 */
 	getValue(): boolean {
@@ -93,9 +93,9 @@ export default class Switch extends Widget implements ValueWidget {
 	}
 
 	/**
-	 * Set whether the switch is checked.
+	 * Set whether the toggle is checked.
 	 * @param {boolean} val
-	 * @returns {Switch}
+	 * @returns {Toggle}
 	 */
 	setValue(val: boolean): this {
 		this.inputRef.checked = val;
@@ -103,9 +103,9 @@ export default class Switch extends Widget implements ValueWidget {
 	}
 
 	/**
-	 * Set the label of the switch.
+	 * Set the label of the toggle.
 	 * @param {string} label
-	 * @returns {Switch}
+	 * @returns {Toggle}
 	 */
 	setLabel(label: string): this {
 		this.labelRef.innerHTML = label;
