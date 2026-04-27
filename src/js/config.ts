@@ -1,7 +1,6 @@
 export const config = {
 	symbols: {
-		expanded: '▼',
-		collapsed: '◀',
+		triangle: '◀',
 		resize: '&#9698;' // ◢
 	},
 	minWindowWidth: 150,

@@ -276,27 +276,6 @@
 				newWin.sendToTop();
 			});
 
-			const presets = [
-				{
-					name: 'default',
-					value: {
-						symbols: {
-							expanded: '▼',
-							collapsed: '◀'
-						}
-					}
-				},
-				{
-					name: '+ / -',
-					value: {
-						symbols: {
-							expanded: '+',
-							collapsed: '-'
-						}
-					}
-				}
-			];
-
 			const info = new Code(JSON.stringify(getConfig(), null, 4));
 			const input = c.input({ label: 'Config' });
 
@@ -312,21 +291,11 @@
 						} catch (e) {
 							console.log(e);
 						}
-					}),
-					c.button('Browse presets', () => {
-						openPopupMenu({
-							title: 'Select preset',
-							items: presets.map((preset) => preset.name),
-							closable: false
-						}).then((id) => {
-							updateConfig(presets[id].value);
-							info.setText(JSON.stringify(getConfig(), null, 4));
-						});
 					})
 				])
 			);
 
-			c.tree('Popup menus', [
+			win.append(c.tree('Popup menus', [
 				c.text('Click button'),
 				c.button('Open Popup menu', () => {
 					const els = [];
@@ -338,7 +307,7 @@
 						items: els
 					}).then((n) => text.setText('Selected index: ' + n));
 				})
-			]);
+			]));
 
 			const stylingTree = c.tree('Themes', []);
 			const themes = ['default', 'imgui', 'windows'];

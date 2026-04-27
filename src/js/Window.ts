@@ -98,7 +98,7 @@ export default class Window extends GUIElement {
 		// Create arrow element and set its properties
 		this.arrowRef = createElem('span');
 		this.arrowRef.className = 'cgui-window-arrow';
-		this.arrowRef.innerHTML = config.symbols.expanded;
+		this.arrowRef.innerHTML = config.symbols.triangle;
 		this.arrowRef.hidden = !collapsible;
 		this.headerRef.appendChild(this.arrowRef);
 
@@ -251,7 +251,6 @@ export default class Window extends GUIElement {
 	collapse(): this {
 		this.collapsed = true;
 		this.ref.classList.add('collapsed');
-		this.arrowRef.innerHTML = config.symbols.collapsed;
 		return this;
 	}
 
@@ -262,7 +261,6 @@ export default class Window extends GUIElement {
 	expand(): this {
 		this.collapsed = false;
 		this.ref.classList.remove('collapsed');
-		this.arrowRef.innerHTML = config.symbols.expanded;
 		return this;
 	}
 

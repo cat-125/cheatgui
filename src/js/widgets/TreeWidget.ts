@@ -44,7 +44,7 @@ export default class TreeWidget extends Widget {
 		// Create arrow element and set its properties
 		this.arrowRef = createElem('span');
 		this.arrowRef.className = 'cgui-tree-arrow';
-		this.arrowRef.innerHTML = config.symbols.expanded;
+		this.arrowRef.innerHTML = config.symbols.triangle;
 		this.headerRef.appendChild(this.arrowRef);
 
 		// Create content element and set its properties
@@ -93,7 +93,6 @@ export default class TreeWidget extends Widget {
 	 */
 	collapse(): this {
 		this.ref.classList.add('collapsed');
-		this.arrowRef.innerHTML = config.symbols.collapsed;
 		return this;
 	}
 
@@ -103,7 +102,6 @@ export default class TreeWidget extends Widget {
 	 */
 	expand(): this {
 		this.ref.classList.remove('collapsed');
-		this.arrowRef.innerHTML = config.symbols.expanded;
 		return this;
 	}
 
@@ -113,11 +111,6 @@ export default class TreeWidget extends Widget {
 	 */
 	toggle(): this {
 		this.ref.classList.toggle('collapsed');
-		if (this.ref.classList.contains('collapsed')) {
-			this.arrowRef.innerHTML = config.symbols.collapsed;
-		} else {
-			this.arrowRef.innerHTML = config.symbols.expanded;
-		}
 		return this;
 	}
 
