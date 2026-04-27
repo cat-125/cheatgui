@@ -1,41 +1,44 @@
 {
-  "name": "cheatgui",
-  "version": "0.14.0",
-  "description": "Effortless library for building window-based interfaces.",
-  "scripts": {
-    "dev": "vite dev",
-    "build": "vite build",
-    "prepare": "vite build",
-    "doc": "typedoc --options typedoc.json"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cat-125/cheatgui.git"
-  },
-  "files": [
-    "src",
-    "dist",
-    "LICENSE",
-    "package.json",
-    "README.md"
-  ],
-  "main": "src/js/cheatgui.ts",
-  "keywords": [
-    "gui"
-  ],
-  "author": "Cat-125",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/cat-125/cheatgui/issues"
-  },
-  "homepage": "https://github.com/cat-125/cheatgui#readme",
-  "devDependencies": {
-    "prettier": "^3.8.3",
-    "sass": "^1.99.0",
-    "tslib": "^2.8.1",
-    "typedoc": "^0.28.19",
-    "typescript": "^6.0.3",
-    "vite": "^6.2.0"
-  },
-  "dependencies": {}
+	"name": "cheatgui",
+	"version": "0.14.0",
+	"description": "Effortless library for building window-based interfaces.",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"prepare": "vite build",
+		"doc": "typedoc --options typedoc.json",
+		"format": "prettier . -w"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/cat-125/cheatgui.git"
+	},
+	"files": [
+		"src",
+		"dist",
+		"LICENSE",
+		"package.json",
+		"README.md"
+	],
+	"main": "src/js/cheatgui.ts",
+	"keywords": [
+		"gui",
+		"library",
+		"window"
+	],
+	"author": "Cat-125",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/cat-125/cheatgui/issues"
+	},
+	"homepage": "https://github.com/cat-125/cheatgui#readme",
+	"devDependencies": {
+		"prettier": "^3.8.3",
+		"sass": "^1.99.0",
+		"tslib": "^2.8.1",
+		"typedoc": "^0.28.19",
+		"typescript": "^6.0.3",
+		"vite": "^6.2.0"
+	},
+	"dependencies": {}
 }

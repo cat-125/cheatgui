@@ -15,11 +15,11 @@
 	border-radius: 0;
 	backdrop-filter: none;
 	transition: none;
-	border: 1px solid #6E6E8080;
+	border: 1px solid #6e6e8080;
 }
 
 .cgui-window-header {
-	background: #0A0A0AFF;
+	background: #0a0a0aff;
 	padding: 2px 8px;
 	cursor: default;
 }
@@ -29,7 +29,7 @@
 }
 
 .cgui-window-content {
-	background: #0F0F0FF0;
+	background: #0f0f0ff0;
 	padding: 4px;
 }
 
@@ -37,25 +37,25 @@
 	bottom: 6px;
 	right: 4px;
 	font-size: 1.6em;
-	color: #4296FA33;
+	color: #4296fa33;
 	cursor: default;
 }
 
 .cgui-window-resize:hover {
-	color: #4296FAAB;
+	color: #4296faab;
 }
 
 .cgui-window-resize:active {
-	color: #4296FAF2;
+	color: #4296faf2;
 }
 
-.cgui-window.active>.cgui-window-header {
-	background: #294A7AFF;
+.cgui-window.active > .cgui-window-header {
+	background: #294a7aff;
 	font-weight: normal;
 }
 
-.cgui-window.active>.cgui-window-content {
-	background: #0F0F0FF0;
+.cgui-window.active > .cgui-window-content {
+	background: #0f0f0ff0;
 }
 
 .cgui-window.cgui-dragging {
@@ -71,26 +71,26 @@
 }
 
 .cgui-window-content::-webkit-scrollbar-thumb {
-	background-color: #4F4F4FFF;
+	background-color: #4f4f4fff;
 	border-radius: 15px;
 }
 
 .cgui-window-content::-webkit-scrollbar-thumb:hover {
-	background-color: #696969FF;
+	background-color: #696969ff;
 }
 
 .cgui-window-content::-webkit-scrollbar-thumb:active {
-	background-color: #1A66BFFF;
+	background-color: #1a66bfff;
 }
 
-.cgui-window.collapsed>.cgui-window-header {
+.cgui-window.collapsed > .cgui-window-header {
 	background: #00000082;
 }
 
 /* Button */
 
 .cgui-btn {
-	background: #4296FA66;
+	background: #4296fa66;
 	padding: 4px;
 	width: auto;
 	border-radius: 0;
@@ -100,19 +100,19 @@
 }
 
 .cgui-btn:hover {
-	background: #4296FAFF;
+	background: #4296faff;
 }
 
 .cgui-btn:active {
-	background: #0F87FAFF;
+	background: #0f87faff;
 	color: #fff;
-	transition: .15s;
+	transition: 0.15s;
 }
 
 /* Input */
 
 .cgui-input {
-	background: #294A7A8A;
+	background: #294a7a8a;
 	font-family: monospace;
 	color: #fff;
 	padding: 4px;
@@ -140,7 +140,7 @@
 /* Slider */
 
 .cgui-slider {
-	background: #294A7A8A;
+	background: #294a7a8a;
 	width: 60%;
 	border-radius: 0;
 	transition: none;
@@ -150,7 +150,7 @@
 }
 
 .cgui-slider-thumb {
-	background: #3D85E0FF;
+	background: #3d85e0ff;
 	min-width: 32px;
 	height: 20px;
 	border-radius: 0;
@@ -160,7 +160,7 @@
 }
 
 .cgui-slider-thumb:active {
-	background: #4296FAFF;
+	background: #4296faff;
 }
 
 /* Toggle */
@@ -174,7 +174,7 @@
 	width: 24px;
 	height: 24px;
 	position: relative;
-	background: #294A7A8A;
+	background: #294a7a8a;
 	border-radius: 0;
 	transition: none;
 	border: none;
@@ -190,63 +190,63 @@
 	display: none;
 }
 
-.cgui-toggle:hover>.cgui-toggle-slider::before {
+.cgui-toggle:hover > .cgui-toggle-slider::before {
 	background-color: transparent;
 }
 
-.cgui-toggle:hover>.cgui-toggle-slider {
-	background: #4296FA66;
+.cgui-toggle:hover > .cgui-toggle-slider {
+	background: #4296fa66;
 }
 
-.cgui-toggle>input:checked+.cgui-toggle-slider {
-	background-color: #294A7A8A;
+.cgui-toggle > input:checked + .cgui-toggle-slider {
+	background-color: #294a7a8a;
 }
 
-.cgui-toggle:hover>input:checked+.cgui-toggle-slider {
-	background-color: #4296FA66;
+.cgui-toggle:hover > input:checked + .cgui-toggle-slider {
+	background-color: #4296fa66;
 }
 
-.cgui-toggle>input:checked+.cgui-toggle-slider::before {
-	background-color: #4296FAFF;
+.cgui-toggle > input:checked + .cgui-toggle-slider::before {
+	background-color: #4296faff;
 	transform: none;
 	display: block;
 }
 
-.cgui-toggle:hover>input:checked+.cgui-toggle-slider::before {
-	background-color: #4296FAFF;
+.cgui-toggle:hover > input:checked + .cgui-toggle-slider::before {
+	background-color: #4296faff;
 }
 
 /* Tree */
 
-.cgui-tree>.cgui-tree-header {
-	background: #4296FA4F;
+.cgui-tree > .cgui-tree-header {
+	background: #4296fa4f;
 	transition: none;
 	border-radius: 0;
 	cursor: default;
 	padding: 2px 8px;
 }
 
-.cgui-tree>.cgui-tree-header>.cgui-tree-title {
+.cgui-tree > .cgui-tree-header > .cgui-tree-title {
 	font-weight: normal;
 }
 
-.cgui-tree>.cgui-tree-header>.cgui-tree-arrow {
+.cgui-tree > .cgui-tree-header > .cgui-tree-arrow {
 	margin-top: 1px;
 	font-size: 12px;
 }
 
-.cgui-tree>.cgui-tree-content {
+.cgui-tree > .cgui-tree-content {
 	margin: 0;
 	padding: 10px;
 	margin-left: 3px;
 }
 
-.cgui-tree>.cgui-tree-header:hover {
-	background-color: #4296FACC;
+.cgui-tree > .cgui-tree-header:hover {
+	background-color: #4296facc;
 	transition: none;
 }
 
-.cgui-tree>.cgui-tree-header:active {
-	background-color: #4296FAFF;
+.cgui-tree > .cgui-tree-header:active {
+	background-color: #4296faff;
 	transition: none;
 }

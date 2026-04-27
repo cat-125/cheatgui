@@ -20,7 +20,7 @@
 	border-color: #444 !important;
 }
 
-.cgui-window>.cgui-window-header {
+.cgui-window > .cgui-window-header {
 	background: #fff;
 	padding: 6px;
 	cursor: default;
@@ -35,21 +35,21 @@
 	font-size: 12px;
 }
 
-.cgui-window>.cgui-window-content {
+.cgui-window > .cgui-window-content {
 	background: #fff;
 	border-top: 1px solid #eee;
 }
 
-.cgui-window.active>.cgui-window-header {
+.cgui-window.active > .cgui-window-header {
 	background: #fff;
 	font-weight: normal;
 }
 
-.cgui-window.active>.cgui-window-content {
+.cgui-window.active > .cgui-window-content {
 	background: #fff;
 }
 
-.cgui-window.cgui-dragging>.cgui-window-header {
+.cgui-window.cgui-dragging > .cgui-window-header {
 	cursor: default !important;
 }
 
@@ -65,17 +65,17 @@
 	color: #000 !important;
 	padding: 6px;
 	border-radius: 0;
-	transition: .3s;
+	transition: 0.3s;
 }
 
 .cgui-btn:hover,
 .cgui-btn:focus {
-	background: #E6F2FF;
+	background: #e6f2ff;
 	border-color: #3b93ff;
 }
 
 .cgui-btn:active {
-	background: #D2E7FF;
+	background: #d2e7ff;
 }
 
 /* Input */
@@ -85,7 +85,7 @@
 	color: #000 !important;
 	padding: 6px;
 	border-radius: 0;
-	transition: .3s;
+	transition: 0.3s;
 	border: 1px solid #ddd;
 }
 
@@ -94,7 +94,7 @@
 }
 
 .cgui-input-label {
-  color: #000 !important;
+	color: #000 !important;
 }
 
 /* Slider */
@@ -172,7 +172,7 @@
 }
 
 .cgui-dropdown:focus {
-	background: #D2E7FF;
+	background: #d2e7ff;
 }
 
 .cgui-dropdown-label {
@@ -182,30 +182,30 @@
 /* Toggle */
 
 .cgui-toggle-slider {
-  background: transparent;
-  border-color: #000;
-  transition: .15s;
+	background: transparent;
+	border-color: #000;
+	transition: 0.15s;
 }
 
-.cgui-toggle:hover>.cgui-toggle-slider {
-  border-color: #3b93ff;
+.cgui-toggle:hover > .cgui-toggle-slider {
+	border-color: #3b93ff;
 }
 
-.cgui-toggle:active>.cgui-toggle-slider {
-  background: #e6f2ff;
+.cgui-toggle:active > .cgui-toggle-slider {
+	background: #e6f2ff;
 }
 
 .cgui-toggle-slider::before {
-  top: -2px;
-  left: 1px;
+	top: -2px;
+	left: 1px;
 	background-color: #0000 !important;
 	font-family: Helvetica;
 	color: #666;
 	font-family: bold;
 }
 
-.cgui-toggle:hover>.cgui-toggle-slider::before {
-  color: #3b93ff !important;
+.cgui-toggle:hover > .cgui-toggle-slider::before {
+	color: #3b93ff !important;
 }
 
 .cgui-toggle > input:checked + .cgui-toggle-slider::before {
@@ -225,21 +225,22 @@
 	background-color: #eee;
 }
 
-.cgui-tree>.cgui-tree-header {
+.cgui-tree > .cgui-tree-header {
 	background-color: #fff;
 	border: none;
 }
 
-.cgui-tree>.cgui-tree-header:hover, .cgui-tree>.cgui-tree-header:active {
+.cgui-tree > .cgui-tree-header:hover,
+.cgui-tree > .cgui-tree-header:active {
 	background-color: #fff;
 }
 
-.cgui-tree>.cgui-tree-header>.cgui-tree-title {
+.cgui-tree > .cgui-tree-header > .cgui-tree-title {
 	color: #000 !important;
 	font-size: 12px;
 }
 
-.cgui-tree>.cgui-tree-content {
+.cgui-tree > .cgui-tree-content {
 	margin: 8px;
 	border: 1px solid #ddd;
 	background-color: #fff;
@@ -264,7 +265,9 @@
 }
 
 .cgui-popup-menu-btn {
-	transition: background-color 0s, transform 0.2s;
+	transition:
+		background-color 0s,
+		transform 0.2s;
 	border-radius: 0 !important;
 	margin: 0;
 	padding: 16px;
@@ -283,7 +286,7 @@
 }
 
 .cgui-popup-menu-btn:focus {
-	background-color: #0058D6;
+	background-color: #0058d6;
 	color: #fff;
 }
 

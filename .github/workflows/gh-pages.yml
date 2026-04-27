@@ -23,16 +23,16 @@ jobs:
         uses: actions/setup-node@main
         with:
           node-version: '25'
-      
+
       - name: Install Yarn
         run: npm install -g yarn
-      
+
       - name: Install dependencies and build
         run: yarn
 
       - name: Generate JSDoc documentation
         run: yarn typedoc --options typedoc.json
-      
+
       - name: Add demo
         run: |
           mkdir -p docs/demo

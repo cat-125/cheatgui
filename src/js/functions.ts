@@ -3,7 +3,21 @@
  * @module
  */
 
-import { Widget, Window, View, TextWidget, ButtonWidget, InputWidget, NumberInputWidget, SliderWidget, ToggleWidget, DropdownWidget, TreeWidget, BoxWidget, RowWidget } from './widgets';
+import {
+	Widget,
+	Window,
+	View,
+	TextWidget,
+	ButtonWidget,
+	InputWidget,
+	NumberInputWidget,
+	SliderWidget,
+	ToggleWidget,
+	DropdownWidget,
+	TreeWidget,
+	BoxWidget,
+	RowWidget
+} from './widgets';
 import { isMobile } from './utils';
 
 /**
@@ -22,7 +36,10 @@ export function text(text: string): TextWidget {
  */
 export function button(options: { label: string; onClick?: () => void }): ButtonWidget;
 export function button(label: string, onClick?: () => void): ButtonWidget;
-export function button(optionsOrLabel: { label: string; onClick?: () => void } | string, onClick?: () => void): ButtonWidget {
+export function button(
+	optionsOrLabel: { label: string; onClick?: () => void } | string,
+	onClick?: () => void
+): ButtonWidget {
 	const options = typeof optionsOrLabel === 'string' ? { label: optionsOrLabel, onClick } : optionsOrLabel;
 	const btn = new ButtonWidget(options.label);
 	if (options.onClick) btn.onClick(options.onClick);
@@ -49,7 +66,11 @@ export function input(options: { label: string; value?: string; onChange?: (valu
  * @param options.value - Initial value
  * @param options.onChange - Change callback
  */
-export function numberInput(options: { label: string; value?: number; onChange?: (value: number) => void }): NumberInputWidget {
+export function numberInput(options: {
+	label: string;
+	value?: number;
+	onChange?: (value: number) => void;
+}): NumberInputWidget {
 	const inp = new NumberInputWidget(options.label, options.value || 0);
 	if (options.onChange) inp.onChange(options.onChange);
 	return inp;

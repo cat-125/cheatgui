@@ -20,10 +20,10 @@ To get started with CheatGUI, you need to include it in your project. Here's a s
 
 1. **Download the library**: Download the CheatGUI library from the Releases page or use the beta builds available in the [GitHub Actions](https://github.com/cat-125/cheatgui/actions/workflows/dev_build.yml).
 
-2. **Include the Library**: First, include CheatGUI in your HTML file by using the following  script and link tags. Make sure you replace `path_to_cheatgui` with the actual path where the CheatGUI library is located.
+2. **Include the Library**: First, include CheatGUI in your HTML file by using the following script and link tags. Make sure you replace `path_to_cheatgui` with the actual path where the CheatGUI library is located.
 
    ```html
-   <link rel="stylesheet" href="path_to_cheatgui/cheatgui.min.css">
+   <link rel="stylesheet" href="path_to_cheatgui/cheatgui.min.css" />
    <script src="path_to_cheatgui/cheatgui.min.js"></script>
    ```
 
@@ -31,11 +31,11 @@ To get started with CheatGUI, you need to include it in your project. Here's a s
 
    ```javascript
    const win = new cheatgui.Window({
-     x: 50,
-     y: 300,
-     width: 300,
-     height: 200,
-     title: "Window"
+   	x: 50,
+   	y: 300,
+   	width: 300,
+   	height: 200,
+   	title: 'Window'
    });
 
    win.append(new cheatgui.Text('Hello, world!'));
@@ -47,16 +47,16 @@ To get started with CheatGUI, you need to include it in your project. Here's a s
    // Customizing CheatGUI
    cheatgui.utils.loadTheme('path_to_theme.css');
    cheatgui.utils.updateConfig({
-     symbols: {
-       expanded: '▼',
-       collapsed: '◀',
-       resize: '◢'
-     },
-     minWindowWidth: 150,
-     minWindowHeight: 100,
-     language: {
-       'close': 'Close'
-     }
+   	symbols: {
+   		expanded: '▼',
+   		collapsed: '◀',
+   		resize: '◢'
+   	},
+   	minWindowWidth: 150,
+   	minWindowHeight: 100,
+   	language: {
+   		close: 'Close'
+   	}
    });
    ```
 
@@ -73,11 +73,11 @@ CheatGUI has several files that can be imported. Here are the differences betwee
 
 ```javascript
 const win = new cheatgui.Window({
-  x: 50,
-  y: 300,
-  width: 300,
-  height: 200,
-  title: "Window"
+	x: 50,
+	y: 300,
+	width: 300,
+	height: 200,
+	title: 'Window'
 });
 
 win.append(new cheatgui.Text('Hello, world!'));
@@ -86,15 +86,17 @@ const btn = new cheatgui.Button('Button');
 btn.onClick(() => alert('Button clicked'));
 win.append(btn);
 
-const tree = new cheatgui.Tree("Tree");
+const tree = new cheatgui.Tree('Tree');
 win.append(tree);
 
-tree.append(new cheatgui.Slider({
-  label: 'Float',
-  max: 1,
-  step: 0.01,
-  value: 0.5
-}));
+tree.append(
+	new cheatgui.Slider({
+		label: 'Float',
+		max: 1,
+		step: 0.01,
+		value: 0.5
+	})
+);
 ```
 
 See also [`index.html`](index.html#L56).

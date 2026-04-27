@@ -1,11 +1,11 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
+	"compilerOptions": {
+		"outDir": "./dist/",
 		"sourceMap": true,
-    "noImplicitAny": true,
-    "module": "ESNext",
-    "target": "ESNext",
-    "allowJs": false,
+		"noImplicitAny": true,
+		"module": "ESNext",
+		"target": "ESNext",
+		"allowJs": false,
 		"lib": ["ESNext", "DOM"]
-  }
+	}
 }
