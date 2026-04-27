@@ -71,7 +71,7 @@ export default class InputWidget extends Widget implements ValueWidget {
 	 * @returns {Input}
 	 */
 	bind(obj: any, prop: string): this {
-		this.onChange((_: any, val: any) => (obj[prop] = val));
+		this.onChange((val: string) => (obj[prop] = val));
 		return this;
 	}
 

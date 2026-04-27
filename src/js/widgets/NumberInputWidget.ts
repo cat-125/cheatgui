@@ -73,7 +73,7 @@ export default class NumberInputWidget extends Widget implements ValueWidget {
 	 * @returns {NumberInput}
 	 */
 	bind(obj: any, prop: string): this {
-		this.onChange((_: any, val: any) => (obj[prop] = val));
+		this.onChange((val: number) => (obj[prop] = val));
 		return this;
 	}
 

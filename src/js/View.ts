@@ -80,7 +80,8 @@ export default class View {
 			};
 
 			for (let i = 0; i < view.children.length; i++) {
-				const child: GUIElement = view.children[i];
+				const child = view.children[i];
+				if (!child) continue;
 				const type = getWidgetName(child);
 				const el: { type: string; value: any } = { type, value: null };
 
@@ -92,9 +93,10 @@ export default class View {
 				} else if (type === 'has-view') {
 					el.value = processView(child.view).value;
 					// @ts-expect-error
-				} else if (typeof child.getValue === 'function')
+				} else if (typeof child.getValue === 'function') {
 					// @ts-expect-error
 					el.value = child.getValue();
+				}
 
 				res.value[i] = el;
 			}
@@ -116,24 +118,27 @@ export default class View {
 			let offset = 0;
 			let warned = false;
 			for (let i = 0; i < items.length; i++) {
-				if (items[i].type !== getWidgetName(widgets[i + offset])) {
+				const configItem = items[i];
+				if (!configItem) continue;
+				const widget = widgets[i + offset];
+				if (configItem.type !== getWidgetName(widget)) {
 					if (!warned) {
 						console.warn(
-							`Configuration mismatch! Trying to merge automatically... (${items[i].type}#${i} != ${getWidgetName(widgets[i + offset])}#${i + offset} with offset ${offset})`
+							`Configuration mismatch! Trying to merge automatically... (${configItem.type}#${i} != ${getWidgetName(widget)}#${i + offset} with offset ${offset})`
 						);
 						warned = true;
 					}
 					if (items.length === widgets.length) {
-						console.warn(`Skipping field "${items[i].type}"`);
+						console.warn(`Skipping field "${configItem.type}"`);
 						continue;
 					} else if (items.length < widgets.length) {
-						if (items[i] === getWidgetName(widgets[i + offset + 1])) {
+						if (configItem.type === getWidgetName(widgets[i + offset + 1])) {
 							console.warn(`Assuming that ${getWidgetName(widgets[i + offset - 1])} field has been added`);
 						}
 						offset++;
 					} else if (items.length > widgets.length) {
-						if (items[i] === getWidgetName(widgets[i + offset - 1])) {
-							console.warn(`Assuming that ${items[i + offset - 1]} field has been removed`);
+						if (configItem.type === getWidgetName(widgets[i + offset - 1])) {
+							console.warn(`Assuming that ${items[i + offset - 1]?.type ?? 'unknown'} field has been removed`);
 						}
 						offset--;
 						continue;
@@ -142,11 +147,14 @@ export default class View {
 						return;
 					}
 				}
-				if (['input', 'number-input', 'toggle', 'slider', 'dropdown'].includes(items[i].type))
+				const targetWidget = widgets[i + offset];
+				if (!targetWidget) continue;
+				if (['input', 'number-input', 'toggle', 'slider', 'dropdown'].includes(configItem.type)) {
 					// @ts-expect-error
-					widgets[i + offset].setValue(items[i].value);
-				else if (items[i].type === 'tree' || items[i].type === 'has-view')
-					widgets[i + offset].view.loadConfig(items[i]);
+					targetWidget.setValue(configItem.value);
+				} else if (configItem.type === 'tree' || configItem.type === 'has-view') {
+					targetWidget.view.loadConfig(configItem);
+				}
 			}
 		}
 

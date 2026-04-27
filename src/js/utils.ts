@@ -144,11 +144,10 @@ export function snap(value: number, step: number): number {
 export function getNumberOfDigitsAfterPeriod(number: number): number {
 	const stringNumber = number.toString();
 	const parts = stringNumber.split('.');
+	const decimalPart = parts[1];
 
-	if (parts.length > 1) {
-		return parts[1].length;
-	}
-	return 0;
+	if (!decimalPart) return 0;
+	return decimalPart.length;
 }
 
 /**
@@ -171,8 +170,10 @@ export function countDigitsAfterDecimal(number: number): number {
  * @returns {string}
  * @public
  */
-export function getWidgetName(widget: GUIElement): WidgetName {
-	if (typeof widget == 'string' || widget instanceof Text) {
+export function getWidgetName(widget: GUIElement | undefined): WidgetName {
+	if (!widget) {
+		return 'unknown';
+	} else if (typeof widget == 'string' || widget instanceof Text) {
 		return 'text';
 	} else if (widget instanceof ButtonWidget) {
 		return 'button';

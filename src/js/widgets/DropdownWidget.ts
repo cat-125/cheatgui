@@ -71,7 +71,7 @@ export default class DropdownWidget extends Widget implements ValueWidget {
 	 * @returns {Dropdown}
 	 */
 	bind(obj: any, prop: string): this {
-		this.onChange((_: any, val: any) => (obj[prop] = val));
+		this.onChange((val: string) => (obj[prop] = val));
 		return this;
 	}
 
@@ -80,7 +80,8 @@ export default class DropdownWidget extends Widget implements ValueWidget {
 	 * @returns {string}
 	 */
 	getValue(): string {
-		return this.selRef.options[this.selRef.selectedIndex].value;
+		const selectedOption = this.selRef.options[this.selRef.selectedIndex];
+		return selectedOption?.value ?? '';
 	}
 
 	/**

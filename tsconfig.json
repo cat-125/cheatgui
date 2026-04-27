@@ -8,6 +8,7 @@
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 		"useUnknownInCatchVariables": true,
+		"noUncheckedIndexedAccess": true,
 		"module": "ESNext",
 		"target": "ESNext",
 		"allowJs": false,

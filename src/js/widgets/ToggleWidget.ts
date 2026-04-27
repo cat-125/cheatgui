@@ -72,7 +72,7 @@ export default class ToggleWidget extends Widget implements ValueWidget {
 	 * @returns {Toggle}
 	 */
 	bind(obj: any, prop: string): this {
-		this.onChange((_: any, val: any) => (obj[prop] = val));
+		this.onChange((val: boolean) => (obj[prop] = val));
 		return this;
 	}
 
