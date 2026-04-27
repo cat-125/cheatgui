@@ -39,6 +39,8 @@ jobs:
           cp -r dist docs/demo
           cp -r themes docs/demo
           cp index.html docs/demo/index.html
+          sed -i "s|'./src/js/cheatgui.ts'|'./dist/cheatgui.min.mjs'|" docs/demo/index.html
+          sed -i 's|<!-- demo-css-inject -->|<link rel="stylesheet" href="./dist/cheatgui.min.css" />|' docs/demo/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@main
