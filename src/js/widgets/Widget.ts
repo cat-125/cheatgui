@@ -43,10 +43,10 @@ export default class Widget extends GUIElement {
 
 	/**
 	 * Add a click event listener to the widget.
-	 * @param {Function} f - The function to call when the widget is clicked.
+	 * @param {() => void} f - The function to call when the widget is clicked.
 	 * @returns {Widget}
 	 */
-	onClick(f: Function): this {
+	onClick(f: () => void): this {
 		this.on('click', f);
 		return this;
 	}

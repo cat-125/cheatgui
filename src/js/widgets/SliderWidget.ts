@@ -41,7 +41,7 @@ export default class SliderWidget extends Widget implements ValueWidget {
 		min?: number;
 		max?: number;
 		step?: number;
-		callback?: Function | null;
+		callback?: ((value: number, currentValue: number) => void) | null;
 	}) {
 		super('div');
 
@@ -106,10 +106,10 @@ export default class SliderWidget extends Widget implements ValueWidget {
 
 	/**
 	 * Add a change event listener to the slider.
-	 * @param {Function} f - The function to call when the slider is changed.
+	 * @param {(value: number, currentValue: number) => void} f - The function to call when the slider is changed.
 	 * @returns {SliderWidget}
 	 */
-	onChange(f: Function): this {
+	onChange(f: (value: number, currentValue: number) => void): this {
 		this.on('change', (e: any) => f(e, this.getValue()));
 		return this;
 	}

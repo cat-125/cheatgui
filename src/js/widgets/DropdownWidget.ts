@@ -22,10 +22,10 @@ export default class DropdownWidget extends Widget implements ValueWidget {
 	 * @param {string} [label=''] - The label text.
 	 * @param {Object} [values={}] - The values to display in the dropdown.
 	 * @param {string} [value=null] - The initial value of the dropdown.
-	 * @param {Function} [callback=null] - The callback function to call when the value
+	 * @param {(value: string) => void} [callback=null] - The callback function to call when the value
 	 * is changed.
 	 */
-	constructor(label: string = '', values: object = {}, value: string | null = null, callback: Function | null = null) {
+	constructor(label: string = '', values: object = {}, value: string | null = null, callback: ((value: string) => void) | null = null) {
 		super('label');
 		const id = (this.id = generateId(16));
 		this.ref.htmlFor = id;
@@ -56,10 +56,10 @@ export default class DropdownWidget extends Widget implements ValueWidget {
 
 	/**
 	 * Set the callback function to call when the value is changed.
-	 * @param {Function} func - The callback function to call when the value is changed.
+	 * @param {(value: string) => void} func - The callback function to call when the value is changed.
 	 * @returns {DropdownWidget}
 	 */
-	onChange(func: Function): this {
+	onChange(func: (value: string) => void): this {
 		this.on('change', func);
 		return this;
 	}

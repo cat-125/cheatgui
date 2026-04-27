@@ -18,9 +18,9 @@ export default class ToggleWidget extends Widget implements ValueWidget {
 	 * Create a new toggle.
 	 * @param {string} [label=''] - The label text.
 	 * @param {boolean} [checked=false] - Whether the toggle is initially checked.
-	 * @param {Function} [callback=null] - The callback function to call when the toggle is changed.
+	 * @param {(value: boolean) => void} [callback=null] - The callback function to call when the toggle is changed.
 	 */
-	constructor(label: string = '', checked: boolean = false, callback: Function | null = null) {
+	constructor(label: string = '', checked: boolean = false, callback: ((value: boolean) => void) | null = null) {
 		super('label');
 		const id = (this.id = generateId(16));
 		this.ref.htmlFor = id;
@@ -57,10 +57,10 @@ export default class ToggleWidget extends Widget implements ValueWidget {
 
 	/**
 	 * Set the callback function to call when the toggle is changed.
-	 * @param {Function} func - The callback function to call when the toggle is changed.
+	 * @param {(value: boolean) => void} func - The callback function to call when the toggle is changed.
 	 * @returns {ToggleWidget}
 	 */
-	onChange(func: Function): this {
+	onChange(func: (value: boolean) => void): this {
 		this.on('change', func);
 		return this;
 	}

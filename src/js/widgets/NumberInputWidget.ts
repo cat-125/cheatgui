@@ -17,9 +17,9 @@ export default class NumberInputWidget extends Widget implements ValueWidget {
 	 * Create a new number input field and initialize it.
 	 * @param {string} [label=''] - The label text.
 	 * @param {number} [value=0] - The initial value.
-	 * @param {Function} [callback=null] - The function to call when the input is changed.
+	 * @param {(value: number) => void} [callback=null] - The function to call when the input is changed.
 	 */
-	constructor(label: string = '', value: number = 0, callback: Function | null = null) {
+	constructor(label: string = '', value: number = 0, callback: ((value: number) => void) | null = null) {
 		super('div');
 
 		this.addClass('cgui-input-wrapper');
@@ -58,10 +58,10 @@ export default class NumberInputWidget extends Widget implements ValueWidget {
 
 	/**
 	 * Add a change event listener to the input field.
-	 * @param {Function} f - The function to call when the input is changed.
+	 * @param {(value: number) => void} f - The function to call when the input is changed.
 	 * @returns {NumberInputWidget}
 	 */
-	onChange(f: Function): this {
+	onChange(f: (value: number) => void): this {
 		this.on('change', f);
 		return this;
 	}

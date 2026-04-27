@@ -16,9 +16,9 @@ export default class InputWidget extends Widget implements ValueWidget {
 	 * Create a new input field widget and initialize it.
 	 * @param {string} [label=''] - The label text.
 	 * @param {string} [val=''] - The initial value.
-	 * @param {Function} [callback=null] - The function to call when the input is changed.
+	 * @param {(value: string) => void} [callback=null] - The function to call when the input is changed.
 	 */
-	constructor(label: string = '', val: string = '', callback: Function | null = null) {
+	constructor(label: string = '', val: string = '', callback: ((value: string) => void) | null = null) {
 		super('div');
 
 		this.addClass('cgui-input-wrapper');
@@ -56,10 +56,10 @@ export default class InputWidget extends Widget implements ValueWidget {
 
 	/**
 	 * Add a change event listener to the input field.
-	 * @param {Function} f - The function to call when the input is changed.
+	 * @param {(value: string) => void} f - The function to call when the input is changed.
 	 * @returns {InputWidget}
 	 */
-	onChange(f: Function): this {
+	onChange(f: (value: string) => void): this {
 		this.on('change', f);
 		return this;
 	}

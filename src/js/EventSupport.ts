@@ -1,19 +1,21 @@
 /**
  * Class that supports event listeners.
  */
+type EventCallback = (...args: any[]) => void;
+
 export default class EventSupport {
-	listeners: { [key: string]: Function[] };
+	listeners: { [key: string]: EventCallback[] };
 
 	constructor() {
 		this.listeners = {};
 	}
 
-	on(event: string, callback: Function) {
+	on(event: string, callback: EventCallback) {
 		if (!this.listeners[event]) this.listeners[event] = [];
 		this.listeners[event].push(callback);
 	}
 
-	off(event: string, callback: Function) {
+	off(event: string, callback: EventCallback) {
 		if (this.listeners[event]) {
 			this.listeners[event] = this.listeners[event].filter((cb) => cb !== callback);
 		}
