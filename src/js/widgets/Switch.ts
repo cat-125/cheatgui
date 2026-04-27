@@ -20,7 +20,7 @@ export default class Switch extends Widget implements ValueWidget {
 	 * @param {boolean} [checked=false] - Whether the switch is initially checked.
 	 * @param {Function} [callback=null] - The callback function to call when the switch is changed.
 	 */
-	constructor(label: string = '', checked: boolean = false, callback: Function = null) {
+	constructor(label: string = '', checked: boolean = false, callback: Function | null = null) {
 		super('label');
 		const id = (this.id = generateId(16));
 		this.ref.htmlFor = id;

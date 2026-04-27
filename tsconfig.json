@@ -6,7 +6,6 @@
     "module": "ESNext",
     "target": "ESNext",
     "allowJs": false,
-    "moduleResolution": "node",
 		"lib": ["ESNext", "DOM"]
   }
 }

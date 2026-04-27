@@ -8,15 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export default class Notification extends GUIElement {
+	declare ref: HTMLDivElement;
 	title: string | null;
 	text: string;
 	duration: number | false;
 	timeoutId: any;
 	closed: boolean;
 
-	titleRef: HTMLDivElement | null;
+	titleRef: HTMLDivElement | null = null;
 	contentRef: HTMLDivElement;
-	closeBtn: HTMLDivElement | null;
+	closeBtn: HTMLDivElement | null = null;
 
 	constructor({
 		title = null,
@@ -24,7 +25,7 @@ export default class Notification extends GUIElement {
 		duration = 5000,
 		closable = true
 	}: {
-		title?: string;
+		title?: string | null;
 		text?: string;
 		duration?: number | false;
 		closable?: boolean;
@@ -40,10 +41,11 @@ export default class Notification extends GUIElement {
 		this.addClass('cgui-notification');
 
 		if (title) {
-			this.titleRef = createElem('div');
-			this.titleRef.className = 'cgui-notification-title';
-			this.titleRef.innerHTML = title;
-			this.ref.appendChild(this.titleRef);
+			const titleRef = createElem('div');
+			titleRef.className = 'cgui-notification-title';
+			titleRef.innerHTML = title;
+			this.titleRef = titleRef;
+			this.ref.appendChild(titleRef);
 		}
 
 		this.contentRef = createElem('div');
@@ -52,11 +54,12 @@ export default class Notification extends GUIElement {
 		this.ref.appendChild(this.contentRef);
 
 		if (closable) {
-			this.closeBtn = createElem('div');
-			this.closeBtn.className = 'cgui-notification-close';
-			this.closeBtn.innerHTML = '&times;';
-			this.ref.appendChild(this.closeBtn);
-			this.closeBtn.addEventListener('click', () => {
+			const closeBtn = createElem('div');
+			closeBtn.className = 'cgui-notification-close';
+			closeBtn.innerHTML = '&times;';
+			this.closeBtn = closeBtn;
+			this.ref.appendChild(closeBtn);
+			closeBtn.addEventListener('click', () => {
 				this.close();
 			});
 		}
@@ -72,7 +75,7 @@ export default class Notification extends GUIElement {
 	updateTitle(): this {
 		if (this.closed) throw new Error('The notification has already been closed.');
 		if (this.titleRef) {
-			this.titleRef.innerHTML = this.title;
+			this.titleRef.innerHTML = this.title ?? '';
 		} else {
 			throw new Error('The notification title must be initialized to use this function.');
 		}

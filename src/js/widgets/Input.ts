@@ -18,7 +18,7 @@ export default class Input extends Widget implements ValueWidget {
 	 * @param {string} [val=''] - The initial value.
 	 * @param {Function} [callback=null] - The function to call when the input is changed.
 	 */
-	constructor(label: string = '', val: string = '', callback: Function = null) {
+	constructor(label: string = '', val: string = '', callback: Function | null = null) {
 		super('div');
 
 		this.addClass('cgui-input-wrapper');

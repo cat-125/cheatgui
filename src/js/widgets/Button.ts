@@ -11,7 +11,7 @@ export default class Button extends Widget {
 	 * @param {string} [text=''] - Button text.
 	 * @param {Function} [callback=null] - The function to call when the button is clicked.
 	 */
-	constructor(text: string = '', callback: Function = null) {
+	constructor(text: string = '', callback: Function | null = null) {
 		super('button');
 		this.addClass('cgui-btn');
 		this.ref.tabIndex = 0;

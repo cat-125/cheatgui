@@ -1,4 +1,4 @@
-name: Generate and Deploy GitHub Pages
+name: GitHub Pages
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@main
         with:
-          node-version: '20'
+          node-version: '25'
       
       - name: Install Yarn
         run: npm install -g yarn

@@ -19,7 +19,7 @@ export default class NumberInput extends Widget implements ValueWidget {
 	 * @param {number} [value=0] - The initial value.
 	 * @param {Function} [callback=null] - The function to call when the input is changed.
 	 */
-	constructor(label: string = '', value: number = 0, callback: Function = null) {
+	constructor(label: string = '', value: number = 0, callback: Function | null = null) {
 		super('div');
 
 		this.addClass('cgui-input-wrapper');

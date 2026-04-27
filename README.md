@@ -126,7 +126,7 @@ const widget = new cheatgui.WidgetName(...);
 cheatgui.utils.loadTheme(url);
 ```
 
-You can download and use themes from the [`themes/` folder](themes/) or create your own.
+You can download and use themes from the [themes folder](https://github.com/cat-125/cheatgui/tree/master/themes) or create your own.
 
 ### Other
 

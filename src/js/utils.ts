@@ -210,7 +210,8 @@ export function getWidgetName(widget: GUIElement): WidgetName {
  * @public
  */
 export function appendToBody(widget: Widget) {
-	document.body.appendChild(widget.getRef());
+	const ref = widget.getRef();
+	if (ref) document.body.appendChild(ref);
 }
 
 /**

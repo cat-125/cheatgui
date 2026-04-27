@@ -53,7 +53,9 @@ export default class View {
 	 */
 	append(widget: GUIElement): this {
 		if (!this.ref) return this;
-		this.ref.appendChild(widget.getRef());
+		const ref = widget.getRef();
+		if (!ref) return this;
+		this.ref.appendChild(ref);
 		this.children.push(widget);
 		return this;
 	}

@@ -12,10 +12,10 @@ export default class Slider extends Widget implements ValueWidget {
 	sliderRef: HTMLDivElement;
 	thumbRef: HTMLDivElement;
 	labelRef: HTMLDivElement;
-	min: number;
-	max: number;
-	step: number;
-	accuracy: number;
+	min: number = 0;
+	max: number = 100;
+	step: number = 1;
+	accuracy: number = 0;
 
 	/**
 	 * Create a new slider and initialize it.
@@ -40,7 +40,7 @@ export default class Slider extends Widget implements ValueWidget {
 		min?: number;
 		max?: number;
 		step?: number;
-		callback?: null;
+		callback?: Function | null;
 	}) {
 		super('div');
 

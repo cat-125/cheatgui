@@ -25,7 +25,7 @@ export default class Dropdown extends Widget implements ValueWidget {
 	 * @param {Function} [callback=null] - The callback function to call when the value
 	 * is changed.
 	 */
-	constructor(label: string = '', values: object = {}, value: string = null, callback: Function = null) {
+	constructor(label: string = '', values: object = {}, value: string | null = null, callback: Function | null = null) {
 		super('label');
 		const id = (this.id = generateId(16));
 		this.ref.htmlFor = id;
