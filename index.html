@@ -98,7 +98,7 @@
 				c.button({
 					label: 'Button',
 					onClick: () => {
-						createNotification({
+						notify({
 							text: 'Button clicked!',
 							duration: 2000
 						});
@@ -338,7 +338,7 @@
 			]);
 
 			const stylingTree = c.tree('Themes', []);
-			const themes = ['default', 'imgui', 'windows', 'pink', 'modern'];
+			const themes = ['default', 'imgui', 'windows'];
 			themes.forEach((theme) => {
 				const btn = c.button(theme);
 				btn.onClick(() => utils.loadTheme(`themes/${theme}.css`));

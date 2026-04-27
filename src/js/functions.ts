@@ -20,7 +20,10 @@ export function text(text: string): Text {
  * @param options.label - Button label
  * @param options.onClick - Click callback
  */
-export function button(options: { label: string; onClick?: () => void }): Button {
+export function button(options: { label: string; onClick?: () => void }): Button;
+export function button(label: string, onClick?: () => void): Button;
+export function button(optionsOrLabel: { label: string; onClick?: () => void } | string, onClick?: () => void): Button {
+	const options = typeof optionsOrLabel === 'string' ? { label: optionsOrLabel, onClick } : optionsOrLabel;
 	const btn = new Button(options.label);
 	if (options.onClick) btn.onClick(options.onClick);
 	return btn;
