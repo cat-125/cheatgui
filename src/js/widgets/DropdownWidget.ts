@@ -47,7 +47,7 @@ export default class DropdownWidget extends Widget implements ValueWidget {
 		this.ref.appendChild(this.labelRef);
 		this.setLabel(label);
 
-		this.selRef.addEventListener('change', (e) => {
+		this.selRef.addEventListener('change', () => {
 			this.trigger('change', this.getValue());
 		});
 

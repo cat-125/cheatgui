@@ -5,7 +5,6 @@
 
 import GUIElement from './widgets/GUIElement';
 import Widget from './widgets/Widget';
-import TextWidget from './widgets/TextWidget';
 import ButtonWidget from './widgets/ButtonWidget';
 import InputWidget from './widgets/InputWidget';
 import NumberInputWidget from './widgets/NumberInputWidget';
@@ -143,8 +142,8 @@ export function snap(value: number, step: number): number {
  * @public
  */
 export function getNumberOfDigitsAfterPeriod(number: number): number {
-	let stringNumber = number.toString();
-	let parts = stringNumber.split('.');
+	const stringNumber = number.toString();
+	const parts = stringNumber.split('.');
 
 	if (parts.length > 1) {
 		return parts[1].length;

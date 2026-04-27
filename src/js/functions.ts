@@ -6,7 +6,6 @@
 import {
 	Widget,
 	Window,
-	View,
 	TextWidget,
 	ButtonWidget,
 	InputWidget,

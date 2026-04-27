@@ -8,7 +8,6 @@ import { createElem } from '../utils';
  */
 export default class Widget extends GUIElement {
 	declare ref: HTMLElement;
-	value: any;
 
 	/**
 	 * Create a new widget and initialize it.
@@ -50,9 +49,5 @@ export default class Widget extends GUIElement {
 	onClick(f: Function): this {
 		this.on('click', f);
 		return this;
-	}
-
-	bind(obj: object, prop: string) {
-		throw new SyntaxError('The `click` event cannot be bound. Use `onClick()` instead.');
 	}
 }

@@ -1,8 +1,13 @@
 {
 	"compilerOptions": {
+		"rootDir": "./src/js/",
 		"outDir": "./dist/",
 		"sourceMap": true,
-		"noImplicitAny": true,
+		"strict": true,
+		"exactOptionalPropertyTypes": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"useUnknownInCatchVariables": true,
 		"module": "ESNext",
 		"target": "ESNext",
 		"allowJs": false,

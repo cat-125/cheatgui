@@ -12,6 +12,7 @@ export default class SliderWidget extends Widget implements ValueWidget {
 	sliderRef: HTMLDivElement;
 	thumbRef: HTMLDivElement;
 	labelRef: HTMLDivElement;
+	value: number = 0;
 	min: number = 0;
 	max: number = 100;
 	step: number = 1;
@@ -86,7 +87,7 @@ export default class SliderWidget extends Widget implements ValueWidget {
 			}
 		});
 
-		this.sliderRef.addEventListener('mouseup', (e: MouseEvent) => {
+		this.sliderRef.addEventListener('mouseup', () => {
 			this.sliderRef.focus();
 		});
 

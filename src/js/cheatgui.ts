@@ -71,10 +71,10 @@ export function openPopupMenu({
 	closable: boolean;
 }): Promise<any> {
 	return new Promise((resolve) => {
-		let divWrapper = createElem('div');
-		let divPopup = createElem('div');
-		let divTitle = createElem('div');
-		let divMenu = createElem('div');
+		const divWrapper = createElem('div');
+		const divPopup = createElem('div');
+		const divTitle = createElem('div');
+		const divMenu = createElem('div');
 
 		divWrapper.className = 'cgui-popup-menu-wrapper cgui-fadein';
 		divPopup.className = 'cgui cgui-popup-menu';

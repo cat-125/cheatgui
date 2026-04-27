@@ -5,7 +5,7 @@ export function initActivationOnClick(win: Window) {
 	win.headerRef.addEventListener('pointerdown', () => {
 		win.focus();
 	});
-	win.headerRef.addEventListener('focus', (e: FocusEvent) => {
+	win.headerRef.addEventListener('focus', () => {
 		win.focus();
 	});
 }

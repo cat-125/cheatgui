@@ -5,7 +5,6 @@ import Widget from './Widget';
  * @public
  */
 export default interface ValueWidget extends Widget {
-	value: any;
 	getValue(): any;
-	setValue(value: any): ValueWidget;
+	setValue(value: any): this;
 }
