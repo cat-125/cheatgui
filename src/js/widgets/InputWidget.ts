@@ -65,16 +65,6 @@ export default class InputWidget extends Widget implements ValueWidget {
 	}
 
 	/**
-	 * Add an input event listener to the input field.
-	 * @param {Function} f - The function to call when the input is changed.
-	 * @returns {InputWidget}
-	 * @deprecated Use onChange instead
-	 */
-	onInput(f: Function): this {
-		return this.onChange(f);
-	}
-
-	/**
 	 * Bind an input field to an object property.
 	 * @param {Object} obj - The object to bind the property to.
 	 * @param {string} prop - The property to bind.

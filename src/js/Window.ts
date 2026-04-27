@@ -90,7 +90,7 @@ export default class Window extends GUIElement {
 		this.titleRef.className = 'cgui-window-title';
 		this.headerRef.appendChild(this.titleRef);
 		this.setTitle(title);
-		this.ref.setAttribute('aria-labeledby', titleId);
+		this.ref.setAttribute('aria-labelledby', titleId);
 
 		// Add space after title
 		this.headerRef.innerHTML += '&nbsp;';
