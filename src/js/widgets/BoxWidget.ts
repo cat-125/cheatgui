@@ -1,5 +1,5 @@
 import Widget from './Widget';
-import View from './View';
+import View from '../View';
 
 /**
  * Just a container where you can put child elements. They will not differ
@@ -7,7 +7,7 @@ import View from './View';
  * @public
  * @extends Widget
  */
-export default class Box extends Widget {
+export default class BoxWidget extends Widget {
 	constructor() {
 		super('div');
 		this.view = new View().mount(this.ref);
@@ -16,7 +16,7 @@ export default class Box extends Widget {
 	/**
 	 * Set the content of the container.
 	 * @param {string} html
-	 * @returns {Box}
+	 * @returns {BoxWidget}
 	 */
 	setContent(html: string): this {
 		this.view.setContent(html);
@@ -26,7 +26,7 @@ export default class Box extends Widget {
 	/**
 	 * Add a child widget to the container.
 	 * @param {Widget} widget
-	 * @returns {Box}
+	 * @returns {BoxWidget}
 	 */
 	append(widget: Widget): this {
 		this.view.append(widget);

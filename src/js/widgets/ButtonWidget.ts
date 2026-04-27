@@ -5,11 +5,12 @@ import Widget from './Widget';
  * @public
  * @extends Widget
  */
-export default class Button extends Widget {
+export default class ButtonWidget extends Widget {
 	/**
 	 * Create a new button widget and initialize it.
 	 * @param {string} [text=''] - Button text.
 	 * @param {Function} [callback=null] - The function to call when the button is clicked.
+	 * @returns {ButtonWidget}
 	 */
 	constructor(text: string = '', callback: Function | null = null) {
 		super('button');

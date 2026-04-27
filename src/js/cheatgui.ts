@@ -17,16 +17,16 @@ export {
 	View,
 	Window,
 	Widget,
-	Text,
-	Button,
-	Input,
-	NumberInput,
-	Slider,
-	Toggle,
-	Dropdown,
-	Tree,
-	Box,
-	Row
+	TextWidget,
+	ButtonWidget,
+	InputWidget,
+	NumberInputWidget,
+	SliderWidget,
+	ToggleWidget,
+	DropdownWidget,
+	TreeWidget,
+	BoxWidget,
+	RowWidget
 } from './widgets';
 
 export type { ValueWidget } from './widgets';

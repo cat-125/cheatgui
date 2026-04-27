@@ -7,7 +7,7 @@ import { createElem, countDigitsAfterDecimal, clamp, snap, unlerp } from '../uti
  * @public
  * @ extends Widget implements ValueWidget
  */
-export default class Slider extends Widget implements ValueWidget {
+export default class SliderWidget extends Widget implements ValueWidget {
 	declare ref: HTMLDivElement;
 	sliderRef: HTMLDivElement;
 	thumbRef: HTMLDivElement;
@@ -96,7 +96,7 @@ export default class Slider extends Widget implements ValueWidget {
 	/**
 	 * Set the label of the slider.
 	 * @param {string} text - The new label text.
-	 * @returns {Slider}
+	 * @returns {SliderWidget}
 	 */
 	setLabel(text: string): this {
 		this.labelRef.innerHTML = text;
@@ -106,7 +106,7 @@ export default class Slider extends Widget implements ValueWidget {
 	/**
 	 * Add a change event listener to the slider.
 	 * @param {Function} f - The function to call when the slider is changed.
-	 * @returns {Slider}
+	 * @returns {SliderWidget}
 	 */
 	onChange(f: Function): this {
 		this.on('change', (e: any) => f(e, this.getValue()));
@@ -127,7 +127,7 @@ export default class Slider extends Widget implements ValueWidget {
 	/**
 	 * Set the minimum value of the slider.
 	 * @param {number} min - The new minimum value.
-	 * @returns {Slider}
+	 * @returns {SliderWidget}
 	 */
 	setMin(min: number): this {
 		this.min = min;
@@ -137,7 +137,7 @@ export default class Slider extends Widget implements ValueWidget {
 	/**
 	 * Set the maximum value of the slider.
 	 * @param {number} max - The new maximum value.
-	 * @returns {Slider}
+	 * @returns {SliderWidget}
 	 */
 	setMax(max: number): this {
 		this.max = max;
@@ -147,7 +147,7 @@ export default class Slider extends Widget implements ValueWidget {
 	/**
 	 * Set the step size of the slider.
 	 * @param {number} step - The new step size.
-	 * @returns {Slider}
+	 * @returns {SliderWidget}
 	 */
 	setStep(step: number): this {
 		this.step = step;

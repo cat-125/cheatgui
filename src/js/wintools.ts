@@ -1,4 +1,4 @@
-import Window from './widgets/Window';
+import Window from './Window';
 import { distance } from './utils';
 
 export function initActivationOnClick(win: Window) {
@@ -14,7 +14,7 @@ export function initToggleOnClick(win: Window, threshold: number) {
 	let isClick = false,
 		startX: number,
 		startY: number;
-	win.headerRef.addEventListener('pointerdown', (e) => {
+	win.headerRef.addEventListener('pointerdown', (e: MouseEvent) => {
 		isClick = true;
 		startX = e.clientX;
 		startY = e.clientY;

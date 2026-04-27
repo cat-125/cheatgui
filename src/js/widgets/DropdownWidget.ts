@@ -7,7 +7,7 @@ import { createElem, generateId } from '../utils';
  * @public
  * @extends Widget
  */
-export default class Dropdown extends Widget implements ValueWidget {
+export default class DropdownWidget extends Widget implements ValueWidget {
 	declare ref: HTMLLabelElement;
 	selRef: HTMLSelectElement;
 	labelRef: HTMLSpanElement;
@@ -57,7 +57,7 @@ export default class Dropdown extends Widget implements ValueWidget {
 	/**
 	 * Set the callback function to call when the value is changed.
 	 * @param {Function} func - The callback function to call when the value is changed.
-	 * @returns {Dropdown}
+	 * @returns {DropdownWidget}
 	 */
 	onChange(func: Function): this {
 		this.on('change', func);

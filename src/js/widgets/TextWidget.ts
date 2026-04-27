@@ -5,10 +5,11 @@ import Widget from './Widget';
  * @public
  */
 
-export default class Text extends Widget {
+export default class TextWidget extends Widget {
 	/**
 	 * Create a new text widget and initialize it.
 	 * @param {string} [text=''] - The text to display.
+	 * @returns {TextWidget}
 	 */
 	constructor(text: string = '') {
 		super('div');

@@ -1,5 +1,5 @@
 import Widget from './Widget';
-import View from './View';
+import View from '../View';
 import { config } from '../config';
 import { createElem, generateId } from '../utils';
 
@@ -8,7 +8,7 @@ import { createElem, generateId } from '../utils';
  * @public
  * @extends Widget
  */
-export default class Tree extends Widget {
+export default class TreeWidget extends Widget {
 	declare ref: HTMLDivElement;
 	headerRef: HTMLDivElement;
 	titleRef: HTMLSpanElement;
@@ -70,7 +70,7 @@ export default class Tree extends Widget {
 	/**
 	 * Set the title of the tree.
 	 * @param {string} html
-	 * @returns {Tree}
+	 * @returns {TreeWidget}
 	 */
 	setTitle(html: string): this {
 		this.titleRef.innerHTML = html;
@@ -80,7 +80,7 @@ export default class Tree extends Widget {
 	/**
 	 * Set the content of the tree.
 	 * @param {string} html
-	 * @returns {Tree}
+	 * @returns {TreeWidget}
 	 */
 	setContent(html: string): this {
 		this.view.setContent(html);
@@ -89,7 +89,7 @@ export default class Tree extends Widget {
 
 	/**
 	 * Collapse the tree.
-	 * @returns {Tree}
+	 * @returns {TreeWidget}
 	 */
 	collapse(): this {
 		this.ref.classList.add('collapsed');
@@ -99,7 +99,7 @@ export default class Tree extends Widget {
 
 	/**
 	 * Expand the tree.
-	 * @returns {Tree}
+	 * @returns {TreeWidget}
 	 */
 	expand(): this {
 		this.ref.classList.remove('collapsed');
@@ -109,7 +109,7 @@ export default class Tree extends Widget {
 
 	/**
 	 * Toggle the tree between collapsed and expanded.
-	 * @returns {Tree}
+	 * @returns {TreeWidget}
 	 */
 	toggle(): this {
 		this.ref.classList.toggle('collapsed');
@@ -124,7 +124,7 @@ export default class Tree extends Widget {
 	/**
 	 * Add a child widget to the tree.
 	 * @param {Widget} widget
-	 * @returns {Tree}
+	 * @returns {TreeWidget}
 	 */
 	append(widget: Widget): this {
 		this.view.append(widget);
@@ -153,6 +153,7 @@ export default class Tree extends Widget {
 
 	/**
 	 * The `loadConfig` function loads a JSON object into the tree.
+	 * @returns {TreeWidget}
 	 */
 	loadConfig(config: object) {
 		this.view.loadConfig(config);

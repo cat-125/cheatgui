@@ -1,5 +1,5 @@
-import GUIElement from './GUIElement';
-import { $, getWidgetName } from '../utils';
+import GUIElement from './widgets/GUIElement';
+import { $, getWidgetName } from './utils';
 
 /**
  * A class that stores interface elements and displays them on a web page.

@@ -1,34 +1,34 @@
 import GUIElement from './widgets/GUIElement';
-import View from './widgets/View';
-import Window from './widgets/Window';
+import View from './View';
+import Window from './Window';
 import Widget from './widgets/Widget';
 import type ValueWidget from './widgets/ValueWidget';
-import Text from './widgets/Text';
-import Button from './widgets/Button';
-import Input from './widgets/Input';
-import NumberInput from './widgets/NumberInput';
-import Slider from './widgets/Slider';
-import Toggle from './widgets/Toggle';
-import Dropdown from './widgets/Dropdown';
-import Tree from './widgets/Tree';
-import Box from './widgets/Box';
-import Row from './widgets/Row';
+import TextWidget from './widgets/TextWidget';
+import ButtonWidget from './widgets/ButtonWidget';
+import InputWidget from './widgets/InputWidget';
+import NumberInputWidget from './widgets/NumberInputWidget';
+import SliderWidget from './widgets/SliderWidget';
+import ToggleWidget from './widgets/ToggleWidget';
+import DropdownWidget from './widgets/DropdownWidget';
+import TreeWidget from './widgets/TreeWidget';
+import BoxWidget from './widgets/BoxWidget';
+import RowWidget from './widgets/RowWidget';
 
 export {
 	GUIElement,
 	View,
 	Window,
 	Widget,
-	Text,
-	Button,
-	Input,
-	NumberInput,
-	Slider,
-	Toggle,
-	Dropdown,
-	Tree,
-	Box,
-	Row
+	TextWidget,
+	ButtonWidget,
+	InputWidget,
+	NumberInputWidget,
+	SliderWidget,
+	ToggleWidget,
+	DropdownWidget,
+	TreeWidget,
+	BoxWidget,
+	RowWidget
 };
 
 export type { ValueWidget };

@@ -3,15 +3,15 @@
  * @module
  */
 
-import { Widget, Window, Text, Button, Input, NumberInput, Slider, Toggle, Dropdown, Tree, Box, Row } from './widgets';
+import { Widget, Window, View, TextWidget, ButtonWidget, InputWidget, NumberInputWidget, SliderWidget, ToggleWidget, DropdownWidget, TreeWidget, BoxWidget, RowWidget } from './widgets';
 import { isMobile } from './utils';
 
 /**
  * Create a text widget
  * @param text - The text content
  */
-export function text(text: string): Text {
-	return new Text(text);
+export function text(text: string): TextWidget {
+	return new TextWidget(text);
 }
 
 /**
@@ -20,11 +20,11 @@ export function text(text: string): Text {
  * @param options.label - Button label
  * @param options.onClick - Click callback
  */
-export function button(options: { label: string; onClick?: () => void }): Button;
-export function button(label: string, onClick?: () => void): Button;
-export function button(optionsOrLabel: { label: string; onClick?: () => void } | string, onClick?: () => void): Button {
+export function button(options: { label: string; onClick?: () => void }): ButtonWidget;
+export function button(label: string, onClick?: () => void): ButtonWidget;
+export function button(optionsOrLabel: { label: string; onClick?: () => void } | string, onClick?: () => void): ButtonWidget {
 	const options = typeof optionsOrLabel === 'string' ? { label: optionsOrLabel, onClick } : optionsOrLabel;
-	const btn = new Button(options.label);
+	const btn = new ButtonWidget(options.label);
 	if (options.onClick) btn.onClick(options.onClick);
 	return btn;
 }
@@ -36,8 +36,8 @@ export function button(optionsOrLabel: { label: string; onClick?: () => void } |
  * @param options.value - Initial value
  * @param options.onChange - Change callback
  */
-export function input(options: { label: string; value?: string; onChange?: (value: string) => void }): Input {
-	const inp = new Input(options.label, options.value || '');
+export function input(options: { label: string; value?: string; onChange?: (value: string) => void }): InputWidget {
+	const inp = new InputWidget(options.label, options.value || '');
 	if (options.onChange) inp.onChange(options.onChange);
 	return inp;
 }
@@ -49,8 +49,8 @@ export function input(options: { label: string; value?: string; onChange?: (valu
  * @param options.value - Initial value
  * @param options.onChange - Change callback
  */
-export function numberInput(options: { label: string; value?: number; onChange?: (value: number) => void }): NumberInput {
-	const inp = new NumberInput(options.label, options.value || 0);
+export function numberInput(options: { label: string; value?: number; onChange?: (value: number) => void }): NumberInputWidget {
+	const inp = new NumberInputWidget(options.label, options.value || 0);
 	if (options.onChange) inp.onChange(options.onChange);
 	return inp;
 }
@@ -73,8 +73,8 @@ export function slider({
 	max?: number;
 	step?: number;
 	onChange?: ((value: number) => void) | null;
-}): Slider {
-	const sl = new Slider({ label, value, min, max, step });
+}): SliderWidget {
+	const sl = new SliderWidget({ label, value, min, max, step });
 	if (onChange) sl.onChange(onChange);
 	return sl;
 }
@@ -86,8 +86,8 @@ export function slider({
  * @param options.value - Initial value
  * @param options.onChange - Change callback
  */
-export function toggle(options: { label: string; value?: boolean; onChange?: (value: boolean) => void }): Toggle {
-	const sw = new Toggle(options.label, options.value || false);
+export function toggle(options: { label: string; value?: boolean; onChange?: (value: boolean) => void }): ToggleWidget {
+	const sw = new ToggleWidget(options.label, options.value || false);
 	if (options.onChange) sw.onChange(options.onChange);
 	return sw;
 }
@@ -105,8 +105,8 @@ export function dropdown(options: {
 	values: { [key: string]: string };
 	value?: string;
 	onChange?: (value: string) => void;
-}): Dropdown {
-	const dd = new Dropdown(options.label, options.values, options.value || '');
+}): DropdownWidget {
+	const dd = new DropdownWidget(options.label, options.values, options.value || '');
 	if (options.onChange) dd.onChange(options.onChange);
 	return dd;
 }
@@ -117,8 +117,8 @@ export function dropdown(options: {
  * @param elements - Child elements
  * @param expanded - Whether the tree is expanded
  */
-export function tree(title: string, elements: Widget[], expanded: boolean = false): Tree {
-	const tree = new Tree(title, expanded);
+export function tree(title: string, elements: Widget[], expanded: boolean = false): TreeWidget {
+	const tree = new TreeWidget(title, expanded);
 	for (const element of elements) tree.append(element);
 	return tree;
 }
@@ -127,8 +127,8 @@ export function tree(title: string, elements: Widget[], expanded: boolean = fals
  * Create a box widget
  * @param elements - Child elements
  */
-export function box(elements: Widget[]): Box {
-	const box = new Box();
+export function box(elements: Widget[]): BoxWidget {
+	const box = new BoxWidget();
 	for (const element of elements) box.append(element);
 	return box;
 }
@@ -137,8 +137,8 @@ export function box(elements: Widget[]): Box {
  * Create a row widget
  * @param elements - Child elements
  */
-export function row(elements: Widget[]): Row {
-	const row = new Row();
+export function row(elements: Widget[]): RowWidget {
+	const row = new RowWidget();
 	for (const element of elements) row.append(element);
 	return row;
 }

@@ -5,16 +5,16 @@
 
 import GUIElement from './widgets/GUIElement';
 import Widget from './widgets/Widget';
-import Text from './widgets/Text';
-import Button from './widgets/Button';
-import Input from './widgets/Input';
-import NumberInput from './widgets/NumberInput';
-import Slider from './widgets/Slider';
-import Toggle from './widgets/Toggle';
-import Dropdown from './widgets/Dropdown';
-import Tree from './widgets/Tree';
-import Box from './widgets/Box';
-import Row from './widgets/Row';
+import TextWidget from './widgets/TextWidget';
+import ButtonWidget from './widgets/ButtonWidget';
+import InputWidget from './widgets/InputWidget';
+import NumberInputWidget from './widgets/NumberInputWidget';
+import SliderWidget from './widgets/SliderWidget';
+import ToggleWidget from './widgets/ToggleWidget';
+import DropdownWidget from './widgets/DropdownWidget';
+import TreeWidget from './widgets/TreeWidget';
+import BoxWidget from './widgets/BoxWidget';
+import RowWidget from './widgets/RowWidget';
 
 export type WidgetName =
 	| 'text'
@@ -175,23 +175,23 @@ export function countDigitsAfterDecimal(number: number): number {
 export function getWidgetName(widget: GUIElement): WidgetName {
 	if (typeof widget == 'string' || widget instanceof Text) {
 		return 'text';
-	} else if (widget instanceof Button) {
+	} else if (widget instanceof ButtonWidget) {
 		return 'button';
-	} else if (widget instanceof Input) {
+	} else if (widget instanceof InputWidget) {
 		return 'input';
-	} else if (widget instanceof NumberInput) {
+	} else if (widget instanceof NumberInputWidget) {
 		return 'number-input';
-	} else if (widget instanceof Toggle) {
+	} else if (widget instanceof ToggleWidget) {
 		return 'toggle';
-	} else if (widget instanceof Slider) {
+	} else if (widget instanceof SliderWidget) {
 		return 'slider';
-	} else if (widget instanceof Dropdown) {
+	} else if (widget instanceof DropdownWidget) {
 		return 'dropdown';
-	} else if (widget instanceof Tree) {
+	} else if (widget instanceof TreeWidget) {
 		return 'tree';
-	} else if (widget instanceof Box) {
+	} else if (widget instanceof BoxWidget) {
 		return 'container';
-	} else if (widget instanceof Row) {
+	} else if (widget instanceof RowWidget) {
 		return 'row';
 	} else if (typeof widget.view !== 'undefined') {
 		return 'has-view';

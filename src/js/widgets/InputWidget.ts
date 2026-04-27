@@ -3,30 +3,28 @@ import ValueWidget from './ValueWidget';
 import { createElem } from '../utils';
 
 /**
- * A class that represents an input field
- * where only numbers can be entered.
+ * A class that represents an input field widget.
  * @public
  * @ extends Widget implements ValueWidget
  */
-export default class NumberInput extends Widget implements ValueWidget {
+export default class InputWidget extends Widget implements ValueWidget {
 	declare ref: HTMLDivElement;
 	inputRef: HTMLInputElement;
 	labelRef: HTMLDivElement;
 
 	/**
-	 * Create a new number input field and initialize it.
+	 * Create a new input field widget and initialize it.
 	 * @param {string} [label=''] - The label text.
-	 * @param {number} [value=0] - The initial value.
+	 * @param {string} [val=''] - The initial value.
 	 * @param {Function} [callback=null] - The function to call when the input is changed.
 	 */
-	constructor(label: string = '', value: number = 0, callback: Function | null = null) {
+	constructor(label: string = '', val: string = '', callback: Function | null = null) {
 		super('div');
 
 		this.addClass('cgui-input-wrapper');
 
 		this.inputRef = createElem('input');
 		this.inputRef.classList.add('cgui-input');
-		this.inputRef.type = 'number';
 		this.inputRef.tabIndex = 0;
 		this.ref.appendChild(this.inputRef);
 
@@ -34,7 +32,7 @@ export default class NumberInput extends Widget implements ValueWidget {
 		this.labelRef.classList.add('cgui-input-label');
 		this.ref.appendChild(this.labelRef);
 
-		this.setValue(value.toString());
+		this.setValue(val);
 		this.setLabel(label);
 
 		this.inputRef.addEventListener('input', () => {
@@ -49,7 +47,7 @@ export default class NumberInput extends Widget implements ValueWidget {
 	/**
 	 * Set the label of the input field.
 	 * @param {string} label - The new label text.
-	 * @returns {NumberInput}
+	 * @returns {InputWidget}
 	 */
 	setLabel(label: string): this {
 		this.labelRef.innerHTML = label;
@@ -59,7 +57,7 @@ export default class NumberInput extends Widget implements ValueWidget {
 	/**
 	 * Add a change event listener to the input field.
 	 * @param {Function} f - The function to call when the input is changed.
-	 * @returns {NumberInput}
+	 * @returns {InputWidget}
 	 */
 	onChange(f: Function): this {
 		this.on('change', f);
@@ -69,7 +67,7 @@ export default class NumberInput extends Widget implements ValueWidget {
 	/**
 	 * Add an input event listener to the input field.
 	 * @param {Function} f - The function to call when the input is changed.
-	 * @returns {NumberInput}
+	 * @returns {InputWidget}
 	 * @deprecated Use onChange instead
 	 */
 	onInput(f: Function): this {
@@ -80,20 +78,20 @@ export default class NumberInput extends Widget implements ValueWidget {
 	 * Bind an input field to an object property.
 	 * @param {Object} obj - The object to bind the property to.
 	 * @param {string} prop - The property to bind.
-	 * @returns {NumberInput}
+	 * @returns {Input}
 	 */
 	bind(obj: any, prop: string): this {
-		this.onInput((_: any, val: any) => (obj[prop] = val));
+		this.onChange((_: any, val: any) => (obj[prop] = val));
 		return this;
 	}
 
 	/**
 	 * Set the value of the input field.
 	 * @param {string} value
-	 * @returns {NumberInput}
+	 * @returns {Input}
 	 */
 	setValue(value: string): this {
-		this.inputRef.value = this.parse(value).toString();
+		this.inputRef.value = value;
 		return this;
 	}
 
@@ -101,12 +99,7 @@ export default class NumberInput extends Widget implements ValueWidget {
 	 * Get the value of the input field.
 	 * @returns {string} - The value of the input field.
 	 */
-	getValue(): number {
-		return this.parse(this.inputRef.value);
-	}
-
-	parse(value: string) {
-		const p = parseFloat(value);
-		return isNaN(p) ? 0 : p || 0;
+	getValue(): string {
+		return this.inputRef.value;
 	}
 }

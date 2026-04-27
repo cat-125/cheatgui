@@ -1,8 +1,8 @@
-import GUIElement from './GUIElement';
+import GUIElement from './widgets/GUIElement';
 import View from './View';
-import { config } from '../config';
-import { isMobile, createElem, generateId } from '../utils';
-import { initActivationOnClick, initToggleOnClick, initDraggable, initResize } from '../wintools';
+import { config } from './config';
+import { isMobile, createElem, generateId } from './utils';
+import { initActivationOnClick, initToggleOnClick, initDraggable, initResize } from './wintools';
 
 let activeWindow: Window | null = null;
 

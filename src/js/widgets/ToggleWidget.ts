@@ -7,7 +7,7 @@ import { createElem, generateId } from '../utils';
  * @public
  * @ extends Widget implements ValueWidget
  */
-export default class Toggle extends Widget implements ValueWidget {
+export default class ToggleWidget extends Widget implements ValueWidget {
 	declare ref: HTMLLabelElement;
 	inputRef: HTMLInputElement;
 	sliderRef: HTMLSpanElement;
@@ -58,7 +58,7 @@ export default class Toggle extends Widget implements ValueWidget {
 	/**
 	 * Set the callback function to call when the toggle is changed.
 	 * @param {Function} func - The callback function to call when the toggle is changed.
-	 * @returns {Toggle}
+	 * @returns {ToggleWidget}
 	 */
 	onChange(func: Function): this {
 		this.on('change', func);
@@ -95,7 +95,7 @@ export default class Toggle extends Widget implements ValueWidget {
 	/**
 	 * Set whether the toggle is checked.
 	 * @param {boolean} val
-	 * @returns {Toggle}
+	 * @returns {ToggleWidget}
 	 */
 	setValue(val: boolean): this {
 		this.inputRef.checked = val;
