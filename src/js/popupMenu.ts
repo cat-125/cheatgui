@@ -1,7 +1,5 @@
 import { config } from './config';
-import * as utils from './utils';
-
-const { createElem } = utils;
+import { createElem } from './utils';
 
 /**
  * This function opens a pop-up modal window where the user can select one item from the data.
@@ -36,14 +34,14 @@ export function openPopupMenu({
 		divPopup.appendChild(divMenu);
 		divWrapper.appendChild(divPopup);
 
-		divTitle.innerHTML = title;
+		divTitle.textContent = title;
 
 		let first = true;
 
 		for (const item in items) {
 			const btn = createElem('button');
 			btn.className = 'cgui-popup-menu-btn';
-			btn.innerHTML = items[item];
+			btn.textContent = items[item];
 			divMenu.appendChild(btn);
 			if (first) {
 				first = false;
@@ -61,7 +59,7 @@ export function openPopupMenu({
 		if (closable) {
 			const btn = createElem('button');
 			btn.className = 'cgui-popup-menu-btn';
-			btn.innerHTML = config.language.close;
+			btn.textContent = config.language.close;
 			divMenu.appendChild(btn);
 			btn.onclick = () => {
 				divWrapper.classList.add('cgui-fadeout');

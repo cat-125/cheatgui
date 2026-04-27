@@ -99,7 +99,7 @@ export default class DropdownWidget extends Widget implements ValueWidget {
 	 * @returns {Dropdown}
 	 */
 	setLabel(label: string): this {
-		this.labelRef.innerHTML = label;
+		this.labelRef.textContent = label;
 		return this;
 	}
 }

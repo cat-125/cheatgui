@@ -85,7 +85,7 @@ export default class Window extends GUIElement {
 		// Create title element and set its properties
 		const titleId = generateId(16);
 		this.titleRef = createElem('span');
-		this.titleRef.innerHTML = title;
+		this.titleRef.textContent = title;
 		this.titleRef.id = titleId;
 		this.titleRef.className = 'cgui-window-title';
 		this.headerRef.appendChild(this.titleRef);
@@ -98,7 +98,7 @@ export default class Window extends GUIElement {
 		// Create arrow element and set its properties
 		this.arrowRef = createElem('span');
 		this.arrowRef.className = 'cgui-window-arrow';
-		this.arrowRef.innerHTML = config.symbols.triangle;
+		this.arrowRef.textContent = config.symbols.triangle;
 		this.arrowRef.hidden = !collapsible;
 		this.headerRef.appendChild(this.arrowRef);
 
@@ -112,7 +112,7 @@ export default class Window extends GUIElement {
 		// Create resize element and set its properties
 		this.resizeRef = createElem('span');
 		this.resizeRef.className = 'cgui-window-resize';
-		this.resizeRef.innerHTML = config.symbols.resize;
+		this.resizeRef.textContent = config.symbols.resize;
 		this.resizeRef.hidden = !resizable;
 
 		// Create new View and mount it
@@ -157,7 +157,7 @@ export default class Window extends GUIElement {
 	 * @returns {Window}
 	 */
 	setTitle(html: string): this {
-		this.titleRef.innerHTML = html;
+		this.titleRef.textContent = html;
 		return this;
 	}
 

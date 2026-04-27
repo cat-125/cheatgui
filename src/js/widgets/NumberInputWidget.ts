@@ -52,7 +52,7 @@ export default class NumberInputWidget extends Widget implements ValueWidget {
 	 * @returns {NumberInputWidget}
 	 */
 	setLabel(label: string): this {
-		this.labelRef.innerHTML = label;
+		this.labelRef.textContent = label;
 		return this;
 	}
 

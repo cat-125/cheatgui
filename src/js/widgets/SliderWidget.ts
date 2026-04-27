@@ -100,7 +100,7 @@ export default class SliderWidget extends Widget implements ValueWidget {
 	 * @returns {SliderWidget}
 	 */
 	setLabel(text: string): this {
-		this.labelRef.innerHTML = text;
+		this.labelRef.textContent = text;
 		return this;
 	}
 

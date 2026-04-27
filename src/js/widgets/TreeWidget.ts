@@ -44,7 +44,7 @@ export default class TreeWidget extends Widget {
 		// Create arrow element and set its properties
 		this.arrowRef = createElem('span');
 		this.arrowRef.className = 'cgui-tree-arrow';
-		this.arrowRef.innerHTML = config.symbols.triangle;
+		this.arrowRef.textContent = config.symbols.triangle;
 		this.headerRef.appendChild(this.arrowRef);
 
 		// Create content element and set its properties
@@ -73,7 +73,7 @@ export default class TreeWidget extends Widget {
 	 * @returns {TreeWidget}
 	 */
 	setTitle(html: string): this {
-		this.titleRef.innerHTML = html;
+		this.titleRef.textContent = html;
 		return this;
 	}
 

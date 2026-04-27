@@ -50,7 +50,7 @@ export default class InputWidget extends Widget implements ValueWidget {
 	 * @returns {InputWidget}
 	 */
 	setLabel(label: string): this {
-		this.labelRef.innerHTML = label;
+		this.labelRef.textContent = label;
 		return this;
 	}
 
